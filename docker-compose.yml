@@ -1,0 +1,49 @@
+version: "3"
+services:
+  streaming:
+    build: ./streaming #dev
+    image: michaelguenter/radio-streaming:latest
+    container_name: streaming
+    ports:
+      - 8000:8000
+    volumes:
+      - icecast_logs:/var/log/icecast2
+    environment:
+      - 'ICECAST_LOCATION=Local Internetradio'
+      - 'ICECAST_ADMIN_EMAIL=foo@example.com'
+      - 'ICECAST_MAX_CLIENTS=100'
+      - 'ICECAST_SOURCE_PASSWORD=Abc1234'
+      - 'ICECAST_RELAY_PASSWORD=Abc1234'
+      - 'ICECAST_ADMIN_USERNAME=admin'
+      - 'ICECAST_ADMIN_PASSWORD=Abc1234'
+      - 'ICECAST_HOSTNAME=localhost'
+      - 'ICECAST_PORT=8000'
+      - 'ICECAST_PUBLIC=0'
+      - 'ICECAST_STREAM_NAME=Local Stream'
+      - 'ICECAST_STREAM_DESCRIPTION=Streaming music.'
+  playback:
+    build: ./playback #dev
+    image: michaelguenter/radio-playback:latest
+    container_name: playback
+    depends_on:
+      - streaming
+    volumes:
+      - ./data/music:/home/liquidsoap/music
+      - liquidsoap_logs:/var/log/liquidsoap
+    environment:
+      - 'BACKEND_HOST=mock_backend'
+      - 'BACKEND_PORT=8080'
+      - 'ICECAST_HOST=streaming'
+      - 'ICECAST_PORT=8000'
+      - 'ICECAST_SOURCE_PASSWORD=Abc1234'
+  mock_backend:
+    build: ./mock-backend #dev
+    image: michaelguenter/radio-mock-backend:latest
+    container_name: mock_backend
+    command: npm start #dev
+    volumes:
+      - ./data/music:/home/node/watch
+      - ./mock-backend:/usr/src/app #dev
+volumes:
+  icecast_logs:
+  liquidsoap_logs:
