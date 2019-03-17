@@ -1,11 +1,31 @@
-version: "3"
+version: "3.4"
 services:
+  backend_external:
+    build: #dev
+      context: ./backend
+      target: external-web-runtime
+    image: michaelguenter/radio-backend-external:latest
+    container_name: backend_external
+    ports:
+      - 8080:80
+  backend_internal:
+    build: #dev
+      context: ./backend
+      target: internal-web-runtime
+    image: michaelguenter/radio-backend-internal:latest
+    container_name: backend_internal
+  backend_console:
+    build: #dev
+      context: ./backend
+      target: console-runtime
+    image: michaelguenter/radio-backend-console:latest
+    container_name: backend_console
   streaming:
     build: ./streaming #dev
     image: michaelguenter/radio-streaming:latest
     container_name: streaming
     ports:
-      - 8000:8000
+      - 8081:8000
     volumes:
       - icecast_logs:/var/log/icecast2
     environment:

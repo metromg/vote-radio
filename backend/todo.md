@@ -1,0 +1,5 @@
+- Project Setup
+- Logging Volumes
+- Configuration via Environment Variables
+- CI Build
+- (Debugging / Watching Files?)
