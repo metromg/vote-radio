@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Radio.Core\Radio.Core.csproj" />
+    <ProjectReference Include="..\Radio.Infrastructure\Radio.Infrastructure.csproj" />
+    <ProjectReference Include="..\Radio.Infrastructure.Api\Radio.Infrastructure.Api.csproj" />
+    <ProjectReference Include="..\Radio.Infrastructure.DbAccess\Radio.Infrastructure.DbAccess.csproj" />
+    <ProjectReference Include="..\Radio.Infrastructure.Messaging\Radio.Infrastructure.Messaging.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+</Project>
