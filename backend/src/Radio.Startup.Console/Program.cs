@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace Radio.Startup.Console
+﻿namespace Radio.Startup.Console
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        //TODO: Setup fluent scheduler, setup database with migrations, ensure created for web?
+        public static void Main(string[] args)
         {
             System.Console.WriteLine("Hello World!");
-            System.Console.ReadLine();
         }
     }
 }

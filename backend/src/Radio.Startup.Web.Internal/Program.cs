@@ -1,24 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using System.IO;
+using Autofac;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Radio.Startup.Web.Internal
 {
     public class Program
     {
+        private static IContainer s_rootContainer;
+
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            s_rootContainer = Bootstrapper.BootstrapContainer();
+
+            CreateDefaultBuilder(args)
+                .ConfigureServices(services => services.AddSingleton(s_rootContainer))
+                .UseStartup<Startup>()
+                .Build()
+                .Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IWebHostBuilder CreateDefaultBuilder(string[] args)
+        {
+            var builder = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseDefaultServiceProvider((context, options) =>
+                {
+                    options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
+                });
+
+            return builder;
+        }
     }
 }

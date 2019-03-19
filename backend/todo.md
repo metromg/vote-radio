@@ -1,5 +1,6 @@
-- Project Setup
-- Logging Volumes
-- Configuration via Environment Variables
+- Project Setup: Console Startup, Migrations, Split up API internal and external usage
+- Test DbAccess
+- Test Configuration via Environment Variables
+- Logging Volumes, Logfiles?
 - CI Build
 - (Debugging / Watching Files?)
