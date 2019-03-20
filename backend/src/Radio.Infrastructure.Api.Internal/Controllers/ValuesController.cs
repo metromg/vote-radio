@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Radio.Infrastructure.Api.Controllers
+namespace Radio.Infrastructure.Api.Internal.Controllers
 {
     [Route("api/[controller]/[action]")]
     public class ValuesController : Controller
@@ -8,7 +8,7 @@ namespace Radio.Infrastructure.Api.Controllers
         [HttpGet]
         public string Get()
         {
-            return "Hello World";
+            return "Hello Internal";
         }
     }
 }

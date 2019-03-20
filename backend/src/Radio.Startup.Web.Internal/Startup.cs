@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Radio.Infrastructure.Api;
+using Radio.Infrastructure.Api.Internal;
 
 namespace Radio.Startup.Web.Internal
 {

@@ -10,6 +10,7 @@
     <ProjectReference Include="..\Radio.Infrastructure.Api\Radio.Infrastructure.Api.csproj" />
     <ProjectReference Include="..\Radio.Infrastructure.DbAccess\Radio.Infrastructure.DbAccess.csproj" />
     <ProjectReference Include="..\Radio.Infrastructure.Messaging\Radio.Infrastructure.Messaging.csproj" />
+    <ProjectReference Include="..\Radio.Infrastructure.Api.Internal\Radio.Infrastructure.Api.Internal.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.1" />

@@ -11,11 +11,10 @@ using Newtonsoft.Json;
 using Radio.Core;
 using Radio.Infrastructure.Api.Pipeline;
 
-namespace Radio.Infrastructure.Api
+namespace Radio.Infrastructure.Api.External
 {
     public static class WebApiBootstrapper
     {
-        // TODO: Split up external and internal apis
         public static void AddRadio(this IServiceCollection services)
         {
             services.AddCors();
