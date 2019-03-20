@@ -4,6 +4,8 @@ WORKDIR /app
 COPY src/Radio.Core/*.csproj ./src/Radio.Core/
 COPY src/Radio.Infrastructure/*.csproj ./src/Radio.Infrastructure/
 COPY src/Radio.Infrastructure.Api/*.csproj ./src/Radio.Infrastructure.Api/
+COPY src/Radio.Infrastructure.Api.External/*.csproj ./src/Radio.Infrastructure.Api.External/
+COPY src/Radio.Infrastructure.Api.Internal/*.csproj ./src/Radio.Infrastructure.Api.Internal/
 COPY src/Radio.Infrastructure.DbAccess/*.csproj ./src/Radio.Infrastructure.DbAccess/
 COPY src/Radio.Infrastructure.Messaging/*.csproj ./src/Radio.Infrastructure.Messaging/
 COPY src/Radio.Startup.Console/*.csproj ./src/Radio.Startup.Console/
@@ -20,6 +22,8 @@ WORKDIR /app
 COPY src/Radio.Core/. ./src/Radio.Core/
 COPY src/Radio.Infrastructure/. ./src/Radio.Infrastructure/
 COPY src/Radio.Infrastructure.Api/. ./src/Radio.Infrastructure.Api/
+COPY src/Radio.Infrastructure.Api.External/. ./src/Radio.Infrastructure.Api.External/
+COPY src/Radio.Infrastructure.Api.Internal/. ./src/Radio.Infrastructure.Api.Internal/
 COPY src/Radio.Infrastructure.DbAccess/. ./src/Radio.Infrastructure.DbAccess/
 COPY src/Radio.Infrastructure.Messaging/. ./src/Radio.Infrastructure.Messaging/
 COPY src/Radio.Startup.Console/. ./src/Radio.Startup.Console/
