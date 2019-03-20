@@ -11,22 +11,32 @@ using Newtonsoft.Json;
 using Radio.Core;
 using Radio.Infrastructure.Api.Pipeline;
 
-namespace Radio.Infrastructure.Api.External
+namespace Radio.Infrastructure.Api
 {
     public static class WebApiBootstrapper
     {
-        public static void AddRadio(this IServiceCollection services)
+        public static void AddRadioBase(this IServiceCollection services)
         {
             services.AddCors();
+        }
+
+        public static void AddRadioMvc(this IServiceCollection services)
+        {
             services.AddMvc().AddJsonOptions(ConfigureJsonSerializer);
+
+            // Add custom controller activator
+            services.Replace(ServiceDescriptor.Transient<IControllerActivator, UnitOfWorkControllerActivator>());
+        }
+
+        public static void AddRadioSignalR(this IServiceCollection services)
+        {
             services.AddSignalR();
 
-            // Add custom controller and hub activator
-            services.Replace(ServiceDescriptor.Transient<IControllerActivator, UnitOfWorkControllerActivator>());
+            // Add custom hub activator
             //services.Replace(ServiceDescriptor.Transient<IHubActivator<RadioChangeHub>>(p => new AutofacContainerHubActivator<RadioChangeHub>(p)));
         }
 
-        public static void UseRadio(this IApplicationBuilder app, IHostingEnvironment env, IContainer container)
+        public static void UseRadioBase(this IApplicationBuilder app, IHostingEnvironment env, IContainer container)
         {
             if (env.IsDevelopment())
             {
@@ -36,7 +46,15 @@ namespace Radio.Infrastructure.Api.External
             app.UseScopeMiddleware(container.Resolve<IUnitOfWorkFactory<ILifetimeScope>>());
             app.UseGlobalExceptionHandler();
             app.UseCors(ConfigureCorsUsage);
+        }
+
+        public static void UseRadioMvc(this IApplicationBuilder app)
+        {
             app.UseMvc();
+        }
+
+        public static void UseRadioSignalR(this IApplicationBuilder app)
+        {
             app.UseSignalR(ConfigureSignalRUsage);
         }
 
