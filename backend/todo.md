@@ -2,5 +2,6 @@
 - Test DbAccess
 - Test Configuration via Environment Variables
 - Logging Volumes, Logfiles?
+- TEST PROJECT!
 - CI Build
 - (Debugging / Watching Files?)
