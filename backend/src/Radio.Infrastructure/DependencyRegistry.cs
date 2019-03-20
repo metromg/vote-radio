@@ -1,8 +1,8 @@
 ﻿using Autofac;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
+using NLog.Extensions.Logging;
 using Radio.Core;
 
 namespace Radio.Infrastructure
@@ -22,7 +22,7 @@ namespace Radio.Infrastructure
 
             // Logger
             builder.RegisterType<LoggerFactory>().UsingConstructor(typeof(System.Collections.Generic.IEnumerable<ILoggerProvider>), typeof(IOptionsMonitor<LoggerFilterOptions>)).As<ILoggerFactory>().SingleInstance();
-            builder.RegisterInstance(new ConsoleLoggerProvider((cat, level) => true, true, false)).As<ILoggerProvider>().SingleInstance();
+            builder.RegisterInstance(new NLogLoggerProvider()).As<ILoggerProvider>().SingleInstance();
             builder.RegisterGeneric(typeof(Logger<>)).As(typeof(ILogger<>));
             builder.RegisterType<Logger<ILogger>>().As(typeof(ILogger));
         }

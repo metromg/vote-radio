@@ -8,18 +8,24 @@ services:
     container_name: backend_external
     ports:
       - 8080:80
+    volumes:
+      - backend_external_logs:/var/log/radio
   backend_internal:
     build: #dev
       context: ./backend
       target: internal-web-runtime
     image: michaelguenter/radio-backend-internal:latest
     container_name: backend_internal
+    volumes:
+      - backend_internal_logs:/var/log/radio
   backend_console:
     build: #dev
       context: ./backend
       target: console-runtime
     image: michaelguenter/radio-backend-console:latest
     container_name: backend_console
+    volumes:
+      - backend_console_logs:/var/log/radio
   streaming:
     build: ./streaming #dev
     image: michaelguenter/radio-streaming:latest
@@ -65,5 +71,8 @@ services:
       - ./data/music:/home/node/watch
       - ./mock-backend:/usr/src/app #dev
 volumes:
+  backend_external_logs:
+  backend_internal_logs:
+  backend_console_logs:
   icecast_logs:
   liquidsoap_logs:
