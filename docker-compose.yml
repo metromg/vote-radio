@@ -10,6 +10,8 @@ services:
       - 8080:80
     volumes:
       - backend_external_logs:/var/log/radio
+    environment:
+      - 'Environment:DbConnectionString=User ID=radio;Password=Abc1234;Host=database;Port=5432;Database=radio;Pooling=true;'
   backend_internal:
     build: #dev
       context: ./backend
@@ -18,6 +20,8 @@ services:
     container_name: backend_internal
     volumes:
       - backend_internal_logs:/var/log/radio
+    environment:
+      - 'Environment:DbConnectionString=User ID=radio;Password=Abc1234;Host=database;Port=5432;Database=radio;Pooling=true;'
   backend_console:
     build: #dev
       context: ./backend
@@ -26,6 +30,8 @@ services:
     container_name: backend_console
     volumes:
       - backend_console_logs:/var/log/radio
+    environment:
+      - 'Environment:DbConnectionString=User ID=radio;Password=Abc1234;Host=database;Port=5432;Database=radio;Pooling=true;'
   streaming:
     build: ./streaming #dev
     image: michaelguenter/radio-streaming:latest
@@ -62,6 +68,14 @@ services:
       - 'ICECAST_HOST=streaming'
       - 'ICECAST_PORT=8000'
       - 'ICECAST_SOURCE_PASSWORD=Abc1234'
+  database:
+    image: postgres:11.2
+    container_name: database
+    volumes:
+      - database_data:/var/lib/postgresql/data
+    environment:
+      - 'POSTGRES_USER=radio'
+      - 'POSTGRES_PASSWORD=Abc1234'
   mock_backend:
     build: ./mock-backend #dev
     image: michaelguenter/radio-mock-backend:latest
@@ -76,3 +90,4 @@ volumes:
   backend_console_logs:
   icecast_logs:
   liquidsoap_logs:
+  database_data:

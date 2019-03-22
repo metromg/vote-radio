@@ -1,4 +1,6 @@
-﻿namespace Radio.Startup.Console
+﻿using Radio.Infrastructure.DbAccess.Configuration;
+
+namespace Radio.Startup.Console
 {
     public class Program
     {
@@ -6,6 +8,10 @@
         public static void Main(string[] args)
         {
             System.Console.WriteLine("Hello World!");
+
+            var container = Bootstrapper.BootstrapContainer();
+
+            DbInitializer.Initialize(container);
         }
     }
 }

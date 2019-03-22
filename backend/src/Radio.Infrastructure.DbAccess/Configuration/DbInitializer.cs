@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Microsoft.EntityFrameworkCore;
 using Radio.Core;
 
 namespace Radio.Infrastructure.DbAccess.Configuration
@@ -12,7 +11,7 @@ namespace Radio.Infrastructure.DbAccess.Configuration
 
             using (var unitOfWork = unitOfWorkFactory.Begin())
             {
-                unitOfWork.Dependent.Database.Migrate();
+                unitOfWork.Dependent.Database.EnsureCreated();
             }
         }
     }

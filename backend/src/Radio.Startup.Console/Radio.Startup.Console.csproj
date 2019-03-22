@@ -3,11 +3,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Radio.Core\Radio.Core.csproj" />
     <ProjectReference Include="..\Radio.Infrastructure\Radio.Infrastructure.csproj" />
-    <ProjectReference Include="..\Radio.Infrastructure.Api\Radio.Infrastructure.Api.csproj" />
     <ProjectReference Include="..\Radio.Infrastructure.DbAccess\Radio.Infrastructure.DbAccess.csproj" />
-    <ProjectReference Include="..\Radio.Infrastructure.Messaging\Radio.Infrastructure.Messaging.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.1" />
+  </ItemGroup>
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>

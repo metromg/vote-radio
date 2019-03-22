@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Radio.Infrastructure.DbAccess.Mapping;
 
 namespace Radio.Infrastructure.DbAccess.Configuration
 {
@@ -6,7 +7,7 @@ namespace Radio.Infrastructure.DbAccess.Configuration
     {
         public void OnModelCreating(ModelBuilder builder)
         {
-            // Apply Type Configurations
+            builder.ApplyConfiguration(new SongMapping());
         }
     }
 }

@@ -3,7 +3,7 @@ using Radio.Core.Domain;
 
 namespace Radio.Infrastructure.DbAccess.Extensions
 {
-    public static class TypeConfigurationExtensions
+    public static class MappingExtensions
     {
         public static void ConfigureEntityBaseProperties<T>(this EntityTypeBuilder<T> builder)
             where T : EntityBase

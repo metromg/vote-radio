@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.IO;
+using Autofac;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -37,6 +38,8 @@ namespace Radio.Infrastructure
         private static IConfiguration BuildConfiguration()
         {
             return new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .Build();
         }
