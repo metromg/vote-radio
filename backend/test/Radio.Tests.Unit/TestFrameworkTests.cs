@@ -7,7 +7,7 @@ namespace Radio.Tests.Unit
         [Test]
         public void TestFramework_Works()
         {
-            Assert.AreEqual(1, 0);
+            Assert.AreEqual(1, 1);
         }
     }
 }
