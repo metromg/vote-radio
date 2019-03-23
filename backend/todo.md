@@ -1,5 +1,4 @@
 - Project Setup: Console Startup
-- TEST PROJECT!
 - CI Build
 - (Debugging / Watching Files)
 - (DB: Migration vs App User)
