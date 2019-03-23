@@ -1,9 +1,8 @@
 - Project Setup: Console Startup
-- Docker-Compose Waitfor DB for Console Project
-- DB: Migration vs App User
 - TEST PROJECT!
 - CI Build
-- (Debugging / Watching Files?)
+- (Debugging / Watching Files)
+- (DB: Migration vs App User)
 
 Temp:
 Lokale DB:

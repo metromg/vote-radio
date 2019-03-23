@@ -40,19 +40,25 @@ FROM build AS testrunner
 WORKDIR /app
 COPY test/Radio.Tests.Unit/. ./test/Radio.Tests.Unit/
 WORKDIR /app/test/Radio.Tests.Unit
-ENTRYPOINT ["dotnet", "test", "--logger:trx"]
+CMD ["dotnet", "test", "--logger:trx"]
 
 FROM mcr.microsoft.com/dotnet/core/runtime:2.2 AS console-runtime
 WORKDIR /app
+COPY wait-for-it.sh ./
+RUN chmod +x ./wait-for-it.sh
 COPY --from=build /app/src/Radio.Startup.Console/out ./
-ENTRYPOINT ["dotnet", "Radio.Startup.Console.dll"]
+CMD ["dotnet", "Radio.Startup.Console.dll"]
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS external-web-runtime
 WORKDIR /app
+COPY wait-for-it.sh ./
+RUN chmod +x ./wait-for-it.sh
 COPY --from=build /app/src/Radio.Startup.Web.External/out ./
-ENTRYPOINT ["dotnet", "Radio.Startup.Web.External.dll"]
+CMD ["dotnet", "Radio.Startup.Web.External.dll"]
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS internal-web-runtime
 WORKDIR /app
+COPY wait-for-it.sh ./
+RUN chmod +x ./wait-for-it.sh
 COPY --from=build /app/src/Radio.Startup.Web.Internal/out ./
-ENTRYPOINT ["dotnet", "Radio.Startup.Web.Internal.dll"]
+CMD ["dotnet", "Radio.Startup.Web.Internal.dll"]
