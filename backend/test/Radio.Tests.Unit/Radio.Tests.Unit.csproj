@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="nunit" Version="3.11.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.11.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Radio.Core\Radio.Core.csproj" />
+    <ProjectReference Include="..\..\src\Radio.Infrastructure\Radio.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Radio.Infrastructure.Api\Radio.Infrastructure.Api.csproj" />
+    <ProjectReference Include="..\..\src\Radio.Infrastructure.Api.External\Radio.Infrastructure.Api.External.csproj" />
+    <ProjectReference Include="..\..\src\Radio.Infrastructure.Api.Internal\Radio.Infrastructure.Api.Internal.csproj" />
+    <ProjectReference Include="..\..\src\Radio.Infrastructure.DbAccess\Radio.Infrastructure.DbAccess.csproj" />
+    <ProjectReference Include="..\..\src\Radio.Infrastructure.Messaging\Radio.Infrastructure.Messaging.csproj" />
+  </ItemGroup>
+</Project>

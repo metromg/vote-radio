@@ -1,0 +1,25 @@
+branches:
+  only: 
+    - master
+
+services:
+  - docker
+
+before_install:
+  - docker build -t michaelguenter/radio-backend-external --target external-web-runtime ./backend
+  - docker build -t michaelguenter/radio-backend-internal --target internal-web-runtime ./backend
+  - docker build -t michaelguenter/radio-backend-console --target console-runtime ./backend
+  - docker build -t michaelguenter/radio-streaming ./streaming
+  - docker build -t michaelguenter/radio-playback ./playback
+
+before_script:
+  - docker build -t backend_testrunner --target testrunner ./backend
+
+script:
+  - docker run --rm backend_testrunner
+
+deploy:
+  provider: script
+  script: bash docker_push.sh
+  on:
+    branch: master
