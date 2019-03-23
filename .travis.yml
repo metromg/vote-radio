@@ -1,0 +1,27 @@
+services:
+  - docker
+
+before_install:
+  - docker build -t michaelguenter/radio-backend-external --target external-web-runtime ./backend
+  - docker build -t michaelguenter/radio-backend-internal --target internal-web-runtime ./backend
+  - docker build -t michaelguenter/radio-backend-console --target console-runtime ./backend
+  - docker build -t michaelguenter/radio-streaming ./streaming
+  - docker build -t michaelguenter/radio-playback ./playback
+
+before_script:
+  - docker build -t backend_testrunner --target testrunner ./backend
+
+script:
+  - docker run --rm backend_testrunner
+
+deploy:
+  provider: script
+  script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker push michaelguenter/radio-backend-external
+    - docker push michaelguenter/radio-backend-internal
+    - docker push michaelguenter/radio-backend-console
+    - docker push michaelguenter/radio-streaming
+    - docker push michaelguenter/radio-playback
+  on:
+    branch: backend-init
