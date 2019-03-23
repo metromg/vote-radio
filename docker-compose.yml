@@ -73,8 +73,8 @@ services:
       - ./data/music:/home/liquidsoap/music
       - liquidsoap_logs:/var/log/liquidsoap
     environment:
-      - 'BACKEND_HOST=mock_backend'
-      - 'BACKEND_PORT=8080'
+      - 'BACKEND_HOST=backend_internal'
+      - 'BACKEND_PORT=80'
       - 'ICECAST_HOST=streaming'
       - 'ICECAST_PORT=8000'
       - 'ICECAST_SOURCE_PASSWORD=Abc1234'
@@ -86,14 +86,6 @@ services:
     environment:
       - 'POSTGRES_USER=radio'
       - 'POSTGRES_PASSWORD=Abc1234'
-  mock_backend:
-    build: ./mock-backend #dev
-    image: michaelguenter/radio-mock-backend:latest
-    container_name: mock_backend
-    command: npm start #dev
-    volumes:
-      - ./data/music:/home/node/watch
-      - ./mock-backend:/usr/src/app #dev
 volumes:
   backend_external_logs:
   backend_internal_logs:
