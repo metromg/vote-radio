@@ -7,6 +7,8 @@ namespace Radio.Core
         public const string NAME = "Environment";
 
         public string DbConnectionString { get; set; }
+
+        public string MigrationsDbConnectionString { get; set; }
     }
 
     public static class EnvironmentOptionsMonitorExtensions

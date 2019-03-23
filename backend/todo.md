@@ -1,5 +1,6 @@
 - Project Setup: Console Startup
-- Migrations (Test DbAccess afterwards)
+- Docker-Compose Waitfor DB for Console Project
+- DB: Migration vs App User
 - TEST PROJECT!
 - CI Build
 - (Debugging / Watching Files?)

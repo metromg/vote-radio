@@ -32,6 +32,7 @@ services:
       - backend_console_logs:/var/log/radio
     environment:
       - 'Environment:DbConnectionString=User ID=radio;Password=Abc1234;Host=database;Port=5432;Database=radio;Pooling=true;'
+      - 'Environment:MigrationsDbConnectionString=User ID=radio;Password=Abc1234;Host=database;Port=5432;Database=radio;Pooling=true;'
   streaming:
     build: ./streaming #dev
     image: michaelguenter/radio-streaming:latest
