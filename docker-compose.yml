@@ -1,5 +1,14 @@
 version: "3.4"
 services:
+  frontend:
+    build: ./frontend #dev
+    image: michaelguenter/radio-frontend:latest
+    container_name: frontend
+    ports: 
+      - 80:80
+    environment:
+      - 'CLIENT_API_BASE_URL=http://localhost:8080'
+      - 'CLIENT_STREAM_BASE_URL=http://localhost:8081'
   backend_external:
     build: #dev
       context: ./backend
