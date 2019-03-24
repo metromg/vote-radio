@@ -1,6 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { Provider } from "react-redux";
+import configureStore from "./store";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { updateBaseUrls } from './store/system/actions';
+import App from './App';
+import './index.css';
+
+const store = configureStore();
+
+store.dispatch(updateBaseUrls({ 
+    apiBaseUrl: (window as any).systemConfiguration.apiBaseUrl, 
+    streamBaseUrl: (window as any).systemConfiguration.streamBaseUrl
+}));
+
+const Root = () => (
+    <Provider store={store}>
+        <App />
+    </Provider>
+);
+
+ReactDOM.render(<Root />, document.getElementById('root'));
