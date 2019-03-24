@@ -1,24 +1,43 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { renderToStaticMarkup } from "react-dom/server";
 import { connect } from "react-redux";
-import { AppState } from './store';
+import { withLocalize, LocalizeContextProps, Translate } from "react-localize-redux";
 
+import { AppState } from './store';
 import { SystemState } from './store/system/types';
+import translations from './translations.json';
 import './App.css';
 
-interface AppProps {
+interface AppProps extends LocalizeContextProps {
     system: SystemState;
 }
 
-const App = (props: AppProps) => (
-    <p>
-        Hello World<br />
-        {props.system.apiBaseUrl}<br />
-        {props.system.streamBaseUrl}
-    </p>
-);
+class App extends Component<AppProps> {
+    constructor(props: AppProps) {
+        super(props);
+
+        this.props.initialize({
+            languages: [
+                { name: "English", code: "en" }
+            ],
+            translation: translations,
+            options: { renderToStaticMarkup }
+        });
+    }
+
+    render() {
+        return (
+            <p>
+                <Translate id="helloworld" /><br />
+                {this.props.system.apiBaseUrl}<br />
+                {this.props.system.streamBaseUrl}
+            </p>
+        );
+    }
+}
 
 const mapStateToProps = (state: AppState) => ({
     system: state.system
 });
 
-export default connect(mapStateToProps)(App);
+export default withLocalize(connect(mapStateToProps)(App));

@@ -2,9 +2,11 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
 import { systemReducer } from './system/reducers';
+import { localizeReducer } from 'react-localize-redux';
 
 const rootReducer = combineReducers({
-    system: systemReducer
+    system: systemReducer,
+    localize: localizeReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

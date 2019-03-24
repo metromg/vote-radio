@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from "react-redux";
-import configureStore from "./store";
+import { LocalizeProvider } from 'react-localize-redux';
 
+import configureStore from "./store";
 import { updateBaseUrls } from './store/system/actions';
 import App from './App';
 import './index.css';
@@ -16,7 +17,9 @@ store.dispatch(updateBaseUrls({
 
 const Root = () => (
     <Provider store={store}>
-        <App />
+        <LocalizeProvider store={store}>
+            <App />
+        </LocalizeProvider>
     </Provider>
 );
 
