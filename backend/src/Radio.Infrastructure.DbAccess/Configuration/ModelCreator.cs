@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Radio.Infrastructure.DbAccess.Mapping;
+using Radio.Infrastructure.DbAccess.Mapping.MasterData;
+using Radio.Infrastructure.DbAccess.Mapping.Playback;
+using Radio.Infrastructure.DbAccess.Mapping.Voting;
 
 namespace Radio.Infrastructure.DbAccess.Configuration
 {
@@ -7,7 +9,17 @@ namespace Radio.Infrastructure.DbAccess.Configuration
     {
         public void OnModelCreating(ModelBuilder builder)
         {
+            // MasterData
+            builder.ApplyConfiguration(new FileMapping());
+            builder.ApplyConfiguration(new ImageMapping());
             builder.ApplyConfiguration(new SongMapping());
+
+            // Playback
+            builder.ApplyConfiguration(new CurrentSongMapping());
+
+            // Voting
+            builder.ApplyConfiguration(new VoteMapping());
+            builder.ApplyConfiguration(new VotingCandidateMapping());
         }
     }
 }
