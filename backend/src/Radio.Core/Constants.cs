@@ -10,7 +10,9 @@
 
         public struct StringLengths
         {
+            public const int SHORT_NAME = 64;
             public const int NAME = 256;
+            public const int LONG_NAME = 1024;
         }
     }
 }
