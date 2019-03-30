@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
 import { renderToStaticMarkup } from "react-dom/server";
-import { connect } from "react-redux";
-import { withLocalize, LocalizeContextProps, Translate } from "react-localize-redux";
+import { withLocalize, LocalizeContextProps } from "react-localize-redux";
 
-import { AppState } from './store';
-import { SystemState } from './store/system/types';
 import translations from './translations.json';
+import Player from './components/Player';
 import './App.css';
 
-interface AppProps extends LocalizeContextProps {
-    system: SystemState;
-}
-
-class App extends Component<AppProps> {
-    constructor(props: AppProps) {
+class App extends Component<LocalizeContextProps> {
+    constructor(props: LocalizeContextProps) {
         super(props);
 
         this.props.initialize({
@@ -27,17 +21,9 @@ class App extends Component<AppProps> {
 
     render() {
         return (
-            <p>
-                <Translate id="helloworld" /><br />
-                {this.props.system.apiBaseUrl}<br />
-                {this.props.system.streamBaseUrl}
-            </p>
+            <Player />
         );
     }
 }
 
-const mapStateToProps = (state: AppState) => ({
-    system: state.system
-});
-
-export default withLocalize(connect(mapStateToProps)(App));
+export default withLocalize(App);
