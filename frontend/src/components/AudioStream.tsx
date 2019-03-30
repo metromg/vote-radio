@@ -1,6 +1,6 @@
 import React, { Component, RefObject } from 'react';
 
-interface AudioProps {
+interface AudioStreamProps {
     src: string;
     title?: string;
 
@@ -15,15 +15,15 @@ interface AudioProps {
     onStreamEnded?: () => void;
 }
 
-class AudioStream extends Component<AudioProps> {
+class AudioStream extends Component<AudioStreamProps> {
     private audioRef: RefObject<HTMLAudioElement>;
 
-    constructor(props: AudioProps) {
+    constructor(props: AudioStreamProps) {
         super(props);
         this.audioRef = React.createRef<HTMLAudioElement>();
     }
 
-    getSnapshotBeforeUpdate(prevProps: AudioProps) {
+    getSnapshotBeforeUpdate(prevProps: AudioStreamProps) {
         if (this.audioRef.current != null && this.props.playing == false && this.props.playing != prevProps.playing) {
             // stop the audio BEFORE the audio element is removed
             this.stopAudio(this.audioRef.current);
@@ -32,7 +32,7 @@ class AudioStream extends Component<AudioProps> {
         return null;
     }
 
-    componentDidUpdate(prevProps: AudioProps) {
+    componentDidUpdate(prevProps: AudioStreamProps) {
         if (this.audioRef.current != null && this.props.playing == true && this.props.playing != prevProps.playing) {
             // play the audio AFTER the audio element was added
             this.playAudio(this.audioRef.current);
