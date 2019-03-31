@@ -87,6 +87,9 @@ services:
       - 'ICECAST_HOST=streaming'
       - 'ICECAST_PORT=8000'
       - 'ICECAST_SOURCE_PASSWORD=Abc1234'
+  messaging:
+    image: rabbitmq:3.7
+    container_name: messaging
   database:
     image: postgres:11.2
     container_name: database
