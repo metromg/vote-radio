@@ -18,6 +18,7 @@ namespace Radio.Infrastructure.DbAccess
 
             // Domain
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerDependency();
+            builder.RegisterType<VoteRepository>().As<IVoteRepository>().InstancePerDependency();
             builder.RegisterType<VotingCandidateRepository>().As<IVotingCandidateRepository>().InstancePerDependency();
 
             // UnitOfWork

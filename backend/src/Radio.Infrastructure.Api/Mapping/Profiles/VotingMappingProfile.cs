@@ -15,6 +15,7 @@ namespace Radio.Infrastructure.Api.Mapping.Profiles
         private void MapEntitiesToDtos()
         {
             CreateMap<SongWithVoteCount, VotingCandidateDto>()
+                .ForMember(e => e.SongId, opt => opt.MapFrom(s => s.Song.Id))
                 .ForMember(e => e.Title, opt => opt.MapFrom(s => s.Song.Title))
                 .ForMember(e => e.Album, opt => opt.MapFrom(s => s.Song.Album))
                 .ForMember(e => e.Artist, opt => opt.MapFrom(s => s.Song.Artist))

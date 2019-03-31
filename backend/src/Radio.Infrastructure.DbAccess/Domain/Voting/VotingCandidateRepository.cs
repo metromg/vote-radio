@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Radio.Core.Domain.Voting;
@@ -14,7 +15,7 @@ namespace Radio.Infrastructure.DbAccess.Domain.Voting
         {
         }
 
-        public Task<SongWithVoteCount[]> GetWithVoteCount()
+        public Task<SongWithVoteCount[]> GetWithVoteCountAsync()
         {
             return GetQuery()
                 .OrderBy(candidate => candidate.DisplayOrder)
@@ -24,6 +25,12 @@ namespace Radio.Infrastructure.DbAccess.Domain.Voting
                     VoteCount = candidate.Votes.Count
                 })
                 .ToArrayAsync();
+        }
+
+        public Task<VotingCandidate> GetBySongAsync(Guid songId)
+        {
+            return GetQuery()
+                .FirstAsync(candidate => candidate.SongId == songId);
         }
     }
 }

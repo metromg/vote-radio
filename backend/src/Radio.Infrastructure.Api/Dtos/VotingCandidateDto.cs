@@ -4,6 +4,8 @@ namespace Radio.Infrastructure.Api.Dtos
 {
     public class VotingCandidateDto
     {
+        public Guid SongId { get; set; }
+
         public string Title { get; set; }
 
         public string Album { get; set; }
