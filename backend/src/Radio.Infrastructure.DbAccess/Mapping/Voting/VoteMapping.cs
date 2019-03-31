@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Radio.Core.Domain.Voting;
+using Radio.Core.Domain.Voting.Model;
 using Radio.Infrastructure.DbAccess.Extensions;
 
 namespace Radio.Infrastructure.DbAccess.Mapping.Voting
@@ -11,7 +11,7 @@ namespace Radio.Infrastructure.DbAccess.Mapping.Voting
         {
             builder.ConfigureEntityBaseProperties();
 
-            builder.HasOne(e => e.VotingCandidate).WithMany().HasForeignKey(e => e.VotingCandidateId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(e => e.VotingCandidate).WithMany(e => e.Votes).HasForeignKey(e => e.VotingCandidateId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Radio.Core.Domain.Voting
+namespace Radio.Core.Domain.Voting.Model
 {
     public class Vote : EntityBase
     {

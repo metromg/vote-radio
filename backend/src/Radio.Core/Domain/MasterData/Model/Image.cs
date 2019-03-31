@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Radio.Core.Domain.MasterData
+namespace Radio.Core.Domain.MasterData.Model
 {
     public class Image : EntityBase
     {
@@ -12,6 +12,6 @@ namespace Radio.Core.Domain.MasterData
 
         public Guid FileId { get; set; }
 
-        public File File { get; set; }
+        public virtual File File { get; set; }
     }
 }

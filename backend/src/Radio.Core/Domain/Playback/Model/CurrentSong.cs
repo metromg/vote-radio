@@ -1,7 +1,7 @@
 ﻿using System;
-using Radio.Core.Domain.MasterData;
+using Radio.Core.Domain.MasterData.Model;
 
-namespace Radio.Core.Domain.Playback
+namespace Radio.Core.Domain.Playback.Model
 {
     public class CurrentSong : EntityBase
     {

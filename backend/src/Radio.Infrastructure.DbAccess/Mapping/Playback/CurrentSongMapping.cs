@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Radio.Core.Domain.Playback;
+using Radio.Core.Domain.Playback.Model;
 using Radio.Infrastructure.DbAccess.Extensions;
 
 namespace Radio.Infrastructure.DbAccess.Mapping.Playback

@@ -1,4 +1,4 @@
-﻿namespace Radio.Core.Domain.MasterData
+﻿namespace Radio.Core.Domain.MasterData.Model
 {
     public class File : EntityBase
     {
