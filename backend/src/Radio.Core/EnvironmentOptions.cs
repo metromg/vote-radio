@@ -9,6 +9,8 @@ namespace Radio.Core
         public string DbConnectionString { get; set; }
 
         public string MigrationsDbConnectionString { get; set; }
+
+        public string MessagingHost { get; set; }
     }
 
     public static class EnvironmentOptionsMonitorExtensions

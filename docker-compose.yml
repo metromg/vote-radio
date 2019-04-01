@@ -23,6 +23,7 @@ services:
       - backend_external_logs:/var/log/radio
     environment:
       - 'Environment:DbConnectionString=User ID=radio;Password=Abc1234;Host=database;Port=5432;Database=radio;Pooling=true;'
+      - 'Environment:MessagingHost=messaging'
     command: ["./wait-for-it.sh", "database:5432", "--", "dotnet", "Radio.Startup.Web.External.dll"]
   backend_internal:
     build: #dev
@@ -36,6 +37,7 @@ services:
       - backend_internal_logs:/var/log/radio
     environment:
       - 'Environment:DbConnectionString=User ID=radio;Password=Abc1234;Host=database;Port=5432;Database=radio;Pooling=true;'
+      - 'Environment:MessagingHost=messaging'
     command: ["./wait-for-it.sh", "database:5432", "--", "dotnet", "Radio.Startup.Web.Internal.dll"]
   backend_console:
     build: #dev
