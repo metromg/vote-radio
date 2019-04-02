@@ -50,7 +50,8 @@ namespace Radio.Infrastructure.Api.External
 
         private static void ConfigureCorsUsage(CorsPolicyBuilder builder)
         {
-            builder.AllowAnyOrigin()
+            builder
+                .SetIsOriginAllowed(_ => true)
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();

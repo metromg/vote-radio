@@ -1,18 +1,20 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-
-import { systemReducer } from './system/reducers';
 import { localizeReducer } from 'react-localize-redux';
 
+import { votingReducer } from './voting/reducers';
+import { signalRMiddleware } from './middlewares';
+import { apiBaseUrl } from '../config';
+
 const rootReducer = combineReducers({
-    system: systemReducer,
-    localize: localizeReducer
+    localize: localizeReducer,
+    voting: votingReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
 
 export default function configureStore() {
-    const middlewares = [thunkMiddleware];
+    const middlewares = [thunkMiddleware, signalRMiddleware(apiBaseUrl + "/radioHub")];
     const middleWareEnhancer = applyMiddleware(...middlewares);
 
     const store = createStore(

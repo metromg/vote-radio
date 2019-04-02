@@ -5,6 +5,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Radio.Core;
 using Radio.Core.Domain.Voting;
+using Radio.Core.Services;
+using Radio.Core.Services.Messaging;
 using Radio.Infrastructure.Api.External.Dtos;
 
 namespace Radio.Infrastructure.Api.External.Controllers
@@ -15,13 +17,15 @@ namespace Radio.Infrastructure.Api.External.Controllers
         private readonly IVotingCandidateRepository _votingCandidateRepository;
         private readonly IVoteRepository _voteRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMessageQueueService _messageQueueService;
         private readonly IMapper _mapper;
 
-        public VotingController(IVotingCandidateRepository votingCandidateRepository, IVoteRepository voteRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public VotingController(IVotingCandidateRepository votingCandidateRepository, IVoteRepository voteRepository, IUnitOfWork unitOfWork, IMessageQueueService messageQueueService, IMapper mapper)
         {
             _votingCandidateRepository = votingCandidateRepository;
             _voteRepository = voteRepository;
             _unitOfWork = unitOfWork;
+            _messageQueueService = messageQueueService;
             _mapper = mapper;
         }
 
@@ -45,6 +49,11 @@ namespace Radio.Infrastructure.Api.External.Controllers
             _voteRepository.Add(newVote);
 
             await _unitOfWork.CommitAsync();
+
+            _messageQueueService.Send(new VoteMessage
+            {
+                SongId = songId
+            });
         }
     }
 }
