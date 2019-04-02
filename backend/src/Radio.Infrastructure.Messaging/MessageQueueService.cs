@@ -25,7 +25,7 @@ namespace Radio.Infrastructure.Messaging
             Initialize();
         }
 
-        public void Send(MessageBase message)
+        public void Send(IMessage message)
         {
             var serializedMessage = _serializationService.Serialize(message);
             var body = Encoding.UTF8.GetBytes(serializedMessage);
@@ -40,7 +40,7 @@ namespace Radio.Infrastructure.Messaging
             }
         }
 
-        public IObservable<MessageBase> Receive()
+        public IObservable<IMessage> Receive()
         {
             return Observable
                 .FromEventPattern<BasicDeliverEventArgs>(
@@ -52,7 +52,7 @@ namespace Radio.Infrastructure.Messaging
                     var body = x.EventArgs.Body;
                     var serializedMessage = Encoding.UTF8.GetString(body);
 
-                    return _serializationService.Deserialize<MessageBase>(serializedMessage);
+                    return _serializationService.Deserialize<IMessage>(serializedMessage);
                 });
         }
 

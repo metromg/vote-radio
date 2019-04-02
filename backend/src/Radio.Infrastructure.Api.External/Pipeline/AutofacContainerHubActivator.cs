@@ -3,7 +3,7 @@ using Autofac;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Radio.Infrastructure.Api.Pipeline
+namespace Radio.Infrastructure.Api.External.Pipeline
 {
     public class AutofacContainerHubActivator<T> : IHubActivator<T>
         where T : Hub

@@ -2,7 +2,7 @@
 using Autofac;
 using AutoMapper;
 
-namespace Radio.Infrastructure.Api.Mapping
+namespace Radio.Infrastructure.Api.External.Mapping
 {
     public class MapperFactory
     {

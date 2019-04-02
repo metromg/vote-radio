@@ -1,7 +1,6 @@
 ﻿namespace Radio.Core.Services.Messaging
 {
-    public enum MessageType
+    public interface IMessage
     {
-        VoteMessage = 0
     }
 }

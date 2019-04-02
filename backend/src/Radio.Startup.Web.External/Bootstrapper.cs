@@ -11,6 +11,7 @@ namespace Radio.Startup.Web.External
             Radio.Core.DependencyRegistry.Configure(containerBuilder);
             Radio.Infrastructure.DependencyRegistry.Configure(containerBuilder);
             Radio.Infrastructure.Api.DependencyRegistry.Configure(containerBuilder);
+            Radio.Infrastructure.Api.External.DependencyRegistry.Configure(containerBuilder);
             Radio.Infrastructure.DbAccess.DependencyRegistry.Configure(containerBuilder);
             Radio.Infrastructure.Messaging.DependencyRegistry.Configure(containerBuilder);
 

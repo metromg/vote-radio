@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Radio.Infrastructure.Api.Dtos
+namespace Radio.Infrastructure.Api.External.Dtos
 {
     public class EntityBaseDto
     {

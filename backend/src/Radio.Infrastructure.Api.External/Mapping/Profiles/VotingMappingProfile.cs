@@ -1,7 +1,7 @@
 ﻿using Radio.Core.Domain.Voting.Objects;
-using Radio.Infrastructure.Api.Dtos;
+using Radio.Infrastructure.Api.External.Dtos;
 
-namespace Radio.Infrastructure.Api.Mapping.Profiles
+namespace Radio.Infrastructure.Api.External.Mapping.Profiles
 {
     public class VotingMappingProfile : MappingProfileBase
     {

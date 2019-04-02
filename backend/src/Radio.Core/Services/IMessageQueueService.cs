@@ -5,8 +5,8 @@ namespace Radio.Core.Services
 {
     public interface IMessageQueueService
     {
-        void Send(MessageBase message);
+        void Send(IMessage message);
 
-        IObservable<MessageBase> Receive();
+        IObservable<IMessage> Receive();
     }
 }

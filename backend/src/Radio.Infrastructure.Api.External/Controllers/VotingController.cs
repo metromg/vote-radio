@@ -5,7 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Radio.Core;
 using Radio.Core.Domain.Voting;
-using Radio.Infrastructure.Api.Dtos;
+using Radio.Infrastructure.Api.External.Dtos;
 
 namespace Radio.Infrastructure.Api.External.Controllers
 {

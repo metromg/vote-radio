@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Radio.Core.Domain;
-using Radio.Infrastructure.Api.Dtos;
+using Radio.Infrastructure.Api.External.Dtos;
 
-namespace Radio.Infrastructure.Api.Mapping
+namespace Radio.Infrastructure.Api.External.Mapping
 {
     public abstract class MappingProfileBase : Profile
     {

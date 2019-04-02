@@ -1,6 +1,6 @@
 ﻿using Autofac;
 
-namespace Radio.Infrastructure.Api
+namespace Radio.Infrastructure.Api.Internal
 {
     public static class DependencyRegistry
     {
