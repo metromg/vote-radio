@@ -38,7 +38,7 @@ namespace Radio.Infrastructure.Api.External.Controllers
         }
 
         [HttpPost]
-        public async Task Vote(Guid songId)
+        public async Task VoteAsync(Guid songId)
         {
             var votingCandidate = await _votingCandidateRepository.GetBySongAsync(songId);
 
