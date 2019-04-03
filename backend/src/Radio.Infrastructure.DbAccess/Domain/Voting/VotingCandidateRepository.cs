@@ -32,5 +32,11 @@ namespace Radio.Infrastructure.DbAccess.Domain.Voting
             return GetQuery()
                 .FirstAsync(candidate => candidate.SongId == songId);
         }
+
+        protected override IQueryable<VotingCandidate> GetQuery()
+        {
+            // There will always be exactly 3 candidates in the database
+            return base.GetQuery().Take(3);
+        }
     }
 }

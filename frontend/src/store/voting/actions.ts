@@ -2,11 +2,11 @@ import { ThunkAction } from 'redux-thunk';
 
 import { AppState } from '../index';
 import { VotingCandidate, SET_VOTING_CANDIDATES, SELECT_VOTING_CANDIDATE, VotingActionTypes } from './types';
-import { apiBaseUrl } from '../../config';
+import { get, post } from '../api';
 
 export function loadVotingCandidates(): ThunkAction<void, AppState, null, VotingActionTypes> {
     return async dispatch => {
-        const response = await fetch(apiBaseUrl + "/api/voting/getVotingCandidatesAsync");
+        const response = await get("/api/voting/getVotingCandidatesAsync");
         const json = await response.json();
 
         dispatch(setVotingCandidates(json));
@@ -22,7 +22,7 @@ export function setVotingCandidates(candidates: VotingCandidate[]): VotingAction
 
 export function selectVotingCandidate(songId: string): ThunkAction<void, AppState, null, VotingActionTypes> {
     return async dispatch => {
-        await fetch(apiBaseUrl + "/api/voting/voteAsync?songId=" + encodeURIComponent(songId), { method: "POST", credentials: "include" });
+        await post("/api/voting/voteAsync?songId=" + encodeURIComponent(songId));
 
         dispatch({
             type: SELECT_VOTING_CANDIDATE,

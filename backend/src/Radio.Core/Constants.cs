@@ -2,6 +2,8 @@
 {
     public struct Constants
     {
+        public const string SIGNALR_PATH = "/radioHub";
+
         public struct UnitOfWork
         {
             public const string TOP_LEVEL_LIFETIME_SCOPE_TAG = nameof(TOP_LEVEL_LIFETIME_SCOPE_TAG);

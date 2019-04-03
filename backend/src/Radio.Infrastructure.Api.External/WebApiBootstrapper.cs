@@ -59,7 +59,7 @@ namespace Radio.Infrastructure.Api.External
 
         private static void ConfigureSignalRUsage(HubRouteBuilder routeBuilder)
         {
-            routeBuilder.MapHub<RadioHub>("/radioHub");
+            routeBuilder.MapHub<RadioHub>(Constants.SIGNALR_PATH);
         }
     }
 }

@@ -13,6 +13,15 @@ namespace Radio.Infrastructure.Api.Pipeline
         {
             app.Use(async (context, next) =>
             {
+                // Don't create a unit of work for SignalR requests
+                // The database connection would be held open for the entire time the user is connected, 
+                // which would lead to SqlConnection pool exhaustion over time
+                if (context.Request.Path.StartsWithSegments(Constants.SIGNALR_PATH))
+                {
+                    await next();
+                    return;
+                }
+
                 using (var unitOfWork = unitOfWorkFactory.Begin())
                 {
                     context.SetRequestUnitOfWork(unitOfWork);
