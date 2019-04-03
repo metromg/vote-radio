@@ -13,6 +13,6 @@ docker run --rm -d --name local_messaging -p 5672:5672 rabbitmq:3.7
 In Kommentar ergänzen:
 https://www.rabbitmq.com/releases/rabbitmq-dotnet-client/v3.3.0/rabbitmq-dotnet-client-3.3.0-user-guide.pdf 
 IModel should not be shared between threads
-- SignalR Connection Error Handling (Mobile etc.), API Error handling
-- Fetch Polyfill
+- Review sameSite (would the domain without port be the same in production?)
+- Display global errors (signalr, api)
 - Styling

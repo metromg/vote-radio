@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { AppState } from '../store';
 import { VotingCandidate } from '../store/voting/types';
@@ -46,9 +47,9 @@ const mapStateToProps = (state: AppState) => ({
     selectedSongId: state.voting.selectedSongId
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-    loadVotingCandidates: () => dispatch(loadVotingCandidates()),
-    selectVotingCandidate: (songId: string) => dispatch(selectVotingCandidate(songId))
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    loadVotingCandidates: () => dispatch<any>(loadVotingCandidates()),
+    selectVotingCandidate: (songId: string) => dispatch<any>(selectVotingCandidate(songId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Voting);

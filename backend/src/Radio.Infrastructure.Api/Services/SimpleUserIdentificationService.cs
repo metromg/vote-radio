@@ -28,7 +28,8 @@ namespace Radio.Infrastructure.Api.Services
             var newUserId = Guid.NewGuid().ToString();
             var cookieOptions = new CookieOptions
             {
-                HttpOnly = true
+                HttpOnly = true,
+                SameSite = SameSiteMode.None
             };
 
             context.Response.Cookies.Append(USER_ID_KEY, newUserId, cookieOptions);

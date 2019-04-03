@@ -2,7 +2,7 @@ import { Middleware, MiddlewareAPI } from 'redux';
 import { HubConnectionBuilder, LogLevel, HubConnection } from '@aspnet/signalr';
 
 import { VotingCandidate } from './voting/types';
-import { setVotingCandidates } from './voting/actions';
+import { loadVotingCandidates, setVotingCandidates } from './voting/actions';
 
 export const signalRMiddleware: (url: string) => Middleware = url => storeAPI => {
     const connection = new HubConnectionBuilder()
@@ -15,7 +15,12 @@ export const signalRMiddleware: (url: string) => Middleware = url => storeAPI =>
         storeAPI.dispatch(setVotingCandidates(candidates));
     });
 
-    connection.onclose(() => dispatchConnectionError(storeAPI));
+    connection.onclose(() => {
+        // if the connection is closed, restore the connection and refresh everything (e.g. when suspending on mobile)
+        startConnection(connection, () => dispatchConnectionError(storeAPI));
+        storeAPI.dispatch<any>(loadVotingCandidates());
+    });
+    
     startConnection(connection, () => dispatchConnectionError(storeAPI));
 
     return next => action => {
