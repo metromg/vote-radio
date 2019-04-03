@@ -10,6 +10,7 @@
     "@types/react-dom": "16.8.3",
     "@types/react-redux": "^7.0.5",
     "react": "^16.8.5",
+    "react-app-polyfill": "^0.2.2",
     "react-dom": "^16.8.5",
     "react-localize-redux": "^3.5.2",
     "react-redux": "^6.0.1",

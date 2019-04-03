@@ -1,3 +1,5 @@
+import 'react-app-polyfill/ie11';
+
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { localizeReducer } from 'react-localize-redux';
