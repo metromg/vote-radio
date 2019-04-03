@@ -24,10 +24,4 @@ interface SelectVotingCandidateAction {
     payload: { songId: string }
 }
 
-export const UPDATE_VOTE_COUNT = "UPDATE_VOTE_COUNT";
-interface UpdateVoteCountAction {
-    type: typeof UPDATE_VOTE_COUNT
-    payload: { songId: string }
-}
-
-export type VotingActionTypes = SetVotingCandidatesAction | SelectVotingCandidateAction | UpdateVoteCountAction;
+export type VotingActionTypes = SetVotingCandidatesAction | SelectVotingCandidateAction;

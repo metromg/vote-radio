@@ -4,7 +4,6 @@ using System.Text;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Radio.Core.Services;
-using Radio.Core.Services.Messaging;
 
 namespace Radio.Infrastructure.Messaging
 {
@@ -25,7 +24,7 @@ namespace Radio.Infrastructure.Messaging
             Initialize();
         }
 
-        public void Send(IMessage message)
+        public void Send(Message message)
         {
             var serializedMessage = _serializationService.Serialize(message);
             var body = Encoding.UTF8.GetBytes(serializedMessage);
@@ -40,7 +39,7 @@ namespace Radio.Infrastructure.Messaging
             }
         }
 
-        public IObservable<IMessage> Receive()
+        public IObservable<Message> Receive()
         {
             return Observable
                 .FromEventPattern<BasicDeliverEventArgs>(
@@ -52,7 +51,7 @@ namespace Radio.Infrastructure.Messaging
                     var body = x.EventArgs.Body;
                     var serializedMessage = Encoding.UTF8.GetString(body);
 
-                    return _serializationService.Deserialize<IMessage>(serializedMessage);
+                    return _serializationService.Deserialize<Message>(serializedMessage);
                 });
         }
 

@@ -31,9 +31,7 @@ class Voting extends Component<VotingProps> {
                         <li key={candidate.songId} style={style}>
                             {candidate.title} {candidate.voteCount}
                             {
-                                this.props.selectedSongId == null
-                                    ? <button onClick={() => this.props.selectVotingCandidate(candidate.songId)}>Vote</button>
-                                    : null
+                                <button onClick={() => this.props.selectVotingCandidate(candidate.songId)}>Vote</button>
                             }
                         </li>
                     );

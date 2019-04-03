@@ -1,12 +1,11 @@
 ﻿using System;
-using Radio.Core.Services.Messaging;
 
 namespace Radio.Core.Services
 {
     public interface IMessageQueueService
     {
-        void Send(IMessage message);
+        void Send(Message message);
 
-        IObservable<IMessage> Receive();
+        IObservable<Message> Receive();
     }
 }

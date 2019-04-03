@@ -7,5 +7,7 @@ namespace Radio.Core.Domain.Voting.Model
         public Guid VotingCandidateId { get; set; }
 
         public virtual VotingCandidate VotingCandidate { get; set; }
+
+        public Guid UserIdentifier { get; set; }
     }
 }

@@ -1,25 +1,44 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.SignalR;
-using Radio.Core.Services.Messaging;
+using Radio.Core;
+using Radio.Core.Domain.Voting;
+using Radio.Core.Services;
+using Radio.Infrastructure.Api.External.Dtos;
 
 namespace Radio.Infrastructure.Api.External.Hubs
 {
     public class RadioHubMessageDispatcher
     {
-        public Task Dispatch(IMessage message, IClientProxy clients)
-        {
-            if (message is VoteMessage voteMessage)
-            {
-                return Dispatch(voteMessage, clients);
-            }
+        private readonly IUnitOfWorkFactory<IVotingCandidateRepository, IMapper> _unitOfWorkFactory;
 
-            throw new ArgumentOutOfRangeException(nameof(message));
+        public RadioHubMessageDispatcher(IUnitOfWorkFactory<IVotingCandidateRepository, IMapper> unitOfWorkFactory)
+        {
+            _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        private Task Dispatch(VoteMessage voteMessage, IClientProxy clients)
+        public Task Dispatch(Message message, IClientProxy clients)
         {
-            return clients.SendAsync("Vote", voteMessage.SongId);
+            switch (message)
+            {
+                case Message.VotingMessage:
+                    return DispatchVotingMessage(clients);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(message));
+            }
+        }
+
+        private async Task DispatchVotingMessage(IClientProxy clients)
+        {
+            using (var unit = _unitOfWorkFactory.Begin())
+            {
+                var candidates = await unit.Dependent.GetWithVoteCountAsync();
+                var result = candidates.Select(unit.Dependent2.Map<VotingCandidateDto>).ToArray();
+
+                await clients.SendAsync("Vote", result);
+            }
         }
     }
 }

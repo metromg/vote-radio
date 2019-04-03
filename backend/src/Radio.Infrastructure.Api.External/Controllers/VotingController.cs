@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Radio.Core;
 using Radio.Core.Domain.Voting;
 using Radio.Core.Services;
-using Radio.Core.Services.Messaging;
 using Radio.Infrastructure.Api.External.Dtos;
+using Radio.Infrastructure.Api.Services;
 
 namespace Radio.Infrastructure.Api.External.Controllers
 {
@@ -17,14 +17,16 @@ namespace Radio.Infrastructure.Api.External.Controllers
         private readonly IVotingCandidateRepository _votingCandidateRepository;
         private readonly IVoteRepository _voteRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISimpleUserIdentificationService _simpleUserIdentificationService;
         private readonly IMessageQueueService _messageQueueService;
         private readonly IMapper _mapper;
 
-        public VotingController(IVotingCandidateRepository votingCandidateRepository, IVoteRepository voteRepository, IUnitOfWork unitOfWork, IMessageQueueService messageQueueService, IMapper mapper)
+        public VotingController(IVotingCandidateRepository votingCandidateRepository, IVoteRepository voteRepository, IUnitOfWork unitOfWork, ISimpleUserIdentificationService simpleUserIdentificationService, IMessageQueueService messageQueueService, IMapper mapper)
         {
             _votingCandidateRepository = votingCandidateRepository;
             _voteRepository = voteRepository;
             _unitOfWork = unitOfWork;
+            _simpleUserIdentificationService = simpleUserIdentificationService;
             _messageQueueService = messageQueueService;
             _mapper = mapper;
         }
@@ -40,20 +42,24 @@ namespace Radio.Infrastructure.Api.External.Controllers
         [HttpPost]
         public async Task VoteAsync(Guid songId)
         {
+            var userIdentifier = _simpleUserIdentificationService.GetOrCreateUserId(HttpContext);
+
+            var vote = await _voteRepository.GetByUserIdentifierOrDefaultAsync(userIdentifier);
+            if (vote == null)
+            {
+                vote = _voteRepository.Create();
+                vote.UserIdentifier = userIdentifier;
+
+                _voteRepository.Add(vote);
+            }
+
             var votingCandidate = await _votingCandidateRepository.GetBySongAsync(songId);
-
-            var newVote = _voteRepository.Create();
-            newVote.VotingCandidateId = votingCandidate.Id;
-            newVote.VotingCandidate = votingCandidate;
-
-            _voteRepository.Add(newVote);
+            vote.VotingCandidateId = votingCandidate.Id;
+            vote.VotingCandidate = votingCandidate;
 
             await _unitOfWork.CommitAsync();
 
-            _messageQueueService.Send(new VoteMessage
-            {
-                SongId = songId
-            });
+            _messageQueueService.Send(Message.VotingMessage);
         }
     }
 }

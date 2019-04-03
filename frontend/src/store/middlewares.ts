@@ -1,7 +1,8 @@
 import { Middleware, MiddlewareAPI } from 'redux';
 import { HubConnectionBuilder, LogLevel, HubConnection } from '@aspnet/signalr';
 
-import { updateVoteCount } from './voting/actions';
+import { VotingCandidate } from './voting/types';
+import { setVotingCandidates } from './voting/actions';
 
 export const signalRMiddleware: (url: string) => Middleware = url => storeAPI => {
     const connection = new HubConnectionBuilder()
@@ -10,8 +11,8 @@ export const signalRMiddleware: (url: string) => Middleware = url => storeAPI =>
         .build();
 
     // here we can handle the events on the hub and dispatch redux actions
-    connection.on("Vote", (songId: string) => {
-        storeAPI.dispatch(updateVoteCount(songId));
+    connection.on("Vote", (candidates: VotingCandidate[]) => {
+        storeAPI.dispatch(setVotingCandidates(candidates));
     });
 
     connection.onclose(() => dispatchConnectionError(storeAPI));
