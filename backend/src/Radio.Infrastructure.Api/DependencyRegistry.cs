@@ -7,7 +7,7 @@ namespace Radio.Infrastructure.Api
     {
         public static void Configure(ContainerBuilder builder)
         {
-            builder.RegisterType<SimpleUserIdentificationService>().As<ISimpleUserIdentificationService>().InstancePerDependency();
+            builder.RegisterType<PrimitiveUserIdentificationService>().As<IPrimitiveUserIdentificationService>().InstancePerDependency();
         }
     }
 }

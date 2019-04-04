@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Radio.Infrastructure.Api.Services
 {
-    public interface ISimpleUserIdentificationService
+    public interface IPrimitiveUserIdentificationService
     {
         Guid GetOrCreateUserId(HttpContext context);
     }

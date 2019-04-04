@@ -17,16 +17,16 @@ namespace Radio.Infrastructure.Api.External.Controllers
         private readonly IVotingCandidateRepository _votingCandidateRepository;
         private readonly IVoteRepository _voteRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ISimpleUserIdentificationService _simpleUserIdentificationService;
+        private readonly IPrimitiveUserIdentificationService _primitiveUserIdentificationService;
         private readonly IMessageQueueService _messageQueueService;
         private readonly IMapper _mapper;
 
-        public VotingController(IVotingCandidateRepository votingCandidateRepository, IVoteRepository voteRepository, IUnitOfWork unitOfWork, ISimpleUserIdentificationService simpleUserIdentificationService, IMessageQueueService messageQueueService, IMapper mapper)
+        public VotingController(IVotingCandidateRepository votingCandidateRepository, IVoteRepository voteRepository, IUnitOfWork unitOfWork, IPrimitiveUserIdentificationService primitiveUserIdentificationService, IMessageQueueService messageQueueService, IMapper mapper)
         {
             _votingCandidateRepository = votingCandidateRepository;
             _voteRepository = voteRepository;
             _unitOfWork = unitOfWork;
-            _simpleUserIdentificationService = simpleUserIdentificationService;
+            _primitiveUserIdentificationService = primitiveUserIdentificationService;
             _messageQueueService = messageQueueService;
             _mapper = mapper;
         }
@@ -42,7 +42,7 @@ namespace Radio.Infrastructure.Api.External.Controllers
         [HttpPost]
         public async Task VoteAsync(Guid songId)
         {
-            var userIdentifier = _simpleUserIdentificationService.GetOrCreateUserId(HttpContext);
+            var userIdentifier = _primitiveUserIdentificationService.GetOrCreateUserId(HttpContext);
 
             var vote = await _voteRepository.GetByUserIdentifierOrDefaultAsync(userIdentifier);
             if (vote == null)

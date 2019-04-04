@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Radio.Infrastructure.Api.Services
 {
-    public class SimpleUserIdentificationService : ISimpleUserIdentificationService
+    public class PrimitiveUserIdentificationService : IPrimitiveUserIdentificationService
     {
         private static readonly string USER_ID_KEY = "USER_ID";
 
