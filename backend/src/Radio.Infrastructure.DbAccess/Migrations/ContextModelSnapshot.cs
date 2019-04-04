@@ -19,7 +19,7 @@ namespace Radio.Infrastructure.DbAccess.Migrations
                 .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("Radio.Core.Domain.MasterData.File", b =>
+            modelBuilder.Entity("Radio.Core.Domain.MasterData.Model.File", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -31,7 +31,7 @@ namespace Radio.Infrastructure.DbAccess.Migrations
                     b.ToTable("File");
                 });
 
-            modelBuilder.Entity("Radio.Core.Domain.MasterData.Image", b =>
+            modelBuilder.Entity("Radio.Core.Domain.MasterData.Model.Image", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -51,7 +51,7 @@ namespace Radio.Infrastructure.DbAccess.Migrations
                     b.ToTable("Image");
                 });
 
-            modelBuilder.Entity("Radio.Core.Domain.MasterData.Song", b =>
+            modelBuilder.Entity("Radio.Core.Domain.MasterData.Model.Song", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -81,7 +81,7 @@ namespace Radio.Infrastructure.DbAccess.Migrations
                     b.ToTable("Song");
                 });
 
-            modelBuilder.Entity("Radio.Core.Domain.Playback.CurrentSong", b =>
+            modelBuilder.Entity("Radio.Core.Domain.Playback.Model.CurrentSong", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -99,10 +99,12 @@ namespace Radio.Infrastructure.DbAccess.Migrations
                     b.ToTable("CurrentSong");
                 });
 
-            modelBuilder.Entity("Radio.Core.Domain.Voting.Vote", b =>
+            modelBuilder.Entity("Radio.Core.Domain.Voting.Model.Vote", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("UserIdentifier");
 
                     b.Property<Guid>("VotingCandidateId");
 
@@ -113,7 +115,7 @@ namespace Radio.Infrastructure.DbAccess.Migrations
                     b.ToTable("Vote");
                 });
 
-            modelBuilder.Entity("Radio.Core.Domain.Voting.VotingCandidate", b =>
+            modelBuilder.Entity("Radio.Core.Domain.Voting.Model.VotingCandidate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -129,41 +131,41 @@ namespace Radio.Infrastructure.DbAccess.Migrations
                     b.ToTable("VotingCandidate");
                 });
 
-            modelBuilder.Entity("Radio.Core.Domain.MasterData.Image", b =>
+            modelBuilder.Entity("Radio.Core.Domain.MasterData.Model.Image", b =>
                 {
-                    b.HasOne("Radio.Core.Domain.MasterData.File", "File")
+                    b.HasOne("Radio.Core.Domain.MasterData.Model.File", "File")
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Radio.Core.Domain.MasterData.Song", b =>
+            modelBuilder.Entity("Radio.Core.Domain.MasterData.Model.Song", b =>
                 {
-                    b.HasOne("Radio.Core.Domain.MasterData.Image", "CoverImage")
+                    b.HasOne("Radio.Core.Domain.MasterData.Model.Image", "CoverImage")
                         .WithMany()
                         .HasForeignKey("CoverImageId")
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 
-            modelBuilder.Entity("Radio.Core.Domain.Playback.CurrentSong", b =>
+            modelBuilder.Entity("Radio.Core.Domain.Playback.Model.CurrentSong", b =>
                 {
-                    b.HasOne("Radio.Core.Domain.MasterData.Song", "Song")
+                    b.HasOne("Radio.Core.Domain.MasterData.Model.Song", "Song")
                         .WithMany()
                         .HasForeignKey("SongId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Radio.Core.Domain.Voting.Vote", b =>
+            modelBuilder.Entity("Radio.Core.Domain.Voting.Model.Vote", b =>
                 {
-                    b.HasOne("Radio.Core.Domain.Voting.VotingCandidate", "VotingCandidate")
-                        .WithMany()
+                    b.HasOne("Radio.Core.Domain.Voting.Model.VotingCandidate", "VotingCandidate")
+                        .WithMany("Votes")
                         .HasForeignKey("VotingCandidateId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Radio.Core.Domain.Voting.VotingCandidate", b =>
+            modelBuilder.Entity("Radio.Core.Domain.Voting.Model.VotingCandidate", b =>
                 {
-                    b.HasOne("Radio.Core.Domain.MasterData.Song", "Song")
+                    b.HasOne("Radio.Core.Domain.MasterData.Model.Song", "Song")
                         .WithMany()
                         .HasForeignKey("SongId")
                         .OnDelete(DeleteBehavior.Cascade);

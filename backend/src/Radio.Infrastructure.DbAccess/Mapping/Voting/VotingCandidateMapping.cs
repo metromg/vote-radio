@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Radio.Core.Domain.Voting;
+using Radio.Core.Domain.Voting.Model;
 using Radio.Infrastructure.DbAccess.Extensions;
 
 namespace Radio.Infrastructure.DbAccess.Mapping.Voting

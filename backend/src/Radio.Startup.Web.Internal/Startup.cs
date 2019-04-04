@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Radio.Infrastructure.Api;
+using Radio.Infrastructure.Api.Internal;
 
 namespace Radio.Startup.Web.Internal
 {
@@ -10,14 +10,12 @@ namespace Radio.Startup.Web.Internal
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRadioBase();
-            services.AddRadioMvc();
+            services.AddRadio();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IContainer rootContainer)
         {
-            app.UseRadioBase(env, rootContainer);
-            app.UseRadioMvc();
+            app.UseRadio(env, rootContainer);
         }
     }
 }

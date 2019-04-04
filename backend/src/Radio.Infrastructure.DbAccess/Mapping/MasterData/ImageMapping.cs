@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Radio.Core.Domain.MasterData;
+using Radio.Core.Domain.MasterData.Model;
 using Radio.Infrastructure.DbAccess.Extensions;
 
 namespace Radio.Infrastructure.DbAccess.Mapping.MasterData

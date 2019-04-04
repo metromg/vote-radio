@@ -23,6 +23,7 @@ services:
       - backend_external_logs:/var/log/radio
     environment:
       - 'Environment:DbConnectionString=User ID=radio;Password=Abc1234;Host=database;Port=5432;Database=radio;Pooling=true;'
+      - 'Environment:MessagingHost=messaging'
     command: ["./wait-for-it.sh", "database:5432", "--", "dotnet", "Radio.Startup.Web.External.dll"]
   backend_internal:
     build: #dev
@@ -36,6 +37,7 @@ services:
       - backend_internal_logs:/var/log/radio
     environment:
       - 'Environment:DbConnectionString=User ID=radio;Password=Abc1234;Host=database;Port=5432;Database=radio;Pooling=true;'
+      - 'Environment:MessagingHost=messaging'
     command: ["./wait-for-it.sh", "database:5432", "--", "dotnet", "Radio.Startup.Web.Internal.dll"]
   backend_console:
     build: #dev
@@ -87,6 +89,9 @@ services:
       - 'ICECAST_HOST=streaming'
       - 'ICECAST_PORT=8000'
       - 'ICECAST_SOURCE_PASSWORD=Abc1234'
+  messaging:
+    image: rabbitmq:3.7
+    container_name: messaging
   database:
     image: postgres:11.2
     container_name: database

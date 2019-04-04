@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NLog.Extensions.Logging;
 using Radio.Core;
+using Radio.Core.Services;
+using Radio.Infrastructure.Services;
 
 namespace Radio.Infrastructure
 {
@@ -26,6 +28,9 @@ namespace Radio.Infrastructure
             builder.RegisterInstance(new NLogLoggerProvider()).As<ILoggerProvider>().SingleInstance();
             builder.RegisterGeneric(typeof(Logger<>)).As(typeof(ILogger<>));
             builder.RegisterType<Logger<ILogger>>().As(typeof(ILogger));
+
+            // Services
+            builder.RegisterType<JsonSerializationService>().As<ISerializationService>().InstancePerDependency();
         }
 
         public static void AddOption<TOptions>(this ContainerBuilder builder, string name)

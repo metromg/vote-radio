@@ -1,8 +1,10 @@
 ﻿using Autofac;
 using Radio.Core;
 using Radio.Core.Domain;
+using Radio.Core.Domain.Voting;
 using Radio.Infrastructure.DbAccess.Configuration;
 using Radio.Infrastructure.DbAccess.Domain;
+using Radio.Infrastructure.DbAccess.Domain.Voting;
 
 namespace Radio.Infrastructure.DbAccess
 {
@@ -16,6 +18,8 @@ namespace Radio.Infrastructure.DbAccess
 
             // Domain
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerDependency();
+            builder.RegisterType<VoteRepository>().As<IVoteRepository>().InstancePerDependency();
+            builder.RegisterType<VotingCandidateRepository>().As<IVotingCandidateRepository>().InstancePerDependency();
 
             // UnitOfWork
             builder.RegisterGeneric(typeof(UnitOfWorkFactory<>)).As(typeof(IUnitOfWorkFactory<>)).InstancePerDependency();

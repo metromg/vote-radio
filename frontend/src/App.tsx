@@ -4,6 +4,7 @@ import { withLocalize, LocalizeContextProps } from "react-localize-redux";
 
 import translations from './translations.json';
 import Player from './components/Player';
+import Voting from './components/Voting';
 import './App.css';
 
 class App extends Component<LocalizeContextProps> {
@@ -21,7 +22,10 @@ class App extends Component<LocalizeContextProps> {
 
     render() {
         return (
-            <Player />
+            <React.Fragment>
+                <Player />
+                <Voting />
+            </React.Fragment>
         );
     }
 }

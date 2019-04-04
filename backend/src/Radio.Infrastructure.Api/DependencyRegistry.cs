@@ -1,6 +1,5 @@
 ﻿using Autofac;
-using AutoMapper;
-using Radio.Infrastructure.Api.Mapping;
+using Radio.Infrastructure.Api.Services;
 
 namespace Radio.Infrastructure.Api
 {
@@ -8,9 +7,7 @@ namespace Radio.Infrastructure.Api
     {
         public static void Configure(ContainerBuilder builder)
         {
-            // Mapping
-            builder.RegisterType<MapperFactory>().AsSelf().SingleInstance();
-            builder.Register(c => c.Resolve<MapperFactory>().GetMapper(c.Resolve<ILifetimeScope>())).As<IMapper>().InstancePerLifetimeScope();
+            builder.RegisterType<PrimitiveUserIdentificationService>().As<IPrimitiveUserIdentificationService>().InstancePerDependency();
         }
     }
 }

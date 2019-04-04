@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
 
-import { AppState } from './../store';
 import AudioStream from './AudioStream';
+import { streamBaseUrl } from '../config';
 
 interface PlayerProps {
-    streamBaseUrl: string;
 }
 
 interface PlayerState {
@@ -19,7 +17,7 @@ class Player extends Component<PlayerProps, PlayerState> {
     }
 
     render() {
-        const streamUrl = this.props.streamBaseUrl + "/radio.mp3";
+        const streamUrl = streamBaseUrl + "/radio.mp3";
 
         return (
             <React.Fragment>
@@ -46,8 +44,4 @@ class Player extends Component<PlayerProps, PlayerState> {
     }
 }
 
-const mapStateToProps = (state: AppState) => ({
-    streamBaseUrl: state.system.streamBaseUrl
-});
-
-export default connect(mapStateToProps)(Player);
+export default Player;
