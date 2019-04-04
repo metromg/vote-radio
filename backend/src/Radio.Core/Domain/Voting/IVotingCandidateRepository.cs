@@ -9,6 +9,8 @@ namespace Radio.Core.Domain.Voting
     {
         Task<SongWithVoteCount[]> GetWithVoteCountAsync();
 
+        Task<SongWithVoteCount> GetWinnerOfVotingAsync();
+
         Task<VotingCandidate> GetBySongAsync(Guid songId);
     }
 }

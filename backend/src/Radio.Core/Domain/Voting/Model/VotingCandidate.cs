@@ -19,5 +19,12 @@ namespace Radio.Core.Domain.Voting.Model
         public int DisplayOrder { get; set; }
 
         public virtual ICollection<Vote> Votes { get; set; }
+
+        public void Map(Song song, int displayOrder)
+        {
+            SongId = song.Id;
+            Song = song;
+            DisplayOrder = displayOrder;
+        }
     }
 }

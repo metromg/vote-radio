@@ -17,6 +17,7 @@ services:
     container_name: backend_external
     depends_on:
       - database
+      - messaging
     ports:
       - 8080:80
     volumes:
@@ -24,7 +25,7 @@ services:
     environment:
       - 'Environment:DbConnectionString=User ID=radio;Password=Abc1234;Host=database;Port=5432;Database=radio;Pooling=true;'
       - 'Environment:MessagingHost=messaging'
-    command: ["./wait-for-it.sh", "database:5432", "--", "dotnet", "Radio.Startup.Web.External.dll"]
+    command: ["./wait-for-it.sh", "database:5432", "--", "./wait-for-it.sh", "messaging:5672", "--", "dotnet", "Radio.Startup.Web.External.dll"]
   backend_internal:
     build: #dev
       context: ./backend
@@ -33,12 +34,13 @@ services:
     container_name: backend_internal
     depends_on:
       - database
+      - messaging
     volumes:
       - backend_internal_logs:/var/log/radio
     environment:
       - 'Environment:DbConnectionString=User ID=radio;Password=Abc1234;Host=database;Port=5432;Database=radio;Pooling=true;'
       - 'Environment:MessagingHost=messaging'
-    command: ["./wait-for-it.sh", "database:5432", "--", "dotnet", "Radio.Startup.Web.Internal.dll"]
+    command: ["./wait-for-it.sh", "database:5432", "--", "./wait-for-it.sh", "messaging:5672", "--", "dotnet", "Radio.Startup.Web.Internal.dll"]
   backend_console:
     build: #dev
       context: ./backend

@@ -1,5 +1,6 @@
 ﻿using System;
 using Radio.Core.Domain.MasterData.Model;
+using Radio.Core.Domain.Voting.Objects;
 
 namespace Radio.Core.Domain.Playback.Model
 {
@@ -11,6 +12,16 @@ namespace Radio.Core.Domain.Playback.Model
 
         public int VoteCount { get; set; }
 
-        public DateTime EndsAtTime { get; set; }
+        public DateTimeOffset EndsAtTime { get; set; }
+
+        // TODO: Add delay caused by liquidsoap
+        public void Map(SongWithVoteCount songWithVoteCount, IClock clock)
+        {
+            SongId = songWithVoteCount.Song.Id;
+            Song = songWithVoteCount.Song;
+            VoteCount = songWithVoteCount.VoteCount;
+            EndsAtTime = new DateTimeOffset(clock.UtcNow)
+                .AddSeconds(songWithVoteCount.Song.DurationInSeconds + Constants.App.NEXT_SONG_TIME_BEFORE_PLAYBACK_IN_SECONDS);
+        }
     }
 }
