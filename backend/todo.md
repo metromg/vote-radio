@@ -1,6 +1,5 @@
 - (Project Setup: Console Startup)
 - (Debugging / Watching Files)
-- (DB: Migration vs App User)
 
 - Test Umgebung
 
@@ -10,11 +9,5 @@ docker run --rm -d --name local_db -v local_db_volume:/var/lib/postgresql/data -
 Local-Messaging:
 docker run --rm -d --name local_messaging -p 5672:5672 rabbitmq:3.7
 
-In Kommentar ergänzen:
-https://www.rabbitmq.com/releases/rabbitmq-dotnet-client/v3.3.0/rabbitmq-dotnet-client-3.3.0-user-guide.pdf 
-IModel should not be shared between threads
-- Use Sessions? Stateless/Expiring, Review Cross-Session Expiration
-- Check if cookies enabled
-- Test Mobile Cookie Session Handling
 - Display global errors (signalr, api)
 - Styling

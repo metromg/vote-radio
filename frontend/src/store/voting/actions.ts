@@ -22,6 +22,11 @@ export function setVotingCandidates(candidates: VotingCandidate[]): VotingAction
 
 export function selectVotingCandidate(songId: string): ThunkAction<void, AppState, null, VotingActionTypes> {
     return async dispatch => {
+        if (!navigator.cookieEnabled) {
+            // dispatch error message, that cookies must be enabled for voting
+            return;
+        }
+
         await post("/api/voting/voteAsync?songId=" + encodeURIComponent(songId));
 
         dispatch({

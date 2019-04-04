@@ -29,6 +29,8 @@ namespace Radio.Infrastructure.Messaging
             var serializedMessage = _serializationService.Serialize(message);
             var body = Encoding.UTF8.GetBytes(serializedMessage);
 
+            // https://www.rabbitmq.com/releases/rabbitmq-dotnet-client/v3.3.0/rabbitmq-dotnet-client-3.3.0-user-guide.pdf 
+            // Section "IModel should not be shared between threads"
             lock (_channelModel)
             {
                 _channelModel.BasicPublish(
@@ -57,6 +59,8 @@ namespace Radio.Infrastructure.Messaging
 
         private void Initialize()
         {
+            // https://www.rabbitmq.com/releases/rabbitmq-dotnet-client/v3.3.0/rabbitmq-dotnet-client-3.3.0-user-guide.pdf 
+            // Section "IModel should not be shared between threads"
             lock (_channelModel)
             {
                 _channelModel.ExchangeDeclare(EXCHANGE_NAME, "fanout");

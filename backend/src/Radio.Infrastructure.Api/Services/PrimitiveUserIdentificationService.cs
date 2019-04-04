@@ -29,7 +29,8 @@ namespace Radio.Infrastructure.Api.Services
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                SameSite = SameSiteMode.None
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddYears(1)
             };
 
             context.Response.Cookies.Append(USER_ID_KEY, newUserId, cookieOptions);
