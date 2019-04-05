@@ -2,7 +2,7 @@ import { Middleware, MiddlewareAPI } from 'redux';
 import { HubConnectionBuilder, LogLevel, HubConnection } from '@aspnet/signalr';
 
 import { VotingCandidate } from './voting/types';
-import { loadVotingCandidates, setVotingCandidates } from './voting/actions';
+import { loadVotingCandidates, setVotingCandidates, setSelectedVotingCandidate } from './voting/actions';
 
 export const signalRMiddleware: (url: string) => Middleware = url => storeAPI => {
     const connection = new HubConnectionBuilder()
@@ -13,6 +13,7 @@ export const signalRMiddleware: (url: string) => Middleware = url => storeAPI =>
     // here we can handle the events on the hub and dispatch redux actions
     connection.on("NextSong", (candidates: VotingCandidate[]) => {
         storeAPI.dispatch(setVotingCandidates(candidates));
+        storeAPI.dispatch(setSelectedVotingCandidate(null));
     });
 
     connection.on("Vote", (candidates: VotingCandidate[]) => {
@@ -20,6 +21,7 @@ export const signalRMiddleware: (url: string) => Middleware = url => storeAPI =>
     });
 
     connection.on("DisableVoting", () => {
+        // TODO: Disable voting
         console.log("disable voting");
     });
 
@@ -48,6 +50,6 @@ function startConnection(connection: HubConnection, onError?: (e: any) => void) 
 }
 
 function dispatchConnectionError(storeAPI: MiddlewareAPI) {
-    // dispatch a redux action
+    // TODO: dispatch a redux action
     console.log("Error action");
 }
