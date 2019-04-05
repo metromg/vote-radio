@@ -5,6 +5,6 @@ namespace Radio.Core.Services.Playback
 {
     public interface ICurrentSongService
     {
-        Task CreateOrUpdateAsync(SongWithVoteCount song);
+        Task UpdateOrCreateAsync(SongWithVoteCount song);
     }
 }

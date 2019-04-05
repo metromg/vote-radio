@@ -6,6 +6,6 @@ namespace Radio.Core.Services.Voting
 {
     public interface IVotingCandidateService
     {
-        Task CreateOrUpdateAsync(IEnumerable<Song> songs);
+        Task UpdateOrCreateAsync(IEnumerable<Song> songs);
     }
 }

@@ -21,11 +21,11 @@ namespace Radio.Infrastructure.DbAccess.Domain.Voting
             return GetWithVoteCount().ToArrayAsync();
         }
 
-        public Task<SongWithVoteCount> GetWinnerOfVotingAsync()
+        public Task<SongWithVoteCount> GetWinnerOfVotingOrDefaultAsync()
         {
             return GetWithVoteCount()
                 .OrderByDescending(c => c.VoteCount)
-                .FirstAsync();
+                .FirstOrDefaultAsync();
         }
 
         public Task<VotingCandidate> GetBySongAsync(Guid songId)

@@ -18,7 +18,7 @@ namespace Radio.Core.Services.Playback
             _logger = logger;
         }
 
-        public async Task CreateOrUpdateAsync(SongWithVoteCount song)
+        public async Task UpdateOrCreateAsync(SongWithVoteCount song)
         {
             var currentSong = await _currentSongRepository.GetOrDefaultAsync();
             if (currentSong == null)

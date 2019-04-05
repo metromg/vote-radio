@@ -15,7 +15,7 @@ namespace Radio.Core.Services.Voting
             _votingCandidateRepository = votingCandidateRepository;
         }
 
-        public Task CreateOrUpdateAsync(IEnumerable<Song> songs)
+        public Task UpdateOrCreateAsync(IEnumerable<Song> songs)
         {
             RemoveExistingVotingCandidates();
             AddNewVotingCandidates(songs);
@@ -40,7 +40,7 @@ namespace Radio.Core.Services.Voting
                 var votingCandidate = _votingCandidateRepository.Create();
                 _votingCandidateRepository.Add(votingCandidate);
 
-                votingCandidate.Map(item.song, item.index);
+                votingCandidate.Map(song: item.song, displayOrder: item.index);
             }
         }
     }

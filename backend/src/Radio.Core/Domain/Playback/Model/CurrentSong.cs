@@ -14,7 +14,6 @@ namespace Radio.Core.Domain.Playback.Model
 
         public DateTimeOffset EndsAtTime { get; set; }
 
-        // TODO: Add delay caused by liquidsoap
         public void Map(SongWithVoteCount songWithVoteCount, IClock clock)
         {
             SongId = songWithVoteCount.Song.Id;
