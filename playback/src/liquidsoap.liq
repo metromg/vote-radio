@@ -8,7 +8,7 @@ end
 
 offline = blank()
 
-source = request.dynamic(next_song, length=6.0, conservative=false)
+source = request.dynamic(next_song, length=10.0, conservative=false)
 source = amplify(0.7, override="replay_gain", audio_to_stereo(source))
 source = smart_crossfade(source)
 source = rewrite_metadata([("title", '$(if $(use_suffix),"$(title) $(suffix)","$(title)")'), ("url", "localhost")], source)

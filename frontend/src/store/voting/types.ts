@@ -18,10 +18,10 @@ interface SetVotingCandidatesAction {
     payload: { candidates: VotingCandidate[] }
 }
 
-export const SELECT_VOTING_CANDIDATE = "SELECT_VOTING_CANDIDATE";
+export const SET_SELECTED_VOTING_CANDIDATE = "SET_SELECTED_VOTING_CANDIDATE";
 interface SelectVotingCandidateAction {
-    type: typeof SELECT_VOTING_CANDIDATE,
-    payload: { songId: string }
+    type: typeof SET_SELECTED_VOTING_CANDIDATE,
+    payload: { songId: string | null }
 }
 
 export type VotingActionTypes = SetVotingCandidatesAction | SelectVotingCandidateAction;

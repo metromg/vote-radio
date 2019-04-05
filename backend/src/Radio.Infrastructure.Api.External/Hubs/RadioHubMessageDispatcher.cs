@@ -23,6 +23,8 @@ namespace Radio.Infrastructure.Api.External.Hubs
         {
             switch (message)
             {
+                case Message.NextSongMessage:
+                    return DispatchNextSongMessage(clients);
                 case Message.VotingMessage:
                     return DispatchVotingMessage(clients);
                 default:
@@ -30,15 +32,35 @@ namespace Radio.Infrastructure.Api.External.Hubs
             }
         }
 
+        private async Task DispatchNextSongMessage(IClientProxy clients)
+        {
+            await clients.SendAsync("DisableVoting");
+            await Task.Delay(TimeSpan.FromSeconds(Constants.App.TIME_IN_SECONDS_BEFORE_END_OF_CURRENT_SONG_WHEN_REQUESTING_NEXT_SONG));
+
+            using (var unit = _unitOfWorkFactory.Begin())
+            {
+                // TODO: Load next song
+                var votingCandidates = await GetVotingCandidatesResult(unit);
+
+                await clients.SendAsync("NextSong", votingCandidates);
+            }
+        }
+
         private async Task DispatchVotingMessage(IClientProxy clients)
         {
             using (var unit = _unitOfWorkFactory.Begin())
             {
-                var candidates = await unit.Dependent.GetWithVoteCountAsync();
-                var result = candidates.Select(unit.Dependent2.Map<VotingCandidateDto>).ToArray();
+                var votingCandidates = await GetVotingCandidatesResult(unit);
 
-                await clients.SendAsync("Vote", result);
+                await clients.SendAsync("Vote", votingCandidates);
             }
+        }
+
+        private static async Task<VotingCandidateDto[]> GetVotingCandidatesResult(IUnitOfWork<IVotingCandidateRepository, IMapper> unit)
+        {
+            var votingCandidates = await unit.Dependent.GetWithVoteCountAsync();
+
+            return votingCandidates.Select(unit.Dependent2.Map<VotingCandidateDto>).ToArray();
         }
     }
 }

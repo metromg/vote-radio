@@ -42,6 +42,7 @@ namespace Radio.Infrastructure.Api.External.Controllers
         [HttpPost]
         public async Task VoteAsync(Guid songId)
         {
+            // TODO: Move code to domain model
             var userIdentifier = _primitiveUserIdentificationService.GetOrCreateUserId(HttpContext);
 
             var vote = await _voteRepository.GetByUserIdentifierOrDefaultAsync(userIdentifier);

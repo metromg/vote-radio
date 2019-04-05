@@ -1,9 +1,10 @@
 import { ThunkAction } from 'redux-thunk';
 
 import { AppState } from '../index';
-import { VotingCandidate, SET_VOTING_CANDIDATES, SELECT_VOTING_CANDIDATE, VotingActionTypes } from './types';
+import { VotingCandidate, SET_VOTING_CANDIDATES, SET_SELECTED_VOTING_CANDIDATE, VotingActionTypes } from './types';
 import { get, post } from '../api';
 
+// TODO: Error handling
 export function loadVotingCandidates(): ThunkAction<void, AppState, null, VotingActionTypes> {
     return async dispatch => {
         const response = await get("/api/voting/getVotingCandidatesAsync");
@@ -20,18 +21,23 @@ export function setVotingCandidates(candidates: VotingCandidate[]): VotingAction
     };
 }
 
+// TODO: Error handling
 export function selectVotingCandidate(songId: string): ThunkAction<void, AppState, null, VotingActionTypes> {
     return async dispatch => {
         if (!navigator.cookieEnabled) {
-            // dispatch error message, that cookies must be enabled for voting
+            // TODO: dispatch error message, that cookies must be enabled for voting
             return;
         }
 
         await post("/api/voting/voteAsync?songId=" + encodeURIComponent(songId));
 
-        dispatch({
-            type: SELECT_VOTING_CANDIDATE,
-            payload: { songId }
-        });
+        dispatch(setSelectedVotingCandidate(songId));
+    };
+}
+
+export function setSelectedVotingCandidate(songId: string | null): VotingActionTypes {
+    return {
+        type: SET_SELECTED_VOTING_CANDIDATE,
+        payload: { songId }
     };
 }

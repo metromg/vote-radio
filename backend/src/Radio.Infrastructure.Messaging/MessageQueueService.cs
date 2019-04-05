@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Text;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Radio.Core.Services;
@@ -13,13 +14,15 @@ namespace Radio.Infrastructure.Messaging
 
         private readonly IModel _channelModel;
         private readonly ISerializationService _serializationService;
+        private readonly ILogger _logger;
 
         private EventingBasicConsumer _consumer;
 
-        public MessageQueueService(IModel channelModel, ISerializationService serializationService)
+        public MessageQueueService(IModel channelModel, ISerializationService serializationService, ILogger logger)
         {
             _channelModel = channelModel;
             _serializationService = serializationService;
+            _logger = logger;
 
             Initialize();
         }
@@ -59,6 +62,8 @@ namespace Radio.Infrastructure.Messaging
 
         private void Initialize()
         {
+            _logger.LogInformation("Initializing RabbitMQ message queue channel...");
+
             // https://www.rabbitmq.com/releases/rabbitmq-dotnet-client/v3.3.0/rabbitmq-dotnet-client-3.3.0-user-guide.pdf 
             // Section "IModel should not be shared between threads"
             lock (_channelModel)

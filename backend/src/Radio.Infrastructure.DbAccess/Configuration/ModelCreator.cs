@@ -9,6 +9,8 @@ namespace Radio.Infrastructure.DbAccess.Configuration
     {
         public void OnModelCreating(ModelBuilder builder)
         {
+            builder.HasPostgresExtension("uuid-ossp");
+
             // MasterData
             builder.ApplyConfiguration(new FileMapping());
             builder.ApplyConfiguration(new ImageMapping());
