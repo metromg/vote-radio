@@ -35,7 +35,7 @@ namespace Radio.Infrastructure.Api.External.Hubs
         private async Task DispatchNextSongMessage(IClientProxy clients)
         {
             await clients.SendAsync("DisableVoting");
-            await Task.Delay(TimeSpan.FromSeconds(Constants.App.NEXT_SONG_TIME_BEFORE_PLAYBACK_IN_SECONDS));
+            await Task.Delay(TimeSpan.FromSeconds(Constants.App.TIME_IN_SECONDS_BEFORE_END_OF_CURRENT_SONG_WHEN_REQUESTING_NEXT_SONG));
 
             using (var unit = _unitOfWorkFactory.Begin())
             {

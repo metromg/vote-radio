@@ -21,7 +21,7 @@ namespace Radio.Core.Domain.Playback.Model
             Song = songWithVoteCount.Song;
             VoteCount = songWithVoteCount.VoteCount;
             EndsAtTime = new DateTimeOffset(clock.UtcNow)
-                .AddSeconds(songWithVoteCount.Song.DurationInSeconds + Constants.App.NEXT_SONG_TIME_BEFORE_PLAYBACK_IN_SECONDS);
+                .AddSeconds(songWithVoteCount.Song.DurationInSeconds + Constants.App.TIME_IN_SECONDS_BEFORE_START_OF_NEXT_SONG_WHEN_REQUESTING_NEXT_SONG);
         }
     }
 }
