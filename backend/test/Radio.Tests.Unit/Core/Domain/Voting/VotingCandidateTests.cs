@@ -2,7 +2,7 @@
 using Radio.Core.Domain.MasterData.Model;
 using Radio.Core.Domain.Voting.Model;
 
-namespace Radio.Tests.Unit.Radio.Core.Domain.Voting
+namespace Radio.Tests.Unit.Core.Domain.Voting
 {
     [TestFixture]
     public class VotingCandidateTests

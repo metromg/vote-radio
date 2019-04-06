@@ -6,7 +6,7 @@ using Radio.Core.Domain.Voting;
 using Radio.Core.Domain.Voting.Model;
 using Radio.Core.Services.Voting;
 
-namespace Radio.Tests.Unit.Radio.Core.Services.Voting
+namespace Radio.Tests.Unit.Core.Services.Voting
 {
     [TestFixture]
     public class VotingCandidateServiceTests

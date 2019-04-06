@@ -5,7 +5,7 @@ using Radio.Core.Domain.MasterData.Model;
 using Radio.Core.Domain.MasterData.Objects;
 using Radio.Core.Services.MasterData;
 
-namespace Radio.Tests.Unit.Radio.Core.Services.MasterData
+namespace Radio.Tests.Unit.Core.Services.MasterData
 {
     [TestFixture]
     public class ImageServiceTests

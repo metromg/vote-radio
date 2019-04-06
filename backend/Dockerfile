@@ -36,10 +36,16 @@ RUN dotnet publish -c Release -o out
 WORKDIR /app/src/Radio.Startup.Web.Internal
 RUN dotnet publish -c Release -o out
 
-FROM build AS testrunner
+FROM build AS testrunner-unit
 WORKDIR /app
 COPY test/Radio.Tests.Unit/. ./test/Radio.Tests.Unit/
 WORKDIR /app/test/Radio.Tests.Unit
+CMD ["dotnet", "test", "--logger:trx"]
+
+FROM build AS testrunner-integration
+WORKDIR /app
+COPY test/Radio.Tests.Integration/. ./test/Radio.Tests.Integration/
+WORKDIR /app/test/Radio.Tests.Integration
 CMD ["dotnet", "test", "--logger:trx"]
 
 FROM mcr.microsoft.com/dotnet/core/runtime:2.2 AS console-runtime

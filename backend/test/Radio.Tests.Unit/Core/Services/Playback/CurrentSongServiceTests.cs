@@ -10,7 +10,7 @@ using Radio.Core.Domain.Playback.Model;
 using Radio.Core.Domain.Voting.Objects;
 using Radio.Core.Services.Playback;
 
-namespace Radio.Tests.Unit.Radio.Core.Services.Playback
+namespace Radio.Tests.Unit.Core.Services.Playback
 {
     [TestFixture]
     public class CurrentSongServiceTests

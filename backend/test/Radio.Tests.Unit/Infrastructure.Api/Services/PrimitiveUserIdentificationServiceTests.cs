@@ -4,7 +4,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Radio.Infrastructure.Api.Services;
 
-namespace Radio.Tests.Unit.Radio.Infrastructure.Api.Services
+namespace Radio.Tests.Unit.Infrastructure.Api.Services
 {
     [TestFixture]
     public class PrimitiveUserIdentificationServiceTests

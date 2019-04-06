@@ -2,7 +2,7 @@
 using Radio.Core.Domain.MasterData.Model;
 using Radio.Core.Domain.MasterData.Objects;
 
-namespace Radio.Tests.Unit.Radio.Core.Domain.MasterData
+namespace Radio.Tests.Unit.Core.Domain.MasterData
 {
     [TestFixture]
     public class FileInfoTests

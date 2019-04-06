@@ -6,7 +6,7 @@ using Radio.Core.Domain.MasterData.Model;
 using Radio.Core.Domain.Playback.Model;
 using Radio.Core.Domain.Voting.Objects;
 
-namespace Radio.Tests.Unit.Radio.Core.Domain.Playback
+namespace Radio.Tests.Unit.Core.Domain.Playback
 {
     [TestFixture]
     public class CurrentSongTests
