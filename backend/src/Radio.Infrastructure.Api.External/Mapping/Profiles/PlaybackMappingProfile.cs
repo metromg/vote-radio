@@ -22,7 +22,7 @@ namespace Radio.Infrastructure.Api.External.Mapping.Profiles
                 .ForMember(e => e.CoverImageId, opt => opt.MapFrom(s => s.Song.CoverImageId))
                 .ForMember(e => e.VoteCount, opt => opt.MapFrom(s => s.VoteCount))
                 .ForMember(e => e.DurationInSeconds, opt => opt.MapFrom(s => s.Song.DurationInSeconds))
-                .ForMember(e => e.EndsAtTime, opt => opt.MapFrom(s => s.EndsAtTime));
+                .ForMember(e => e.EndsAtTime, opt => opt.MapFrom(s => s.EndsAtTime.UtcDateTime));
         }
 
         private void MapDtosToEntities()

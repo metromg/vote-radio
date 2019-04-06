@@ -37,6 +37,7 @@ namespace Radio.Infrastructure.Services
         {
             var settings = new JsonSerializerSettings();
             settings.NullValueHandling = NullValueHandling.Ignore;
+            settings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
 
             return settings;
         }

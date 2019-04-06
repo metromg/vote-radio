@@ -18,6 +18,6 @@ namespace Radio.Infrastructure.Api.External.Dtos
 
         public int DurationInSeconds { get; set; }
 
-        public DateTimeOffset EndsAtTime { get; set; }
+        public DateTime EndsAtTime { get; set; }
     }
 }
