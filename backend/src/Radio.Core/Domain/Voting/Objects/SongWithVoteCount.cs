@@ -1,5 +1,4 @@
 ﻿using Radio.Core.Domain.MasterData.Model;
-using Radio.Core.Domain.Voting.Model;
 
 namespace Radio.Core.Domain.Voting.Objects
 {

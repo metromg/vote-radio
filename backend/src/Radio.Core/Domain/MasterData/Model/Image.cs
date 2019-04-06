@@ -17,6 +17,11 @@ namespace Radio.Core.Domain.MasterData.Model
 
         public void AddFile(FileInfo fileInfo, IFileRepository fileRepository)
         {
+            if (fileInfo == null)
+            {
+                throw new ArgumentNullException(nameof(fileInfo));
+            }
+
             ContentType = fileInfo.ContentType;
             ContentLength = fileInfo.ContentLength;
 

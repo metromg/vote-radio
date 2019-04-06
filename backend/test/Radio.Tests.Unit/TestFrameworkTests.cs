@@ -2,6 +2,7 @@ using NUnit.Framework;
 
 namespace Radio.Tests.Unit
 {
+    [TestFixture]
     public class TestFrameworkTests
     {
         [Test]
