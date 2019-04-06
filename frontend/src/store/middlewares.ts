@@ -11,7 +11,8 @@ export const signalRMiddleware: (url: string) => Middleware = url => storeAPI =>
         .build();
 
     // here we can handle the events on the hub and dispatch redux actions
-    connection.on("NextSong", (candidates: VotingCandidate[]) => {
+    connection.on("NextSong", (currentSong: any, candidates: VotingCandidate[]) => {
+        // TODO: Set current song
         storeAPI.dispatch(setVotingCandidates(candidates));
         storeAPI.dispatch(setSelectedVotingCandidate(null));
     });

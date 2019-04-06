@@ -9,5 +9,12 @@ namespace Radio.Core.Domain.Voting.Model
         public virtual VotingCandidate VotingCandidate { get; set; }
 
         public Guid UserIdentifier { get; set; }
+
+        public void Map(VotingCandidate votingCandidate, Guid userIdentifier)
+        {
+            VotingCandidateId = votingCandidate.Id;
+            VotingCandidate = votingCandidate;
+            UserIdentifier = userIdentifier;
+        }
     }
 }
