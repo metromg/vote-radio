@@ -8,6 +8,9 @@ docker run --rm -d --name local_db -v local_db_volume:/var/lib/postgresql/data -
 
 Local-Messaging:
 docker run --rm -d --name local_messaging -p 5672:5672 rabbitmq:3.7
-- Unit Tests
+
+- Test SignalR Timezone JSON
+- Display Current Song
 - Display global errors (signalr, api)
 - Styling
+- Frontend Tests
