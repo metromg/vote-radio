@@ -6,6 +6,6 @@ namespace Radio.Core.Services.Voting
 {
     public interface IVoteService
     {
-        Task UpdateOrCreateAsync(VotingCandidate votingCandidate, Guid userIdentifier);
+        Task<Vote> UpdateOrCreateAsync(VotingCandidate votingCandidate, Guid userIdentifier);
     }
 }

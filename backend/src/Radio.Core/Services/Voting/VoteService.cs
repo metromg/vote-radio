@@ -14,7 +14,7 @@ namespace Radio.Core.Services.Voting
             _voteRepository = voteRepository;
         }
 
-        public async Task UpdateOrCreateAsync(VotingCandidate votingCandidate, Guid userIdentifier)
+        public async Task<Vote> UpdateOrCreateAsync(VotingCandidate votingCandidate, Guid userIdentifier)
         {
             var vote = await _voteRepository.GetByUserIdentifierOrDefaultAsync(userIdentifier);
             if (vote == null)
@@ -24,6 +24,8 @@ namespace Radio.Core.Services.Voting
             }
 
             vote.Map(votingCandidate, userIdentifier);
+
+            return vote;
         }
     }
 }
