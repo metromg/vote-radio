@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using NUnit.Framework;
@@ -32,13 +33,18 @@ namespace Radio.Tests.Integration.Infrastructure.Messaging
 
             // Assert
             Assert.That(messageQueueService1, Is.SameAs(messageQueueService2));
+
+            lifeTimeScope1.Dispose();
+            lifeTimeScope2.Dispose();
         }
 
         [Test]
         public void MessageQueueService_CanSendAndReceive()
         {
             // Arrange & Act
+            var cancellationTokenSource = new CancellationTokenSource(20000);
             var taskCompletionSource = new TaskCompletionSource<Message>();
+
             Task.Factory.StartNew(() =>
             {
                 _messageQueueService.Receive()
@@ -46,6 +52,8 @@ namespace Radio.Tests.Integration.Infrastructure.Messaging
 
                 _messageQueueService.Send(Message.VotingMessage);
             });
+
+            cancellationTokenSource.Token.Register(() => taskCompletionSource.TrySetCanceled(), useSynchronizationContext: false);
 
             var result = taskCompletionSource.Task.Result;
 
