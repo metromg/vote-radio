@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { withLocalize, LocalizeContextProps } from "react-localize-redux";
 
 import translations from './translations.json';
-import Player from './components/Player';
+import Playback from './components/playback/Playback';
 import Voting from './components/Voting';
 import './App.css';
 
@@ -23,8 +23,15 @@ class App extends Component<LocalizeContextProps> {
     render() {
         return (
             <React.Fragment>
-                <Player />
-                <Voting />
+                <header className="app-header">
+                    <div className="app-header-inner container">
+                        <div className="app-header-logo">Vote Radio</div>
+                    </div>
+                </header>
+                <div className="app-content container">
+                    <Playback />
+                    <Voting />
+                </div>
             </React.Fragment>
         );
     }

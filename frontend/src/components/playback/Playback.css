@@ -1,0 +1,134 @@
+.playback {
+    background: #36393e;
+}
+
+.playback-mobile-cover {
+    background-repeat: no-repeat;
+    background-size: 0 0;
+    background-position: center;
+    
+    padding: 20px;
+
+    display: grid;
+    grid-template-columns: 60px 1fr 100px 340px;
+    grid-template-rows: 1fr 20px;
+    grid-column-gap: 20px;
+    grid-row-gap: 10px;
+    grid-template-areas:
+        "playbutton song-description voting-info cover"
+        "progress progress progress cover";
+}
+
+.playback-playbutton {
+    grid-area: playbutton;
+
+    width: 60px;
+    height: 60px;
+    border: 0;
+    border-radius: 50%;
+
+    background: #3e73dd;
+    background: linear-gradient(130deg, #3e73dd, #2856b3);
+    z-index: 2;
+}
+
+.playback-playbutton:hover,
+.playback-playbutton:active {
+    background: #2856b3;
+    cursor: pointer;
+}
+
+.playback-playbutton > img {
+    width: 30px;
+    height: 30px;
+    margin-left: 3px;
+}
+
+.playback-song-description {
+    grid-area: song-description;
+
+    z-index: 2;
+}
+
+.playback-song-description .playback-title,
+.playback-song-description .playback-subtitle {
+    display: table;
+    background: #232529;
+    margin-bottom: 3px;
+}
+
+.playback-song-description .playback-title {
+    font-size: 24px;
+    color: white;
+    padding: 4px 7px;
+}
+
+.playback-song-description .playback-subtitle {
+    font-size: 16px;
+    padding: 2px 7px;
+}
+
+.playback-voting-info {
+    grid-area: voting-info;
+
+    text-align: right;
+    z-index: 2;
+}
+
+.playback-progress {
+    grid-area: progress;
+
+    background: red;
+    height: 20px;
+    z-index: 2;
+}
+
+.playback-desktop-cover {
+    grid-area: cover;
+
+    width: 340px;
+    height: 340px;
+
+    background-color: #ccc;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+@media(max-width: 767px) {
+    .playback-mobile-cover {
+        position: relative;
+        background-size: cover;
+
+        z-index: 1;
+
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 50px 60px 50px auto 20px;
+        grid-template-areas:
+            "song-description"
+            "."
+            "playbutton"
+            "."
+            "voting-info"
+            "progress";
+    }
+
+    .playback-mobile-cover:before {
+        content: " ";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background: -webkit-radial-gradient(top center, ellipse cover, rgba(255,255,255,0.2) 0%,rgba(0,0,0,0.5) 100%);
+    }
+
+    .playback-desktop-cover {
+        display: none;
+    }
+
+    .playback-playbutton {
+        justify-self: center;
+    }
+}
