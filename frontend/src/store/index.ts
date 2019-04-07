@@ -2,12 +2,14 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { localizeReducer } from 'react-localize-redux';
 
+import { playbackReducer } from './playback/reducers';
 import { votingReducer } from './voting/reducers';
 import { signalRMiddleware } from './middlewares';
 import { apiBaseUrl } from '../config';
 
 const rootReducer = combineReducers({
     localize: localizeReducer,
+    playback: playbackReducer,
     voting: votingReducer
 });
 

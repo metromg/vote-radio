@@ -1,7 +1,9 @@
 import { Middleware, MiddlewareAPI } from 'redux';
 import { HubConnectionBuilder, LogLevel, HubConnection } from '@aspnet/signalr';
 
+import { CurrentSong } from './playback/types';
 import { VotingCandidate } from './voting/types';
+import { loadCurrentSong, setCurrentSong } from './playback/actions';
 import { loadVotingCandidates, setVotingCandidates, setSelectedVotingCandidate } from './voting/actions';
 
 export const signalRMiddleware: (url: string) => Middleware = url => storeAPI => {
@@ -9,10 +11,9 @@ export const signalRMiddleware: (url: string) => Middleware = url => storeAPI =>
         .withUrl(url)
         .configureLogging(LogLevel.Information)
         .build();
-
-    // here we can handle the events on the hub and dispatch redux actions
-    connection.on("NextSong", (currentSong: any, candidates: VotingCandidate[]) => {
-        // TODO: Set current song
+        
+    connection.on("NextSong", (currentSong: CurrentSong, candidates: VotingCandidate[]) => {
+        storeAPI.dispatch(setCurrentSong(currentSong));
         storeAPI.dispatch(setVotingCandidates(candidates));
         storeAPI.dispatch(setSelectedVotingCandidate(null));
     });
@@ -29,6 +30,7 @@ export const signalRMiddleware: (url: string) => Middleware = url => storeAPI =>
     connection.onclose(() => {
         // if the connection is closed, restore the connection and refresh everything (e.g. when suspending on mobile)
         startConnection(connection, () => dispatchConnectionError(storeAPI));
+        storeAPI.dispatch<any>(loadCurrentSong());
         storeAPI.dispatch<any>(loadVotingCandidates());
     });
     
