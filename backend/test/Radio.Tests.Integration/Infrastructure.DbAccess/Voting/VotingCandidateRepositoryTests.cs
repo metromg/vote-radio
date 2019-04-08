@@ -59,7 +59,7 @@ namespace Radio.Tests.Integration.Infrastructure.DbAccess.Voting
             using (var unit = _factory.Begin())
             {
                 // Act
-                var result = await unit.Dependent.GetWinnerOfVotingOrDefaultAsync();
+                var result = await unit.Dependent.GetWinnerOfVotingWithVoteCountOrDefaultAsync();
 
                 // Assert
                 Assert.That(result, Is.Not.Null);
@@ -86,7 +86,7 @@ namespace Radio.Tests.Integration.Infrastructure.DbAccess.Voting
             using (var unit = _factory.Begin())
             {
                 // Act
-                var result = await unit.Dependent.GetWinnerOfVotingOrDefaultAsync();
+                var result = await unit.Dependent.GetWinnerOfVotingWithVoteCountOrDefaultAsync();
 
                 // Assert
                 Assert.That(result, Is.Not.Null);
@@ -110,11 +110,24 @@ namespace Radio.Tests.Integration.Infrastructure.DbAccess.Voting
             using (var unit = _factory.Begin())
             {
                 // Act
-                var result = await unit.Dependent.GetWinnerOfVotingOrDefaultAsync();
+                var result = await unit.Dependent.GetWinnerOfVotingWithVoteCountOrDefaultAsync();
 
                 // Assert
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result.VoteCount, Is.EqualTo(0));
+            }
+        }
+
+        [Test]
+        public async Task GetWinnerOfVotingOrDefault_WithNoVotingCandidates_ReturnsDefault()
+        {
+            using (var unit = _factory.Begin())
+            {
+                // Act
+                var result = await unit.Dependent.GetWinnerOfVotingWithVoteCountOrDefaultAsync();
+
+                // Assert
+                Assert.That(result, Is.Null);
             }
         }
 

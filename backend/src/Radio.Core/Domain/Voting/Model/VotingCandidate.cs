@@ -9,6 +9,7 @@ namespace Radio.Core.Domain.Voting.Model
     {
         public VotingCandidate()
         {
+            IsActive = true;
             Votes = new Collection<Vote>();
         }
 
@@ -17,6 +18,8 @@ namespace Radio.Core.Domain.Voting.Model
         public virtual Song Song { get; set; }
 
         public int DisplayOrder { get; set; }
+
+        public bool IsActive { get; set; }
 
         public virtual ICollection<Vote> Votes { get; set; }
 

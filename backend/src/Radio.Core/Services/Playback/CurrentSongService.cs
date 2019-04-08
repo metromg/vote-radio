@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Radio.Core.Domain.Playback;
 using Radio.Core.Domain.Playback.Model;
 using Radio.Core.Domain.Voting.Objects;
@@ -10,13 +9,11 @@ namespace Radio.Core.Services.Playback
     {
         private readonly ICurrentSongRepository _currentSongRepository;
         private readonly IClock _clock;
-        private readonly ILogger _logger;
 
-        public CurrentSongService(ICurrentSongRepository currentSongRepository, IClock clock, ILogger logger)
+        public CurrentSongService(ICurrentSongRepository currentSongRepository, IClock clock)
         {
             _currentSongRepository = currentSongRepository;
             _clock = clock;
-            _logger = logger;
         }
 
         public async Task<CurrentSong> UpdateOrCreateAsync(SongWithVoteCount song)
@@ -29,8 +26,6 @@ namespace Radio.Core.Services.Playback
             }
 
             currentSong.Map(song, _clock);
-
-            _logger.LogInformation("Changing current song to {0}. Estimated end is {1}", currentSong.Song.FileName, currentSong.EndsAtTime.ToString());
 
             return currentSong;
         }

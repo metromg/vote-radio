@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Radio.Core.Domain.Voting.Model
 {
@@ -15,6 +16,14 @@ namespace Radio.Core.Domain.Voting.Model
             VotingCandidateId = votingCandidate.Id;
             VotingCandidate = votingCandidate;
             UserIdentifier = userIdentifier;
+        }
+
+        public void Validate()
+        {
+            if (VotingCandidate.IsActive == false)
+            {
+                throw new ValidationException("Cannot create or update vote for inactive voting candidate.");
+            }
         }
     }
 }

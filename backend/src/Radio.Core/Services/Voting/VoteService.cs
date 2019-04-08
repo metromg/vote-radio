@@ -24,6 +24,7 @@ namespace Radio.Core.Services.Voting
             }
 
             vote.Map(votingCandidate, userIdentifier);
+            vote.Validate();
 
             return vote;
         }

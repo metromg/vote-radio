@@ -28,6 +28,8 @@ namespace Radio.Infrastructure.Api.External.Hubs
                     return DispatchNextSongMessage(clients);
                 case Message.VotingMessage:
                     return DispatchVotingMessage(clients);
+                case Message.DisableVotingMessage:
+                    return DispatchDisableVotingMessage(clients);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(message));
             }
@@ -35,10 +37,6 @@ namespace Radio.Infrastructure.Api.External.Hubs
 
         private async Task DispatchNextSongMessage(IClientProxy clients)
         {
-            await clients.SendAsync("DisableVoting");
-
-            await Task.Delay(TimeSpan.FromSeconds(Constants.App.TIME_IN_SECONDS_BEFORE_END_OF_CURRENT_SONG_WHEN_REQUESTING_NEXT_SONG));
-
             using (var unit = _unitOfWorkFactory.Begin())
             {
                 var currentSong = await GetCurrentSongAsync(unit);
@@ -56,6 +54,11 @@ namespace Radio.Infrastructure.Api.External.Hubs
 
                 await clients.SendAsync("Vote", votingCandidates);
             }
+        }
+
+        private async Task DispatchDisableVotingMessage(IClientProxy clients)
+        {
+            await clients.SendAsync("DisableVoting");
         }
 
         private static async Task<CurrentSongDto> GetCurrentSongAsync(IUnitOfWork<ICurrentSongRepository, IVotingCandidateRepository, IMapper> unit)

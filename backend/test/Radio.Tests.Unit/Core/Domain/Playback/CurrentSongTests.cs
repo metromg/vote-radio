@@ -38,7 +38,7 @@ namespace Radio.Tests.Unit.Core.Domain.Playback
             Assert.That(currentSong.SongId, Is.EqualTo(songWithVoteCount.Song.Id));
             Assert.That(currentSong.Song, Is.EqualTo(songWithVoteCount.Song));
             Assert.That(currentSong.VoteCount, Is.EqualTo(songWithVoteCount.VoteCount));
-            Assert.That(currentSong.EndsAtTime.UtcDateTime, Is.EqualTo(_clock.UtcNow.AddSeconds(130)));
+            Assert.That(currentSong.EndsAtTime.UtcDateTime, Is.EqualTo(_clock.UtcNow.AddSeconds(115)));
         }
     }
 }

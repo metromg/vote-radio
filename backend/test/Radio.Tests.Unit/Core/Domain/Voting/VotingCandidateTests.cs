@@ -8,6 +8,16 @@ namespace Radio.Tests.Unit.Core.Domain.Voting
     public class VotingCandidateTests
     {
         [Test]
+        public void VotingCandidateIsActiveInitially()
+        {
+            // Arrange
+            var votingCandidate = new VotingCandidate();
+
+            // Assert
+            Assert.That(votingCandidate.IsActive, Is.True);
+        }
+
+        [Test]
         public void Map_MapsAllProperties()
         {
             // Arrange
