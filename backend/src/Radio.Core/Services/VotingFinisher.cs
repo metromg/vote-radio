@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Radio.Core.Domain.MasterData;
+using Radio.Core.Domain.MasterData.Model;
 using Radio.Core.Domain.Voting;
 using Radio.Core.Domain.Voting.Objects;
 using Radio.Core.Services.Playback;
@@ -29,8 +30,19 @@ namespace Radio.Core.Services
 
         public async Task<SongWithVoteCount> CollectResultAndLockAsync()
         {
-            var votingResult = await CollectResultAsync();
-            await LockVotingAsync();
+            var votingResult = await _votingCandidateRepository.GetWinnerOfVotingWithVoteCountOrDefaultAsync();
+            if (votingResult == null)
+            {
+                // If there are no voting candidates yet, we have to choose a random song.
+                var randomSong = await _songRepository.GetRandomAsync(take: 1);
+                votingResult = SongWithDefaultVoteCount(randomSong.First());
+            }
+
+            var currentVotingCandidates = _votingCandidateRepository.Get();
+            foreach (var votingCandidate in currentVotingCandidates)
+            {
+                votingCandidate.IsActive = false;
+            }
 
             _logger.LogInformation("The winner is {0}. Voting is locked now.", votingResult.Song.FileName);
 
@@ -39,7 +51,14 @@ namespace Radio.Core.Services
 
         public async Task ApplyResultAsync(Guid votingResultSongId)
         {
-            var votingCandidateToApply = await _votingCandidateRepository.GetWithVoteCountBySongAsync(votingResultSongId);
+            var votingCandidateToApply = await _votingCandidateRepository.GetWithVoteCountBySongOrDefaultAsync(votingResultSongId);
+            if (votingCandidateToApply == null)
+            {
+                // If there are no voting candidates yet, we have to construct a new song with default vote count
+                var song = await _songRepository.GetByIdAsync(votingResultSongId);
+                votingCandidateToApply = SongWithDefaultVoteCount(song);
+            }
+
             var newVotingCandidateSongs = await _songRepository.GetRandomAsync(take: Constants.App.NUMBER_OF_VOTING_CANDIDATES);
 
             var currentSong = await _currentSongService.UpdateOrCreateAsync(votingCandidateToApply);
@@ -48,32 +67,14 @@ namespace Radio.Core.Services
             _logger.LogInformation("Changing current song to {0}. Estimated end is {1}", currentSong.Song.FileName, currentSong.EndsAtTime.ToString());
         }
 
-        private async Task<SongWithVoteCount> CollectResultAsync()
+        private static SongWithVoteCount SongWithDefaultVoteCount(Song song)
         {
-            var votingResult = await _votingCandidateRepository.GetWinnerOfVotingWithVoteCountOrDefaultAsync();
-            if (votingResult == null)
+            return new SongWithVoteCount
             {
-                // If there are no voting candidates yet, we have to choose a random song.
-                var randomSong = await _songRepository.GetRandomAsync(take: 1);
-                votingResult = new SongWithVoteCount
-                {
-                    Song = randomSong.First(),
-                    VoteCount = 0
-                };
-            }
-
-            return votingResult;
-        }
-
-        private Task LockVotingAsync()
-        {
-            var currentVotingCandidates = _votingCandidateRepository.Get();
-            foreach (var votingCandidate in currentVotingCandidates)
-            {
-                votingCandidate.IsActive = false;
-            }
-
-            return Task.CompletedTask;
+                Song = song,
+                VoteCount = 0,
+                IsActive = true
+            };
         }
     }
 }

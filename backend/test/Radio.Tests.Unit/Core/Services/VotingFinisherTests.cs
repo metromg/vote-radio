@@ -5,6 +5,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Radio.Core.Domain.MasterData;
 using Radio.Core.Domain.MasterData.Model;
+using Radio.Core.Domain.Playback.Model;
 using Radio.Core.Domain.Voting;
 using Radio.Core.Domain.Voting.Model;
 using Radio.Core.Domain.Voting.Objects;
@@ -103,6 +104,57 @@ namespace Radio.Tests.Unit.Core.Services
             Assert.That(currentVotingCandidates[0].IsActive, Is.False);
             Assert.That(currentVotingCandidates[1].IsActive, Is.False);
             Assert.That(currentVotingCandidates[2].IsActive, Is.False);
+        }
+
+        [Test]
+        public async Task ApplyResult_WithVotingCandidates_AppliesWinnerCandidate()
+        {
+            // Arrange
+            var songId = Guid.NewGuid();
+            var votingCandidate = new SongWithVoteCount
+            {
+                Song = new Song { Id = songId },
+                VoteCount = 3
+            };
+
+            var currentSong = new CurrentSong
+            {
+                Song = votingCandidate.Song,
+                VoteCount = votingCandidate.VoteCount
+            };
+
+            _votingCandidateRepository.GetWithVoteCountBySongOrDefaultAsync(songId).Returns(Task.FromResult(votingCandidate));
+            _currentSongService.UpdateOrCreateAsync(Arg.Any<SongWithVoteCount>()).Returns(Task.FromResult(currentSong));
+
+            // Act
+            await _votingFinisher.ApplyResultAsync(songId);
+
+            // Assert
+            await _currentSongService.Received(1).UpdateOrCreateAsync(votingCandidate);
+        }
+
+        [Test]
+        public async Task ApplyResult_WithoutVotingCandidate_AppliesSpecifiedSong()
+        {
+            // Arrange
+            var songId = Guid.NewGuid();
+            var song = new Song { Id = songId };
+
+            var currentSong = new CurrentSong
+            {
+                Song = song,
+                VoteCount = 0
+            };
+
+            _votingCandidateRepository.GetWithVoteCountBySongOrDefaultAsync(songId).Returns(Task.FromResult(default(SongWithVoteCount)));
+            _songRepository.GetByIdAsync(songId).Returns(Task.FromResult(song));
+            _currentSongService.UpdateOrCreateAsync(Arg.Any<SongWithVoteCount>()).Returns(Task.FromResult(currentSong));
+
+            // Act
+            await _votingFinisher.ApplyResultAsync(songId);
+
+            // Assert
+            await _currentSongService.Received(1).UpdateOrCreateAsync(Arg.Is<SongWithVoteCount>(e => e.Song.Id == songId && e.VoteCount == 0));
         }
     }
 }

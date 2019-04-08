@@ -13,11 +13,15 @@ const SongInfo = (props: SongInfoProps) => {
     return (
         <React.Fragment>
             <div className="playback-song-description">
-                <div className="playback-subtitle">
-                    {props.artist}
-                    {props.artist && props.album ? " - " : null}
-                    {props.album}
-                </div>
+                {
+                    props.artist || props.album
+                        ? <div className="playback-subtitle">
+                            {props.artist}
+                            {props.artist && props.album ? " - " : null}
+                            {props.album}
+                          </div>
+                        : null
+                }
                 <div className="playback-title">
                     {props.title}
                 </div>

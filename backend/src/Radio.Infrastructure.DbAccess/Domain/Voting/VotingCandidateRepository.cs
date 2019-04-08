@@ -28,9 +28,9 @@ namespace Radio.Infrastructure.DbAccess.Domain.Voting
                 .FirstOrDefaultAsync();
         }
 
-        public Task<SongWithVoteCount> GetWithVoteCountBySongAsync(Guid songId)
+        public Task<SongWithVoteCount> GetWithVoteCountBySongOrDefaultAsync(Guid songId)
         {
-            return GetWithVoteCount().FirstAsync(c => c.Song.Id == songId);
+            return GetWithVoteCount().FirstOrDefaultAsync(c => c.Song.Id == songId);
         }
 
         public Task<VotingCandidate> GetBySongAsync(Guid songId)
