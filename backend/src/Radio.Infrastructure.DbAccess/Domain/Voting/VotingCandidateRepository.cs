@@ -51,7 +51,8 @@ namespace Radio.Infrastructure.DbAccess.Domain.Voting
                 .Select(c => new SongWithVoteCount
                 {
                     Song = c.Song,
-                    VoteCount = c.Votes.Count
+                    VoteCount = c.Votes.Count,
+                    IsActive = c.IsActive
                 });
         }
     }

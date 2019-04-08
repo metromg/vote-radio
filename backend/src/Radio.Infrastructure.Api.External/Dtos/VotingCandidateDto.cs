@@ -15,5 +15,7 @@ namespace Radio.Infrastructure.Api.External.Dtos
         public Guid? CoverImageId { get; set; }
 
         public int VoteCount { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

@@ -7,5 +7,7 @@ namespace Radio.Core.Domain.Voting.Objects
         public Song Song { get; set; }
 
         public int VoteCount { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

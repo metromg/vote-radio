@@ -1,7 +1,7 @@
 import { ThunkAction } from 'redux-thunk';
 
 import { AppState } from '../index';
-import { VotingCandidate, SET_VOTING_CANDIDATES, SET_SELECTED_VOTING_CANDIDATE, VotingActionTypes } from './types';
+import { VotingCandidate, SET_VOTING_CANDIDATES, SET_SELECTED_VOTING_CANDIDATE, DISABLE_VOTING, VotingActionTypes } from './types';
 import { get, post } from '../api';
 
 // TODO: Error handling
@@ -39,5 +39,11 @@ export function setSelectedVotingCandidate(songId: string | null): VotingActionT
     return {
         type: SET_SELECTED_VOTING_CANDIDATE,
         payload: { songId }
+    };
+}
+
+export function disableVoting(): VotingActionTypes {
+    return {
+        type: DISABLE_VOTING
     };
 }

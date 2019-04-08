@@ -4,7 +4,7 @@ import { HubConnectionBuilder, LogLevel, HubConnection } from '@aspnet/signalr';
 import { CurrentSong } from './playback/types';
 import { VotingCandidate } from './voting/types';
 import { loadCurrentSong, setCurrentSong } from './playback/actions';
-import { loadVotingCandidates, setVotingCandidates, setSelectedVotingCandidate } from './voting/actions';
+import { loadVotingCandidates, setVotingCandidates, setSelectedVotingCandidate, disableVoting } from './voting/actions';
 
 export const signalRMiddleware: (url: string) => Middleware = url => storeAPI => {
     const connection = new HubConnectionBuilder()
@@ -23,8 +23,7 @@ export const signalRMiddleware: (url: string) => Middleware = url => storeAPI =>
     });
 
     connection.on("DisableVoting", () => {
-        // TODO: Disable voting
-        console.log("disable voting");
+        storeAPI.dispatch(disableVoting());
     });
 
     connection.onclose(() => {
