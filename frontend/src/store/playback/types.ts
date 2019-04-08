@@ -6,7 +6,7 @@ export interface CurrentSong {
     coverImageId?: string;
     voteCount: number;
     durationInSeconds: number;
-    endsAtTime: Date;
+    endsAtTime: string;
 }
 
 export interface PlaybackState {

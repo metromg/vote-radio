@@ -11,7 +11,7 @@
 
     display: grid;
     grid-template-columns: 60px 1fr 100px 340px;
-    grid-template-rows: 1fr 20px;
+    grid-template-rows: 1fr 50px;
     grid-column-gap: 20px;
     grid-row-gap: 10px;
     grid-template-areas:
@@ -76,10 +76,47 @@
 
 .playback-progress {
     grid-area: progress;
+    align-self: end;
 
-    background: red;
-    height: 20px;
+    position: relative;
+    height: 5px;
+
+    background: #aab6ca;
     z-index: 2;
+}
+
+.playback-progress .bar {
+    height: 100%;
+
+    background: #3e73dd;
+    background: linear-gradient(90deg, #3e73dd, #2856b3);
+
+    transition: all 300ms linear;
+}
+
+.playback-progress .time-indicator {
+    position: absolute;
+    width: auto;
+    height: 20px;
+    padding: 2px 5px;
+    margin-top: -35px;
+    
+    color: white;
+    background: #3e73dd;
+    background: linear-gradient(90deg, #3e73dd, #2856b3);
+
+    transition: all 300ms linear;
+}
+
+.playback-progress .time-indicator:after {
+    content: " ";
+    display: block;
+	width: 0;
+    height: 0;
+    margin-left: -5px;
+	border-style: solid;
+	border-width: 8px 8px 0 0;
+	border-color: #3e73dd transparent transparent transparent;
 }
 
 .playback-desktop-cover {
@@ -102,7 +139,9 @@
         z-index: 1;
 
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr 50px 60px 50px auto 20px;
+        grid-template-rows: 1fr 50px 60px 50px auto 50px;
+        grid-column-gap: 0;
+        grid-row-gap: 0;
         grid-template-areas:
             "song-description"
             "."

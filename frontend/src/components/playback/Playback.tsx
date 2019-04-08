@@ -22,9 +22,25 @@ interface PlaybackProps {
     stop: () => void;
 }
 
-class Playback extends Component<PlaybackProps> {
+interface PlaybackState {
+    remainingDurationInSeconds: number;
+}
+
+class Playback extends Component<PlaybackProps, PlaybackState> {
+    private interval?: number;
+
+    constructor(props: PlaybackProps) {
+        super(props);
+        this.state = { remainingDurationInSeconds: 0 };
+    }
+
     componentDidMount() {
         this.props.loadCurrentSong();
+        this.interval = window.setInterval(() => this.updateRemainingDurationInSeconds(), 1000);
+    }
+
+    componentWillUnmount() {
+        window.clearInterval(this.interval);
     }
 
     render() {
@@ -51,7 +67,10 @@ class Playback extends Component<PlaybackProps> {
                         artist={this.props.currentSong.artist} 
                         voteCount={this.props.currentSong.voteCount} 
                     />
-                    <ProgressBar />
+                    <ProgressBar 
+                        totalDurationInSeconds={this.props.currentSong.durationInSeconds}
+                        remainingDurationInSeconds={this.state.remainingDurationInSeconds}
+                    />
                 </CoverImage>
                 <AudioStream 
                     src={streamUrl} 
@@ -71,6 +90,16 @@ class Playback extends Component<PlaybackProps> {
         }
         else {
             this.props.play();
+        }
+    }
+
+    private updateRemainingDurationInSeconds() {
+        if (this.props.currentSong != null) {
+            const endsAtTime = new Date(this.props.currentSong.endsAtTime).getTime();
+            const currentTime = new Date().getTime();
+
+            const remainingDurationInSeconds = Math.max((endsAtTime - currentTime) / 1000, 0);
+            this.setState({ remainingDurationInSeconds });
         }
     }
 }
