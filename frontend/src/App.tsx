@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { renderToStaticMarkup } from "react-dom/server";
 import { withLocalize, LocalizeContextProps } from "react-localize-redux";
 
+import { AppState } from './store/index';
+import { loadCurrentSong } from './store/playback/actions';
+import { loadVotingCandidates } from './store/voting/actions';
 import translations from './translations.json';
+import GlobalLoadingIndicator from './components/GlobalLoadingIndicator';
 import Playback from './components/playback/Playback';
 import Voting from './components/Voting';
 import './App.css';
 
-class App extends Component<LocalizeContextProps> {
-    constructor(props: LocalizeContextProps) {
+interface AppProps extends LocalizeContextProps {
+    loading: boolean;
+
+    loadCurrentSong: () => void;
+    loadVotingCandidates: () => void;
+}
+
+class App extends Component<AppProps> {
+    constructor(props: AppProps) {
         super(props);
 
         this.props.initialize({
@@ -20,6 +33,11 @@ class App extends Component<LocalizeContextProps> {
         });
     }
 
+    componentDidMount() {
+        this.props.loadCurrentSong();
+        this.props.loadVotingCandidates();
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -29,12 +47,23 @@ class App extends Component<LocalizeContextProps> {
                     </div>
                 </header>
                 <div className="app-content container">
-                    <Playback />
-                    <Voting />
+                    <GlobalLoadingIndicator loading={this.props.loading}>
+                        <Playback />
+                        <Voting />
+                    </GlobalLoadingIndicator>
                 </div>
             </React.Fragment>
         );
     }
 }
 
-export default withLocalize(App);
+const mapStateToProps = (state: AppState) => ({
+    loading: state.playback.currentSong == null || state.voting.candidates.length == 0
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    loadCurrentSong: () => dispatch<any>(loadCurrentSong()),
+    loadVotingCandidates: () => dispatch<any>(loadVotingCandidates())
+});
+
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(App));

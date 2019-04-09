@@ -4,21 +4,16 @@ import { Dispatch } from 'redux';
 
 import { AppState } from '../store';
 import { VotingCandidate } from '../store/voting/types';
-import { loadVotingCandidates, selectVotingCandidate } from '../store/voting/actions';
+import { selectVotingCandidate } from '../store/voting/actions';
 
 interface VotingProps {
     candidates: VotingCandidate[];
     selectedSongId: string | null;
 
-    loadVotingCandidates: () => void;
     selectVotingCandidate: (songId: string) => void;
 }
 
 class Voting extends Component<VotingProps> {
-    componentDidMount() {
-        this.props.loadVotingCandidates();
-    }
-
     render() {
         return (
             <ul>
@@ -48,7 +43,6 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    loadVotingCandidates: () => dispatch<any>(loadVotingCandidates()),
     selectVotingCandidate: (songId: string) => dispatch<any>(selectVotingCandidate(songId))
 });
 

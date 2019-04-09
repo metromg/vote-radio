@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 
 import { AppState } from '../../store';
 import { CurrentSong } from '../../store/playback/types';
-import { loadCurrentSong, play, stop } from '../../store/playback/actions';
+import { play, stop } from '../../store/playback/actions';
 import Playbutton from './Playbutton';
 import SongDescription from './songInfo/SongDescription';
 import VotingInfo from './songInfo/VotingInfo';
@@ -19,7 +19,6 @@ interface PlaybackProps {
     currentSong: CurrentSong | null;
     playing: boolean;
 
-    loadCurrentSong: () => void;
     play: () => void;
     stop: () => void;
 }
@@ -37,7 +36,6 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
     }
 
     componentDidMount() {
-        this.props.loadCurrentSong();
         this.interval = window.setInterval(() => this.updateRemainingDurationInSeconds(), 1000);
     }
 
@@ -46,9 +44,8 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
     }
 
     render() {
-        // TODO: Propper loading indicator
         if (this.props.currentSong == null) {
-            return (<div>Loading...</div>);
+            return;
         }
 
         const streamUrl = streamBaseUrl + "/radio.mp3";
@@ -118,7 +115,6 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    loadCurrentSong: () => dispatch<any>(loadCurrentSong()),
     play: () => dispatch(play()),
     stop: () => dispatch(stop())
 });
