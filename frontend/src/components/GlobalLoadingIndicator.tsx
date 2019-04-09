@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 
+import LoadingSpinner from './LoadingSpinner';
 import './GlobalLoadingIndicator.css';
 
 interface GlobalLoadingIndicatorProps {
@@ -11,10 +12,7 @@ const GlobalLoadingIndicator = (props: GlobalLoadingIndicatorProps) => {
     if (props.loading) {
         return (
             <div className="loading-indicator">
-                <div className="lds-ripple">
-                    <div></div>
-                    <div></div>
-                </div>
+                <LoadingSpinner />
             </div>
         );
     }

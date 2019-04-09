@@ -24,6 +24,7 @@ interface PlaybackProps {
 }
 
 interface PlaybackState {
+    loading: boolean;
     remainingDurationInSeconds: number;
 }
 
@@ -32,7 +33,7 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
 
     constructor(props: PlaybackProps) {
         super(props);
-        this.state = { remainingDurationInSeconds: 0 };
+        this.state = { loading: false, remainingDurationInSeconds: 0 };
     }
 
     componentDidMount() {
@@ -59,6 +60,7 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
                     <div className="playback">
                         <Playbutton 
                             playing={this.props.playing} 
+                            loading={this.state.loading}
                             onClick={() => this.togglePlayback()} 
                         />
                         
@@ -81,12 +83,26 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
                     src={streamUrl} 
                     title={this.props.currentSong.title} 
                     playing={this.props.playing}
-                    onLoadingAbort={() => this.props.stop()}
-                    onLoadingError={() => this.props.stop()}
-                    onStreamEnded={() => this.props.stop()}
+                    onLoadingAbort={() => this.setAudioStreamError()}
+                    onLoadingStalled={() => this.setAudioStreamLoading()}
+                    onLoadingSuspend={() => this.setAudioStreamLoading()}
+                    onLoadingError={() => this.setAudioStreamError()}
+                    onStreamWaiting={() => this.setAudioStreamLoading()}
+                    onStreamPlaying={() => this.setAudioStreamLoading(false)}
+                    onStreamEnded={() => this.setAudioStreamError()}
                 />
             </div>
         );
+    }
+
+    private updateRemainingDurationInSeconds() {
+        if (this.props.currentSong != null) {
+            const endsAtTime = new Date(this.props.currentSong.endsAtTime).getTime();
+            const currentTime = new Date().getTime();
+
+            const remainingDurationInSeconds = Math.max((endsAtTime - currentTime) / 1000, 0);
+            this.setState({ remainingDurationInSeconds });
+        }
     }
 
     private togglePlayback() {
@@ -98,14 +114,15 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
         }
     }
 
-    private updateRemainingDurationInSeconds() {
-        if (this.props.currentSong != null) {
-            const endsAtTime = new Date(this.props.currentSong.endsAtTime).getTime();
-            const currentTime = new Date().getTime();
+    private setAudioStreamLoading(loading = true) {
+        this.setState({ loading });
+    }
 
-            const remainingDurationInSeconds = Math.max((endsAtTime - currentTime) / 1000, 0);
-            this.setState({ remainingDurationInSeconds });
-        }
+    private setAudioStreamError() {
+        this.setAudioStreamLoading(false);
+        this.props.stop();
+
+        // TODO: dispatch error
     }
 }
 

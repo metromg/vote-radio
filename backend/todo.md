@@ -14,7 +14,7 @@ docker run --rm -d --name local_db -p 5432:5432 -e POSTGRES_USER=radio -e POSTGR
 
 Anforderungen: Mindestens 3 Songs, Mindestlänge: 30 Sekunden
 
-- Loading of Music, API Requests
 - Display global errors (signalr, api, music)
-- Voting stylen
+- Test music loading indicator
+- Voting stylen, Loading indicator for casting votes
 - Frontend Tests
