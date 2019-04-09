@@ -17,5 +17,4 @@ Anforderungen: Mindestens 3 Songs, Mindestlänge: 30 Sekunden
 - Loading of Music, API Requests
 - Display global errors (signalr, api, music)
 - Voting stylen
-- Styling generell (Blur Image, Gradient?)
 - Frontend Tests

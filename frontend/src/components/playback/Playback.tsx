@@ -6,9 +6,11 @@ import { AppState } from '../../store';
 import { CurrentSong } from '../../store/playback/types';
 import { loadCurrentSong, play, stop } from '../../store/playback/actions';
 import Playbutton from './Playbutton';
-import SongInfo from './SongInfo';
+import SongDescription from './songInfo/SongDescription';
+import VotingInfo from './songInfo/VotingInfo';
 import ProgressBar from './ProgressBar';
-import CoverImage from './CoverImage';
+import CoverImage from './cover/CoverImage';
+import CoverBackgroundImage from './cover/CoverBackgroundImage';
 import AudioStream from './AudioStream';
 import { apiBaseUrl, streamBaseUrl } from '../../config';
 import './Playback.css';
@@ -55,23 +57,29 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
             : null;
 
         return (
-            <div className="playback">
-                <CoverImage url={coverImageUrl}>
-                    <Playbutton 
-                        playing={this.props.playing} 
-                        onClick={() => this.togglePlayback()} 
-                    />
-                    <SongInfo 
-                        title={this.props.currentSong.title} 
-                        album={this.props.currentSong.album} 
-                        artist={this.props.currentSong.artist} 
-                        voteCount={this.props.currentSong.voteCount} 
-                    />
-                    <ProgressBar 
-                        totalDurationInSeconds={this.props.currentSong.durationInSeconds}
-                        remainingDurationInSeconds={this.state.remainingDurationInSeconds}
-                    />
-                </CoverImage>
+            <div className="playback-container">
+                <CoverBackgroundImage url={coverImageUrl}>
+                    <div className="playback">
+                        <Playbutton 
+                            playing={this.props.playing} 
+                            onClick={() => this.togglePlayback()} 
+                        />
+                        
+                        <SongDescription 
+                            title={this.props.currentSong.title} 
+                            album={this.props.currentSong.album} 
+                            artist={this.props.currentSong.artist} 
+                        />
+                        <VotingInfo voteCount={this.props.currentSong.voteCount} />
+
+                        <ProgressBar 
+                            totalDurationInSeconds={this.props.currentSong.durationInSeconds}
+                            remainingDurationInSeconds={this.state.remainingDurationInSeconds}
+                        />
+
+                        <CoverImage url={coverImageUrl} />
+                    </div>
+                </CoverBackgroundImage>
                 <AudioStream 
                     src={streamUrl} 
                     title={this.props.currentSong.title} 
