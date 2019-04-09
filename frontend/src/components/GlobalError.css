@@ -1,0 +1,48 @@
+.error-message {
+    display: flex;
+
+    position: fixed;
+    bottom: 50px;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    padding: 15px;
+    padding-right: 35px;
+
+    border-radius: 5px;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+
+    background: #f30;
+    color: white;
+    z-index: 10000;
+
+    animation: error-slide-up 0.4s ease;
+}
+
+.error-message button {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    color: inherit;
+
+    -webkit-appearance: none;
+    padding: 0;
+    cursor: pointer;
+    background: 0 0;
+    border: 0;
+
+    font-size: 21px;
+    line-height: 1;
+    opacity: .6;
+}
+
+@keyframes error-slide-up {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}

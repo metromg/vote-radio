@@ -1,16 +1,22 @@
+import { AnyAction } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
 import { AppState } from '../index';
 import { CurrentSong, SET_CURRENT_SONG, PLAY, STOP, PlaybackActionTypes } from './types';
+import { setErrorMessage } from '../error/actions';
 import { get } from '../api';
 
-// TODO: Error handling
-export function loadCurrentSong(): ThunkAction<void, AppState, null, PlaybackActionTypes> {
+export function loadCurrentSong(): ThunkAction<void, AppState, null, AnyAction> {
     return async dispatch => {
-        const response = await get("/api/playback/getCurrentSongAsync");
-        const json = await response.json();
+        try {
+            const response = await get("/api/playback/getCurrentSongAsync");
+            const json = await response.json();
 
-        dispatch(setCurrentSong(json));
+            dispatch(setCurrentSong(json));
+        }
+        catch (e) {
+            dispatch(setErrorMessage("errorConnection"));
+        }
     };
 }
 

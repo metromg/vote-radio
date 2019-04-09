@@ -5,6 +5,7 @@ import { Dispatch } from 'redux';
 import { AppState } from '../../store';
 import { CurrentSong } from '../../store/playback/types';
 import { play, stop } from '../../store/playback/actions';
+import { setErrorMessage } from '../../store/error/actions';
 import Playbutton from './Playbutton';
 import SongDescription from './songInfo/SongDescription';
 import VotingInfo from './songInfo/VotingInfo';
@@ -21,6 +22,7 @@ interface PlaybackProps {
 
     play: () => void;
     stop: () => void;
+    setErrorMessage: (errorMessageKey: string) => void;
 }
 
 interface PlaybackState {
@@ -46,7 +48,7 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
 
     render() {
         if (this.props.currentSong == null) {
-            return;
+            return null;
         }
 
         const streamUrl = streamBaseUrl + "/radio.mp3";
@@ -122,7 +124,7 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
         this.setAudioStreamLoading(false);
         this.props.stop();
 
-        // TODO: dispatch error
+        this.props.setErrorMessage("errorConnection");
     }
 }
 
@@ -133,7 +135,8 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     play: () => dispatch(play()),
-    stop: () => dispatch(stop())
+    stop: () => dispatch(stop()),
+    setErrorMessage: (errorMessageKey: string) => dispatch(setErrorMessage(errorMessageKey))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playback);

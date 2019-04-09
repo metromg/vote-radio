@@ -8,7 +8,9 @@ import { AppState } from './store/index';
 import { loadCurrentSong } from './store/playback/actions';
 import { loadVotingCandidates } from './store/voting/actions';
 import translations from './translations.json';
+import Header from './components/Header';
 import GlobalLoadingIndicator from './components/GlobalLoadingIndicator';
+import GlobalError from './components/GlobalError';
 import Playback from './components/playback/Playback';
 import Voting from './components/Voting';
 import './App.css';
@@ -42,15 +44,14 @@ class App extends Component<AppProps> {
         return (
             <React.Fragment>
                 <header className="app-header">
-                    <div className="app-header-inner container">
-                        <div className="app-header-logo">Vote Radio</div>
-                    </div>
+                    <Header />
                 </header>
                 <div className="app-content container">
                     <GlobalLoadingIndicator loading={this.props.loading}>
                         <Playback />
                         <Voting />
                     </GlobalLoadingIndicator>
+                    <GlobalError />
                 </div>
             </React.Fragment>
         );

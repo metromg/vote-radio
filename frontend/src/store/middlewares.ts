@@ -5,6 +5,7 @@ import { CurrentSong } from './playback/types';
 import { VotingCandidate } from './voting/types';
 import { loadCurrentSong, setCurrentSong } from './playback/actions';
 import { loadVotingCandidates, setVotingCandidates, setSelectedVotingCandidate, disableVoting } from './voting/actions';
+import { setErrorMessage } from './error/actions';
 
 export const signalRMiddleware: (url: string) => Middleware = url => storeAPI => {
     const connection = new HubConnectionBuilder()
@@ -52,6 +53,5 @@ function startConnection(connection: HubConnection, onError?: (e: any) => void) 
 }
 
 function dispatchConnectionError(storeAPI: MiddlewareAPI) {
-    // TODO: dispatch a redux action
-    console.log("Error action");
+    storeAPI.dispatch(setErrorMessage("errorConnection"));
 }
