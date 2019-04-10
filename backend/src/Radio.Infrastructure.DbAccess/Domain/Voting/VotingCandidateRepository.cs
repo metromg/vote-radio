@@ -21,11 +21,16 @@ namespace Radio.Infrastructure.DbAccess.Domain.Voting
             return GetWithVoteCount().ToArrayAsync();
         }
 
-        public Task<SongWithVoteCount> GetWinnerOfVotingOrDefaultAsync()
+        public Task<SongWithVoteCount> GetWinnerOfVotingWithVoteCountOrDefaultAsync()
         {
             return GetWithVoteCount()
                 .OrderByDescending(c => c.VoteCount)
                 .FirstOrDefaultAsync();
+        }
+
+        public Task<SongWithVoteCount> GetWithVoteCountBySongOrDefaultAsync(Guid songId)
+        {
+            return GetWithVoteCount().FirstOrDefaultAsync(c => c.Song.Id == songId);
         }
 
         public Task<VotingCandidate> GetBySongAsync(Guid songId)
@@ -46,7 +51,8 @@ namespace Radio.Infrastructure.DbAccess.Domain.Voting
                 .Select(c => new SongWithVoteCount
                 {
                     Song = c.Song,
-                    VoteCount = c.Votes.Count
+                    VoteCount = c.Votes.Count,
+                    IsActive = c.IsActive
                 });
         }
     }

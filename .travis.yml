@@ -15,11 +15,16 @@ before_install:
 
 before_script:
   - docker build -t frontend_testrunner --target testrunner ./frontend
-  - docker build -t backend_testrunner --target testrunner ./backend
+  - docker build -t backend_testrunner_unit --target testrunner-unit ./backend
+  - docker build -t backend_testrunner_integration --target testrunner-integration ./backend
+  - docker network create integration-test-network
+  - docker run --rm -d --name local_db --network integration-test-network -e POSTGRES_USER=radio -e POSTGRES_PASSWORD=Abc1234 postgres:11.2
+  - docker run --rm -d --name local_messaging --network integration-test-network rabbitmq:3.7
 
 script:
   - docker run --rm -e CI frontend_testrunner
-  - docker run --rm -e CI backend_testrunner
+  - docker run --rm -e CI backend_testrunner_unit
+  - docker run --rm --network integration-test-network -e CI -e 'Environment:DbConnectionString=User ID=radio;Password=Abc1234;Host=local_db;Port=5432;Database=radio;Pooling=true;' -e 'Environment:MigrationsDbConnectionString=User ID=radio;Password=Abc1234;Host=local_db;Port=5432;Database=radio;Pooling=true;' -e 'Environment:MessagingHost=local_messaging' backend_testrunner_integration
 
 deploy:
   provider: script

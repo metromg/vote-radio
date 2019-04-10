@@ -1,16 +1,22 @@
+import { AnyAction } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
 import { AppState } from '../index';
-import { VotingCandidate, SET_VOTING_CANDIDATES, SET_SELECTED_VOTING_CANDIDATE, VotingActionTypes } from './types';
+import { VotingCandidate, SET_VOTING_CANDIDATES, SET_SELECTED_VOTING_CANDIDATE, DISABLE_VOTING, VotingActionTypes } from './types';
+import { setErrorMessage } from '../error/actions';
 import { get, post } from '../api';
 
-// TODO: Error handling
-export function loadVotingCandidates(): ThunkAction<void, AppState, null, VotingActionTypes> {
+export function loadVotingCandidates(): ThunkAction<void, AppState, null, AnyAction> {
     return async dispatch => {
-        const response = await get("/api/voting/getVotingCandidatesAsync");
-        const json = await response.json();
-
-        dispatch(setVotingCandidates(json));
+        try {
+            const response = await get("/api/voting/getVotingCandidatesAsync");
+            const json = await response.json();
+    
+            dispatch(setVotingCandidates(json));
+        }
+        catch (e) {
+            dispatch(setErrorMessage("errorConnection"));
+        }
     };
 }
 
@@ -21,17 +27,20 @@ export function setVotingCandidates(candidates: VotingCandidate[]): VotingAction
     };
 }
 
-// TODO: Error handling
-export function selectVotingCandidate(songId: string): ThunkAction<void, AppState, null, VotingActionTypes> {
+export function selectVotingCandidate(songId: string): ThunkAction<void, AppState, null, AnyAction> {
     return async dispatch => {
         if (!navigator.cookieEnabled) {
-            // TODO: dispatch error message, that cookies must be enabled for voting
+            dispatch(setErrorMessage("errorVoting"));
             return;
         }
 
-        await post("/api/voting/voteAsync?songId=" + encodeURIComponent(songId));
-
-        dispatch(setSelectedVotingCandidate(songId));
+        try {
+            await post("/api/voting/voteAsync?songId=" + encodeURIComponent(songId));
+            dispatch(setSelectedVotingCandidate(songId));
+        }
+        catch (e) {
+            dispatch(setErrorMessage("errorVoting"));
+        }
     };
 }
 
@@ -39,5 +48,11 @@ export function setSelectedVotingCandidate(songId: string | null): VotingActionT
     return {
         type: SET_SELECTED_VOTING_CANDIDATE,
         payload: { songId }
+    };
+}
+
+export function disableVoting(): VotingActionTypes {
+    return {
+        type: DISABLE_VOTING
     };
 }

@@ -20,12 +20,12 @@ namespace Radio.Infrastructure.Api.External.Mapping.Profiles
                 .ForMember(e => e.Album, opt => opt.MapFrom(s => s.Song.Album))
                 .ForMember(e => e.Artist, opt => opt.MapFrom(s => s.Song.Artist))
                 .ForMember(e => e.CoverImageId, opt => opt.MapFrom(s => s.Song.CoverImageId))
-                .ForMember(e => e.VoteCount, opt => opt.MapFrom(s => s.VoteCount));
+                .ForMember(e => e.VoteCount, opt => opt.MapFrom(s => s.VoteCount))
+                .ForMember(e => e.IsActive, opt => opt.MapFrom(s => s.IsActive));
         }
 
         private void MapDtosToEntities()
         {
-
         }
     }
 }

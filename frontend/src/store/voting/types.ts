@@ -5,6 +5,7 @@ export interface VotingCandidate {
     artist: string;
     coverImageId?: string;
     voteCount: number;
+    isActive: boolean;
 }
 
 export interface VotingState {
@@ -24,4 +25,9 @@ interface SelectVotingCandidateAction {
     payload: { songId: string | null }
 }
 
-export type VotingActionTypes = SetVotingCandidatesAction | SelectVotingCandidateAction;
+export const DISABLE_VOTING = "DISABLE_VOTING";
+interface DisableVotingAction {
+    type: typeof DISABLE_VOTING
+}
+
+export type VotingActionTypes = SetVotingCandidatesAction | SelectVotingCandidateAction | DisableVotingAction;

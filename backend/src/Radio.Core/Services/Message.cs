@@ -3,6 +3,7 @@
     public enum Message
     {
         NextSongMessage = 0,
-        VotingMessage = 1
+        VotingMessage = 1,
+        DisableVotingMessage = 2
     }
 }

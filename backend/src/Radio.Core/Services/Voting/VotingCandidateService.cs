@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Radio.Core.Domain.MasterData.Model;
 using Radio.Core.Domain.Voting;
+using Radio.Core.Domain.Voting.Model;
 
 namespace Radio.Core.Services.Voting
 {
@@ -15,12 +16,10 @@ namespace Radio.Core.Services.Voting
             _votingCandidateRepository = votingCandidateRepository;
         }
 
-        public Task UpdateOrCreateAsync(IEnumerable<Song> songs)
+        public Task<VotingCandidate[]> UpdateOrCreateAsync(IEnumerable<Song> songs)
         {
             RemoveExistingVotingCandidates();
-            AddNewVotingCandidates(songs);
-
-            return Task.CompletedTask;
+            return Task.FromResult(AddNewVotingCandidates(songs).ToArray());
         }
 
         private void RemoveExistingVotingCandidates()
@@ -33,7 +32,7 @@ namespace Radio.Core.Services.Voting
             }
         }
 
-        private void AddNewVotingCandidates(IEnumerable<Song> songs)
+        private IEnumerable<VotingCandidate> AddNewVotingCandidates(IEnumerable<Song> songs)
         {
             foreach (var item in songs.Select((song, index) => new { song, index }))
             {
@@ -41,6 +40,8 @@ namespace Radio.Core.Services.Voting
                 _votingCandidateRepository.Add(votingCandidate);
 
                 votingCandidate.Map(song: item.song, displayOrder: item.index);
+
+                yield return votingCandidate;
             }
         }
     }

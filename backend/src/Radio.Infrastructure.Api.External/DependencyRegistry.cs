@@ -19,6 +19,7 @@ namespace Radio.Infrastructure.Api.External
             builder.Register(c => c.Resolve<MapperFactory>().GetMapper(c.Resolve<ILifetimeScope>())).As<IMapper>().InstancePerLifetimeScope();
 
             // Mapping Profiles
+            builder.RegisterType<PlaybackMappingProfile>().As<MappingProfileBase>().InstancePerDependency();
             builder.RegisterType<VotingMappingProfile>().As<MappingProfileBase>().InstancePerDependency();
         }
     }

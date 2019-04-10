@@ -46,6 +46,7 @@ namespace Radio.Infrastructure.Api.External
         private static void ConfigureJsonSerializer(MvcJsonOptions options)
         {
             options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
         }
 
         private static void ConfigureCorsUsage(CorsPolicyBuilder builder)

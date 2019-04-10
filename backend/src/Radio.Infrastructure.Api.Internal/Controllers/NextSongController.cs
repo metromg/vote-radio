@@ -1,61 +1,53 @@
-﻿using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
+using Autofac;
 using Microsoft.AspNetCore.Mvc;
 using Radio.Core;
-using Radio.Core.Domain.MasterData;
-using Radio.Core.Domain.Voting;
-using Radio.Core.Domain.Voting.Objects;
 using Radio.Core.Services;
-using Radio.Core.Services.Playback;
-using Radio.Core.Services.Voting;
 
 namespace Radio.Infrastructure.Api.Internal.Controllers
 {
     [Route("next")]
     public class NextSongController : Controller
     {
-        private readonly IVotingCandidateRepository _votingCandidateRepository;
-        private readonly ISongRepository _songRepository;
-        private readonly ICurrentSongService _currentSongService;
-        private readonly IVotingCandidateService _votingCandidateService;
+        private readonly IVotingFinisher _votingFinisher;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMessageQueueService _messageQueueService;
+        private readonly IRootLifetimeScopeProvider _rootLifetimeScopeProvider;
 
-        public NextSongController(IVotingCandidateRepository votingCandidateRepository, ISongRepository songRepository, ICurrentSongService currentSongService, IVotingCandidateService votingCandidateService, IUnitOfWork unitOfWork, IMessageQueueService messageQueueService)
+        public NextSongController(IVotingFinisher votingFinisher, IUnitOfWork unitOfWork, IMessageQueueService messageQueueService, IRootLifetimeScopeProvider rootLifetimeScopeProvider)
         {
-            _votingCandidateRepository = votingCandidateRepository;
-            _songRepository = songRepository;
-            _currentSongService = currentSongService;
-            _votingCandidateService = votingCandidateService;
+            _votingFinisher = votingFinisher;
             _unitOfWork = unitOfWork;
             _messageQueueService = messageQueueService;
+            _rootLifetimeScopeProvider = rootLifetimeScopeProvider;
         }
 
         [HttpGet]
         public async Task<string> NextAsync()
         {
-            var winnerOfVoting = await _votingCandidateRepository.GetWinnerOfVotingOrDefaultAsync();
-            if (winnerOfVoting == null)
-            {
-                // This is the very first song request. Voting candidates don't exist yet.
-                var randomSong = await _songRepository.GetRandomAsync(take: 1);
-                winnerOfVoting = new SongWithVoteCount
-                {
-                    Song = randomSong.First(),
-                    VoteCount = 0
-                };
-            }
-
-            var newVotingCandidateSongs = await _songRepository.GetRandomAsync(take: Constants.App.NUMBER_OF_VOTING_CANDIDATES);
-
-            await _currentSongService.UpdateOrCreateAsync(winnerOfVoting);
-            await _votingCandidateService.UpdateOrCreateAsync(newVotingCandidateSongs);
-
+            var votingResult = await _votingFinisher.CollectResultAndLockAsync();
             await _unitOfWork.CommitAsync();
 
-            _messageQueueService.Send(Message.NextSongMessage);
+            _messageQueueService.Send(Message.DisableVotingMessage);
 
-            return winnerOfVoting.Song.FileName;
+            Response.OnCompleted(() => OnResponseCompleted(votingResult.Song.Id, _rootLifetimeScopeProvider));
+
+            return votingResult.Song.FileName;
+        }
+
+        private static async Task OnResponseCompleted(Guid votingResultSongId, IRootLifetimeScopeProvider rootLifetimeScopeProvider)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(Constants.App.TIME_BEFORE_START_OF_NEXT_SONG_IN_SECONDS + Constants.App.CROSSFADE_DURATION_IN_SECONDS));
+
+            var unitOfWorkFactory = rootLifetimeScopeProvider.Get().Resolve<IUnitOfWorkFactory<IVotingFinisher, IMessageQueueService>>();
+            using (var unit = unitOfWorkFactory.Begin())
+            {
+                await unit.Dependent.ApplyResultAsync(votingResultSongId);
+                await unit.CommitAsync();
+
+                unit.Dependent2.Send(Message.NextSongMessage);
+            }
         }
     }
 }

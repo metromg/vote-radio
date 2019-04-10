@@ -22,6 +22,8 @@ namespace Radio.Infrastructure.DbAccess
 
             // Domain
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerDependency();
+            builder.RegisterType<FileRepository>().As<IFileRepository>().InstancePerDependency();
+            builder.RegisterType<ImageRepository>().As<IImageRepository>().InstancePerDependency();
             builder.RegisterType<SongRepository>().As<ISongRepository>().InstancePerDependency();
             builder.RegisterType<CurrentSongRepository>().As<ICurrentSongRepository>().InstancePerDependency();
             builder.RegisterType<VoteRepository>().As<IVoteRepository>().InstancePerDependency();

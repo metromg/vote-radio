@@ -9,7 +9,7 @@ parser.add_argument("--port", "-p", required=False, default="8080")
 args = parser.parse_args()
 
 try:
-	timeout = 10
+	timeout = 20
 	conn = httplib.HTTPConnection(args.dest, int(args.port), timeout=timeout)
 	conn.request("GET", "/next")
 	result = conn.getresponse()

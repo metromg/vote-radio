@@ -1,3 +1,7 @@
 {
-    "helloworld": "Hello World!"
+    "appName": "Vote Radio",
+    "errorConnection": "There was a problem while connecting to the server. Please try again or refresh the page.",
+    "errorVoting": "Couldn't cast your vote. Please check if cookies are enabled and refresh the page.",
+    "vote": "Vote",
+    "votes": "Votes"
 }

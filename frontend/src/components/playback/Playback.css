@@ -1,0 +1,233 @@
+.playback-container {
+    margin-top: 20px;
+    border-radius: 10px;
+
+    background: #36393e;
+}
+
+.playback {
+    padding: 20px;
+
+    display: grid;
+    grid-template-columns: 60px 1fr 100px 280px;
+    grid-template-rows: 1fr 50px;
+    grid-column-gap: 20px;
+    grid-row-gap: 10px;
+    grid-template-areas:
+        "playbutton song-description voting-info cover"
+        "progress progress progress cover";
+}
+
+.playback-playbutton {
+    grid-area: playbutton;
+
+    width: 60px;
+    height: 60px;
+    border: 0;
+
+    border-radius: 50%;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+
+    background: #3e73dd;
+    background: linear-gradient(130deg, #3e73dd, #2856b3);
+    z-index: 2;
+}
+
+.playback-playbutton:not(:disabled):hover,
+.playback-playbutton:not(:disabled):active {
+    background: #2856b3;
+    cursor: pointer;
+}
+
+.playback-playbutton:disabled {
+    background: #2f55a1;
+}
+
+.playback-playbutton > img {
+    width: 30px;
+    height: 30px;
+}
+
+.playback-song-description {
+    grid-area: song-description;
+
+    z-index: 2;
+}
+
+.playback-voting-info {
+    grid-area: voting-info;
+    justify-self: right;
+
+    z-index: 2;
+}
+
+.playback-song-description .playback-title,
+.playback-song-description .playback-subtitle,
+.playback-voting-info span {
+    display: table;
+    background: #232529;
+    margin-bottom: 3px;
+
+    border-radius: 5px;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+}
+
+.playback-song-description .playback-title {
+    font-size: 24px;
+    padding: 4px 7px;
+    color: white;
+}
+
+.playback-song-description .playback-subtitle {
+    font-size: 16px;
+    padding: 2px 7px;
+}
+
+.playback-voting-info > span {
+    font-size: 14px;
+    padding: 2px 7px;
+    color: white;
+}
+
+.playback-progress {
+    grid-area: progress;
+    align-self: end;
+
+    position: relative;
+    height: 5px;
+
+    border-radius: 5px;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+
+    background: white;
+    z-index: 2;
+}
+
+.playback-progress .bar {
+    height: 100%;
+
+    border-radius: 5px;
+
+    background: #3e73dd;
+    background: linear-gradient(90deg, #3e73dd, #2856b3);
+
+    transition: all 300ms ease-in-out;
+}
+
+.playback-progress .time-indicator {
+    position: absolute;
+    width: auto;
+    height: 20px;
+    padding: 2px 5px;
+    margin-top: -35px;
+
+    border-radius: 5px 5px 5px 0;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+    
+    color: white;
+    background: #3e73dd;
+    background: linear-gradient(90deg, #3e73dd, #2856b3);
+
+    transition: all 300ms ease-in-out;
+}
+
+.playback-progress .time-indicator:after {
+    content: " ";
+    display: block;
+	width: 0;
+    height: 0;
+    margin-left: -5px;
+	border-style: solid;
+	border-width: 8px 8px 0 0;
+	border-color: #3e73dd transparent transparent transparent;
+}
+
+.playback-cover {
+    grid-area: cover;
+
+    width: 280px;
+    height: 280px;
+
+    border-radius: 10px;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+
+    background-color: #ccc;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.playback-background-cover {
+    position: relative;
+    border-radius: 10px;
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    overflow: hidden;
+    z-index: 1;
+}
+
+.playback-background-cover.has-background:before {
+    content: "";
+    position: absolute;
+    background: inherit;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0 0 0 3000px rgba(255, 255, 255, 0.4);
+    filter: blur(30px);
+    margin: -80px;
+    z-index: -1;
+}
+
+@media(max-width: 1079px) {
+    .playback-container {
+        margin-top: 0;
+        border-radius: 0;
+    }
+
+    .playback-background-cover {
+        border-radius: 0;
+    }
+}
+
+@media(max-width: 767px) {
+    .playback {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 50px 60px 50px auto 50px;
+        grid-column-gap: 0;
+        grid-row-gap: 0;
+        grid-template-areas:
+            "song-description"
+            "."
+            "playbutton"
+            "."
+            "voting-info"
+            "progress";
+    }
+
+    .playback-playbutton {
+        justify-self: center;
+    }
+
+    .playback-cover {
+        display: none;
+    }
+
+    .playback-background-cover.has-background:before {
+        content: "";
+        position: absolute;
+        background: -webkit-radial-gradient(top center, ellipse cover, rgba(255,255,255,0.2) 0%,rgba(0,0,0,0.5) 100%);;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        box-shadow: none;
+        filter: none;
+        margin: 0;
+        z-index: -1;
+    }
+}

@@ -37,7 +37,7 @@ namespace Radio.Infrastructure.DbAccess.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ContentLength");
+                    b.Property<long>("ContentLength");
 
                     b.Property<string>("ContentType")
                         .IsRequired()
@@ -122,6 +122,8 @@ namespace Radio.Infrastructure.DbAccess.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("DisplayOrder");
+
+                    b.Property<bool>("IsActive");
 
                     b.Property<Guid>("SongId");
 

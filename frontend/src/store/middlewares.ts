@@ -1,17 +1,20 @@
 import { Middleware, MiddlewareAPI } from 'redux';
 import { HubConnectionBuilder, LogLevel, HubConnection } from '@aspnet/signalr';
 
+import { CurrentSong } from './playback/types';
 import { VotingCandidate } from './voting/types';
-import { loadVotingCandidates, setVotingCandidates, setSelectedVotingCandidate } from './voting/actions';
+import { loadCurrentSong, setCurrentSong } from './playback/actions';
+import { loadVotingCandidates, setVotingCandidates, setSelectedVotingCandidate, disableVoting } from './voting/actions';
+import { setErrorMessage } from './error/actions';
 
 export const signalRMiddleware: (url: string) => Middleware = url => storeAPI => {
     const connection = new HubConnectionBuilder()
         .withUrl(url)
         .configureLogging(LogLevel.Information)
         .build();
-
-    // here we can handle the events on the hub and dispatch redux actions
-    connection.on("NextSong", (candidates: VotingCandidate[]) => {
+        
+    connection.on("NextSong", (currentSong: CurrentSong, candidates: VotingCandidate[]) => {
+        storeAPI.dispatch(setCurrentSong(currentSong));
         storeAPI.dispatch(setVotingCandidates(candidates));
         storeAPI.dispatch(setSelectedVotingCandidate(null));
     });
@@ -21,13 +24,13 @@ export const signalRMiddleware: (url: string) => Middleware = url => storeAPI =>
     });
 
     connection.on("DisableVoting", () => {
-        // TODO: Disable voting
-        console.log("disable voting");
+        storeAPI.dispatch(disableVoting());
     });
 
     connection.onclose(() => {
         // if the connection is closed, restore the connection and refresh everything (e.g. when suspending on mobile)
         startConnection(connection, () => dispatchConnectionError(storeAPI));
+        storeAPI.dispatch<any>(loadCurrentSong());
         storeAPI.dispatch<any>(loadVotingCandidates());
     });
     
@@ -50,6 +53,5 @@ function startConnection(connection: HubConnection, onError?: (e: any) => void) 
 }
 
 function dispatchConnectionError(storeAPI: MiddlewareAPI) {
-    // TODO: dispatch a redux action
-    console.log("Error action");
+    storeAPI.dispatch(setErrorMessage("errorConnection"));
 }
