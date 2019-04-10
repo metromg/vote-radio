@@ -11,6 +11,8 @@ namespace Radio.Core
         public string MigrationsDbConnectionString { get; set; }
 
         public string MessagingHost { get; set; }
+
+        public string DataDirectoryPath { get; set; }
     }
 
     public static class EnvironmentOptionsMonitorExtensions

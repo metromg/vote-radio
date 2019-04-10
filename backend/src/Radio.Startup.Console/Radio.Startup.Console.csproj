@@ -4,10 +4,17 @@
     <ProjectReference Include="..\Radio.Core\Radio.Core.csproj" />
     <ProjectReference Include="..\Radio.Infrastructure\Radio.Infrastructure.csproj" />
     <ProjectReference Include="..\Radio.Infrastructure.DbAccess\Radio.Infrastructure.DbAccess.csproj" />
+    <ProjectReference Include="..\Radio.Infrastructure.Synchronization\Radio.Infrastructure.Synchronization.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <OutputType>Exe</OutputType>

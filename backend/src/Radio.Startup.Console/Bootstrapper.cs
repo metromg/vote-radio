@@ -25,6 +25,7 @@ namespace Radio.Startup.Console
             Radio.Core.DependencyRegistry.Configure(containerBuilder);
             Radio.Infrastructure.DependencyRegistry.Configure(containerBuilder);
             Radio.Infrastructure.DbAccess.DependencyRegistry.Configure(containerBuilder);
+            Radio.Infrastructure.Synchronization.DependencyRegistry.Configure(containerBuilder);
 
             containerBuilder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
 
