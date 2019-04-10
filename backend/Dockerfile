@@ -8,6 +8,7 @@ COPY src/Radio.Infrastructure.Api.External/*.csproj ./src/Radio.Infrastructure.A
 COPY src/Radio.Infrastructure.Api.Internal/*.csproj ./src/Radio.Infrastructure.Api.Internal/
 COPY src/Radio.Infrastructure.DbAccess/*.csproj ./src/Radio.Infrastructure.DbAccess/
 COPY src/Radio.Infrastructure.Messaging/*.csproj ./src/Radio.Infrastructure.Messaging/
+COPY src/Radio.Infrastructure.Synchronization/*.csproj ./src/Radio.Infrastructure.Synchronization/
 COPY src/Radio.Startup.Console/*.csproj ./src/Radio.Startup.Console/
 COPY src/Radio.Startup.Web.External/*.csproj ./src/Radio.Startup.Web.External/
 COPY src/Radio.Startup.Web.Internal/*.csproj ./src/Radio.Startup.Web.Internal/
@@ -26,6 +27,7 @@ COPY src/Radio.Infrastructure.Api.External/. ./src/Radio.Infrastructure.Api.Exte
 COPY src/Radio.Infrastructure.Api.Internal/. ./src/Radio.Infrastructure.Api.Internal/
 COPY src/Radio.Infrastructure.DbAccess/. ./src/Radio.Infrastructure.DbAccess/
 COPY src/Radio.Infrastructure.Messaging/. ./src/Radio.Infrastructure.Messaging/
+COPY src/Radio.Infrastructure.Synchronization/. ./src/Radio.Infrastructure.Synchronization/
 COPY src/Radio.Startup.Console/. ./src/Radio.Startup.Console/
 COPY src/Radio.Startup.Web.External/. ./src/Radio.Startup.Web.External/
 COPY src/Radio.Startup.Web.Internal/. ./src/Radio.Startup.Web.Internal/

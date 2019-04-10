@@ -18,3 +18,4 @@ Anforderungen: Mindestens 3 Songs, Mindestlänge: 30 Sekunden
 - Voting stylen, Loading indicator for casting votes
 - Test music loading indicator
 - Frontend Tests
+- Retest UnitOfWork Initialization
