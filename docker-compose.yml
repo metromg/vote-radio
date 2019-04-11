@@ -50,10 +50,12 @@ services:
     depends_on:
       - database
     volumes:
+      - ./data:/app/data
       - backend_console_logs:/var/log/radio
     environment:
       - 'Environment:DbConnectionString=User ID=radio;Password=Abc1234;Host=database;Port=5432;Database=radio;Pooling=true;'
       - 'Environment:MigrationsDbConnectionString=User ID=radio;Password=Abc1234;Host=database;Port=5432;Database=radio;Pooling=true;'
+      - 'Environment:DataDirectoryPath=/app/data'
     command: ["./wait-for-it.sh", "database:5432", "--", "dotnet", "Radio.Startup.Console.dll"]
   streaming:
     build: ./streaming #dev
@@ -83,7 +85,7 @@ services:
     depends_on:
       - streaming
     volumes:
-      - ./data/music:/home/liquidsoap/music
+      - ./data:/home/liquidsoap/music
       - liquidsoap_logs:/var/log/liquidsoap
     environment:
       - 'BACKEND_HOST=backend_internal'
