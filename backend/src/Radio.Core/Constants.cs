@@ -24,6 +24,8 @@
 
             public const int TIME_BEFORE_START_OF_NEXT_SONG_IN_SECONDS = 10;
             public const int CROSSFADE_DURATION_IN_SECONDS = 5;
+
+            public const int MIN_DURATION_IN_SECONDS = 30;
         }
     }
 }

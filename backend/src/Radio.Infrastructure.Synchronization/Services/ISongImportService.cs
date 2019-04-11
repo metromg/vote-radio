@@ -1,9 +1,7 @@
-﻿using System.Threading.Tasks;
-
-namespace Radio.Infrastructure.Synchronization.Services
+﻿namespace Radio.Infrastructure.Synchronization.Services
 {
     public interface ISongImportService
     {
-        Task ImportAsync();
+        void Import();
     }
 }

@@ -14,8 +14,9 @@ docker run --rm -d --name local_db -p 5432:5432 -e POSTGRES_USER=radio -e POSTGR
 
 Anforderungen: Mindestens 3 Songs, Mindestlänge: 30 Sekunden
 
+- Ist ein Job wirklich das Richtige oder brauchen wir einen Filemonitor? -> Wie schlimm ist es, wenigstens Ordering der Kandidaten fixen... Welche Fälle sind betroffen: Löschen, Renamen, Moven
 - Default cover fixen
-- Voting stylen, Loading indicator for casting votes
+- Voting stylen, Loading indicator for casting votes, Initiales setzen der remaining time
 - Test music loading indicator
 - Frontend Tests
 - Retest UnitOfWork Initialization

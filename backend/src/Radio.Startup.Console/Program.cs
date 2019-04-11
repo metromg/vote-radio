@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Radio.Infrastructure.DbAccess.Configuration;
