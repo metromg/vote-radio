@@ -13,7 +13,7 @@ Integration-Test-DB:
 docker run --rm -d --name local_db -p 5432:5432 -e POSTGRES_USER=radio -e POSTGRES_PASSWORD=Abc1234 postgres:11.2
 
 - Default cover fixen
-- Voting stylen, Loading indicator for casting votes, Initiales setzen der remaining time
+- Voting stylen, Loading indicator for casting votes, Initiales setzen der remaining time, Frosted glass bug safari
 - Test music loading indicator
 - Frontend Tests
 - Retest UnitOfWork Initialization
