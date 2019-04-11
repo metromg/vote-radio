@@ -1,4 +1,5 @@
 ﻿using System;
+using Autofac;
 using FluentScheduler;
 using Microsoft.Extensions.Logging;
 using Radio.Infrastructure.Synchronization.Services;
@@ -7,24 +8,25 @@ namespace Radio.Infrastructure.Synchronization.Jobs
 {
     public class SongImportJob : IJob
     {
-        private readonly Func<ISongImportService> _songImportService;
-        private readonly Func<ILogger> _logger;
+        private readonly ILifetimeScope _rootLifetimeScope;
 
-        public SongImportJob(Func<ISongImportService> songImportService, Func<ILogger> logger)
+        public SongImportJob(ILifetimeScope rootLifetimeScope)
         {
-            _songImportService = songImportService;
-            _logger = logger;
+            _rootLifetimeScope = rootLifetimeScope;
         }
 
         public void Execute()
         {
-            try
+            using (var childLifetimeScope = _rootLifetimeScope.BeginLifetimeScope())
             {
-                _songImportService().Import();
-            }
-            catch (Exception ex)
-            {
-                _logger().LogCritical("Unhandled exception in SongImportJob. {0}", ex);
+                try
+                {
+                    childLifetimeScope.Resolve<ISongImportService>().Import();
+                }
+                catch (Exception ex)
+                {
+                    childLifetimeScope.Resolve<ILogger>().LogCritical("Unhandled exception in SongImportJob. {0}", ex);
+                }
             }
         }
     }
