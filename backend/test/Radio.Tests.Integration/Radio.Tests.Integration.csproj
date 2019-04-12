@@ -18,9 +18,100 @@
     <ProjectReference Include="..\..\src\Radio.Infrastructure\Radio.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Radio.Infrastructure.DbAccess\Radio.Infrastructure.DbAccess.csproj" />
     <ProjectReference Include="..\..\src\Radio.Infrastructure.Messaging\Radio.Infrastructure.Messaging.csproj" />
+    <ProjectReference Include="..\..\src\Radio.Infrastructure.Synchronization\Radio.Infrastructure.Synchronization.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\1_data_add\album1\1.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\1_data_add\album1\2.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\1_data_add\album1\green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\1_data_add\album2\1.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\1_data_add\album2\2.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\1_data_add\album2\blue.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\2_data_update\album1\1.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\2_data_update\album1\2.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\2_data_update\album1\green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\2_data_update\album2\1.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\2_data_update\album2\2.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\3_data_delete\album1\1.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\4_data_validate\album1\1.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\4_data_validate\album1\2.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\4_data_validate\album1\3.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\4_data_validate\album1\4.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\4_data_validate\album1\5.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\4_data_validate\album1\invalid-short.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\4_data_validate\album1\invalid_no_album.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\4_data_validate\album1\invalid_no_artist.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\4_data_validate\album1\invalid_no_title.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\5_data_validate_update\album1\1.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\5_data_validate_update\album1\2.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\5_data_validate_update\album1\3.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\5_data_validate_update\album1\4.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\5_data_validate_update\album1\5.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\5_data_validate_update\album1\invalid-short.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\5_data_validate_update\album1\invalid_no_album.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\5_data_validate_update\album1\invalid_no_artist.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure.Synchronization\TestData\5_data_validate_update\album1\invalid_no_title.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
