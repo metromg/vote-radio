@@ -4,6 +4,8 @@
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
 
     background: #36393e;
+
+    margin-bottom: 30px;
 }
 
 .playback {
@@ -49,22 +51,22 @@
     height: 30px;
 }
 
-.playback-song-description {
+.playback-container .song-description {
     grid-area: song-description;
 
     z-index: 2;
 }
 
-.playback-voting-info {
+.playback-container .voting-info {
     grid-area: voting-info;
     justify-self: right;
 
     z-index: 2;
 }
 
-.playback-song-description .playback-title,
-.playback-song-description .playback-subtitle,
-.playback-voting-info span {
+.playback-container .song-description .title,
+.playback-container .song-description .subtitle,
+.playback-container .voting-info span {
     display: table;
     background: #232529;
     margin-bottom: 3px;
@@ -73,18 +75,18 @@
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
 }
 
-.playback-song-description .playback-title {
+.playback-container .song-description .title {
     font-size: 24px;
     padding: 4px 7px;
     color: white;
 }
 
-.playback-song-description .playback-subtitle {
+.playback-container .song-description .subtitle {
     font-size: 16px;
     padding: 2px 7px;
 }
 
-.playback-voting-info > span {
+.playback-container .voting-info > span {
     font-size: 14px;
     padding: 2px 7px;
     color: white;
@@ -143,7 +145,7 @@
 	border-color: #3e73dd transparent transparent transparent;
 }
 
-.playback-cover {
+.playback-container .cover {
     grid-area: cover;
 
     width: 280px;
@@ -166,7 +168,7 @@
     z-index: 2;
 }
 
-.playback-background-cover {
+.playback-container .background-cover {
     position: relative;
     border-radius: 10px;
 
@@ -178,7 +180,7 @@
     z-index: 1;
 }
 
-.playback-background-cover.has-background:before {
+.playback-container .background-cover.has-background:before {
     content: "";
     position: absolute;
     background: inherit;
@@ -196,9 +198,10 @@
     .playback-container {
         margin-top: 0;
         border-radius: 0;
+        margin-bottom: 10px;
     }
 
-    .playback-background-cover {
+    .playback-container .background-cover {
         border-radius: 0;
     }
 }
@@ -222,11 +225,11 @@
         justify-self: center;
     }
 
-    .playback-cover {
+    .playback-container .cover {
         display: none;
     }
 
-    .playback-background-cover.has-background:before {
+    .playback-container .background-cover.has-background:before {
         content: "";
         position: absolute;
         background: -webkit-radial-gradient(top center, ellipse cover, rgba(255,255,255,0.2) 0%,rgba(0,0,0,0.5) 100%);;

@@ -8,7 +8,7 @@ interface CoverBackgroundImageProps {
 const CoverBackgroundImage = (props: CoverBackgroundImageProps) => {
     const hasCoverImage = props.url != null;
 
-    const className = "playback-background-cover" + (hasCoverImage ? " has-background" : "");
+    const className = "background-cover" + (hasCoverImage ? " has-background" : "");
     const style = { backgroundImage: hasCoverImage ? `url(${props.url})` : undefined };
 
     return (

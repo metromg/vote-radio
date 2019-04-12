@@ -7,7 +7,7 @@ interface VotingInfoProps {
 
 const VotingInfo = (props: VotingInfoProps) => {
     return (
-        <div className="playback-voting-info">
+        <div className="voting-info">
             <span>
                 {props.voteCount}&nbsp;
                 {
