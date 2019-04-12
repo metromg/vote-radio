@@ -12,7 +12,6 @@ docker run --rm -d --name local_messaging -p 5672:5672 rabbitmq:3.7
 Integration-Test-DB:
 docker run --rm -d --name local_db -p 5432:5432 -e POSTGRES_USER=radio -e POSTGRES_PASSWORD=Abc1234 postgres:11.2
 
-- Voting stylen, Loading indicator for casting votes
 - Test music loading indicator, Test on Mobile!
 - Frontend Tests
 - Retest UnitOfWork Initialization

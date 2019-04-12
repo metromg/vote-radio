@@ -37,8 +37,9 @@ class Candidate extends Component<CandidateProps, CandidateState> {
     }
 
     render() {
+        const isDisabled = !this.props.candidate.isActive;
         const className = "voting-candidate" 
-            + (!this.props.candidate.isActive ? " disabled" : "") 
+            + (isDisabled ? " disabled" : "") 
             + (this.props.selected ? " selected" : "");
 
         const coverImageUrl = this.props.candidate.coverImageId != null
@@ -46,7 +47,7 @@ class Candidate extends Component<CandidateProps, CandidateState> {
             : null;
 
         return (
-            <div className={className} tabIndex={0} role="button"
+            <div className={className} tabIndex={isDisabled ? -1 : 0} role="button" aria-disabled={isDisabled}
                  onClick={() => this.onClick()}
                  onKeyPress={e => this.onKeyPress(e)}>
                 <VotingInfo voteCount={this.props.candidate.voteCount} voteCountChange={this.state.voteCountChange} />
