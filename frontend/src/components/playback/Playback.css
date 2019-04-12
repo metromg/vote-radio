@@ -166,6 +166,8 @@
     justify-content: center;
 
     z-index: 2;
+
+    transition: background-image 0.2s ease-in-out;
 }
 
 .playback-container .background-cover {
@@ -178,6 +180,8 @@
 
     overflow: hidden;
     z-index: 1;
+    
+    transition: background-image 0.2s ease-in-out;
 }
 
 .playback-container .background-cover.has-background:before {
