@@ -39,6 +39,7 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
     }
 
     componentDidMount() {
+        this.updateRemainingDurationInSeconds();
         this.interval = window.setInterval(() => this.updateRemainingDurationInSeconds(), 1000);
     }
 
