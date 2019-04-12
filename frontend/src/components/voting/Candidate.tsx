@@ -13,7 +13,29 @@ interface CandidateProps {
     onClick: () => void;
 }
 
-class Candidate extends Component<CandidateProps> {
+interface CandidateState {
+    voteCountChange: number;
+}
+
+class Candidate extends Component<CandidateProps, CandidateState> {
+    private changeIndicatorTimeout?: number;
+
+    constructor(props: CandidateProps) {
+        super(props);
+        this.state = { voteCountChange: 0 };
+    }
+
+    componentDidUpdate(prevProps: CandidateProps) {
+        if (this.props.candidate.voteCount != prevProps.candidate.voteCount) {
+            window.clearTimeout(this.changeIndicatorTimeout);
+
+            const voteCountChange = this.state.voteCountChange + (this.props.candidate.voteCount - prevProps.candidate.voteCount);
+            this.setState({ voteCountChange });
+
+            this.changeIndicatorTimeout = window.setTimeout(() => this.setState({ voteCountChange: 0 }), 2000);
+        }
+    }
+
     render() {
         const className = "voting-candidate" 
             + (!this.props.candidate.isActive ? " disabled" : "") 
@@ -27,7 +49,7 @@ class Candidate extends Component<CandidateProps> {
             <div className={className} tabIndex={0} role="button"
                  onClick={() => this.onClick()}
                  onKeyPress={e => this.onKeyPress(e)}>
-                <VotingInfo voteCount={this.props.candidate.voteCount} />
+                <VotingInfo voteCount={this.props.candidate.voteCount} voteCountChange={this.state.voteCountChange} />
                 <CoverImage url={coverImageUrl} />
                 <SongDescription 
                     title={this.props.candidate.title} 

@@ -29,8 +29,6 @@
     position: relative;
     overflow: hidden;
     transform: translate3d(0, 0, 0);
-
-    transition: all 200ms ease-in;
 }
 
 .voting-candidate.disabled {
@@ -130,6 +128,40 @@
 
     font-size: 14px;
     text-align: center;
+}
+
+.voting-candidate .voting-info > span {
+    position: relative;
+}
+
+.voting-candidate .voting-info > span > .badge {
+    position: absolute;
+    left: -30px;
+    top: -2px;
+    width: auto;
+    height: 20px;
+    padding: 2px 5px;
+
+    line-height: 1.5;
+
+    background: #232529;
+    color: white;
+
+    border-radius: 5px;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+    z-index: 15;
+
+    opacity: 1;
+    animation: badge-fade-in 300ms ease-in;
+}
+
+@keyframes badge-fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 @media(max-width: 1079px) {
