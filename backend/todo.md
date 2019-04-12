@@ -14,6 +14,6 @@ docker run --rm -d --name local_db -p 5432:5432 -e POSTGRES_USER=radio -e POSTGR
 
 - Default cover fixen
 - Voting stylen, Loading indicator for casting votes, Initiales setzen der remaining time, Frosted glass bug safari
-- Test music loading indicator
+- Test music loading indicator, Test on Mobile!
 - Frontend Tests
 - Retest UnitOfWork Initialization
