@@ -24,8 +24,9 @@ class Candidate extends Component<CandidateProps> {
             : null;
 
         return (
-            <div className={className}
-                 onClick={() => this.onClick()}>
+            <div className={className} tabIndex={0} role="button"
+                 onClick={() => this.onClick()}
+                 onKeyPress={e => this.onKeyPress(e)}>
                 <VotingInfo voteCount={this.props.candidate.voteCount} />
                 <CoverImage url={coverImageUrl} />
                 <SongDescription 
@@ -40,6 +41,15 @@ class Candidate extends Component<CandidateProps> {
     private onClick() {
         if (this.props.candidate.isActive) {
             this.props.onClick();
+        }
+    }
+
+    private onKeyPress(e: React.KeyboardEvent) {
+        const keyCode = e.which || e.keyCode;
+
+        // Enter or Spacebar
+        if (keyCode == 13 || keyCode == 32) {
+            this.onClick();
         }
     }
 }
