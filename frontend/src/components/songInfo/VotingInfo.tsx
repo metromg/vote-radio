@@ -3,11 +3,12 @@ import { Translate } from 'react-localize-redux';
 
 interface VotingInfoProps {
     voteCount: number;
+    voteCountChange?: number;
 }
 
 const VotingInfo = (props: VotingInfoProps) => {
     return (
-        <div className="playback-voting-info">
+        <div className="voting-info">
             <span>
                 {props.voteCount}&nbsp;
                 {
@@ -15,9 +16,22 @@ const VotingInfo = (props: VotingInfoProps) => {
                         ? <Translate id="vote" /> 
                         : <Translate id="votes" />
                 }
+                {
+                    props.voteCountChange != null && props.voteCountChange != 0
+                        ? <span className="badge">{voteCountChangeToString(props.voteCountChange)}</span>
+                        : null
+                }
             </span>
         </div>
     );
+}
+
+function voteCountChangeToString(voteCountChange: number) {
+    if (voteCountChange > 0) {
+        return "+" + voteCountChange;
+    }
+
+    return "" + voteCountChange;
 }
 
 export default VotingInfo;

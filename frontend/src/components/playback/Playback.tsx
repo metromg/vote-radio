@@ -7,11 +7,11 @@ import { CurrentSong } from '../../store/playback/types';
 import { play, stop } from '../../store/playback/actions';
 import { setErrorMessage } from '../../store/error/actions';
 import Playbutton from './Playbutton';
-import SongDescription from './songInfo/SongDescription';
-import VotingInfo from './songInfo/VotingInfo';
+import SongDescription from '../songInfo/SongDescription';
+import VotingInfo from '../songInfo/VotingInfo';
 import ProgressBar from './ProgressBar';
-import CoverImage from './cover/CoverImage';
-import CoverBackgroundImage from './cover/CoverBackgroundImage';
+import CoverImage from '../songInfo/CoverImage';
+import CoverBackgroundImage from '../songInfo/CoverBackgroundImage';
 import AudioStream from './AudioStream';
 import { apiBaseUrl, streamBaseUrl } from '../../config';
 import './Playback.css';
@@ -39,6 +39,7 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
     }
 
     componentDidMount() {
+        this.updateRemainingDurationInSeconds();
         this.interval = window.setInterval(() => this.updateRemainingDurationInSeconds(), 1000);
     }
 
@@ -91,6 +92,7 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
                     onLoadingError={() => this.setAudioStreamError()}
                     onStreamWaiting={() => this.setAudioStreamLoading()}
                     onStreamPlaying={() => this.setAudioStreamLoading(false)}
+                    onStreamPaused={() => this.props.stop()}
                     onStreamEnded={() => this.setAudioStreamError()}
                 />
             </div>

@@ -12,7 +12,7 @@ import Header from './components/Header';
 import GlobalLoadingIndicator from './components/GlobalLoadingIndicator';
 import GlobalError from './components/GlobalError';
 import Playback from './components/playback/Playback';
-import Voting from './components/Voting';
+import Voting from './components/voting/Voting';
 import './App.css';
 
 interface AppProps extends LocalizeContextProps {

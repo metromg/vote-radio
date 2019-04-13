@@ -9,7 +9,9 @@ const CoverImage = (props: CoverImageProps) => {
     const style = { backgroundImage: hasCoverImage ? `url(${props.url})` : undefined };
 
     return (
-        <div className="playback-cover" style={style}></div>
+        <div className="cover" style={style}>
+            {hasCoverImage ? null : <span>×</span>}
+        </div>
     );
 }
 

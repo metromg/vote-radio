@@ -1,0 +1,235 @@
+.voting-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    grid-column-gap: 20px;
+}
+
+.voting-candidate {
+    padding: 20px;
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+
+    background: #36393e;
+    color: #aab6ca;
+    font-size: 16px;
+
+    margin-bottom: 20px;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 120px auto;
+    grid-row-gap: 20px;
+    grid-template-areas:
+        "voting-info" 
+        "cover"
+        "song-description";
+
+    position: relative;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+}
+
+.voting-candidate.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+@media (hover: hover) {
+    .voting-candidate:not(.disabled):hover,
+    .voting-candidate:not(.disabled):active {
+        cursor: pointer;
+        background: #2856b3;
+        color: white;
+        transition: all 200ms ease-in;
+    }
+}
+
+.voting-candidate.selected,
+.voting-candidate.selected:not(.disabled):hover,
+.voting-candidate.selected:not(.disabled):active {
+    background: #3e73dd;
+    background: linear-gradient(130deg, #3e73dd, #2856b3);
+    color: white;
+}
+
+.voting-candidate:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10, 10);
+    opacity: 0;
+    transition: transform .5s, opacity 1s;
+}
+
+.voting-candidate:not(.disabled):active:after {
+    transform: scale(0, 0);
+    opacity: .3;
+    transition: 0s;
+}
+
+.voting-candidate .cover {
+    grid-area: cover;
+    justify-self: center;
+
+    width: 120px;
+    height: 120px;
+
+    border-radius: 10px;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+
+    background-color: #ccc;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    color: #bbb;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    transition: background-image 0.2s ease-in-out;
+}
+
+.voting-candidate .song-description {
+    grid-area: song-description;
+
+    text-align: center;
+    overflow: hidden;
+
+    position: relative;
+}
+
+.voting-candidate .song-description .title,
+.voting-candidate .song-description .subtitle {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.voting-candidate .song-description .title {
+    font-size: 24px;
+    line-height: 1.5;
+    color: white;
+}
+
+.voting-candidate .song-description .subtitle {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.voting-candidate .voting-info {
+    grid-area: voting-info;
+
+    font-size: 14px;
+    text-align: center;
+}
+
+.voting-candidate .voting-info > span {
+    position: relative;
+}
+
+.voting-candidate .voting-info > span > .badge {
+    position: absolute;
+    left: -30px;
+    top: -2px;
+    width: auto;
+    height: 20px;
+    padding: 2px 5px;
+
+    line-height: 1.5;
+
+    background: #232529;
+    color: white;
+
+    border-radius: 5px;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+    z-index: 15;
+
+    opacity: 1;
+    animation: badge-fade-in 300ms ease-in;
+}
+
+@keyframes badge-fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@media(max-width: 1079px) {
+    .voting-container {
+        grid-template-columns: auto;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-row-gap: 10px;
+
+        margin-bottom: 10px;
+    }
+
+    .voting-candidate {
+        border-radius: 0;
+        margin-bottom: 0;
+    
+        grid-template-columns: 120px auto 100px;
+        grid-template-rows: auto;
+        grid-column-gap: 20px;
+        grid-template-areas:
+            "cover song-description voting-info";
+    }
+
+    .voting-candidate .song-description {
+        text-align: left;
+    }
+
+    .voting-candidate .voting-info {
+        text-align: right;
+    }
+}
+
+@media(max-width: 767px) {
+    .voting-candidate {
+        padding: 15px;
+
+        grid-template-columns: 80px auto 50px;
+        grid-template-rows: auto;
+        grid-column-gap: 10px;
+        grid-template-areas:
+            "cover song-description voting-info";
+    }
+
+    .voting-candidate .cover  {
+        width: 80px;
+        height: 80px;
+
+        border-radius: 5px;
+    }
+
+    .voting-candidate .song-description .title,
+    .voting-candidate .song-description .subtitle {
+        white-space: normal;
+    }
+
+    .voting-candidate .song-description .title {
+        font-size: 16px;
+    }
+
+    .voting-candidate .song-description .subtitle {
+        font-size: 14px;
+    }
+
+    .voting-candidate .voting-info {
+        font-size: 12px;
+    }
+}
