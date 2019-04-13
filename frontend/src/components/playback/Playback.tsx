@@ -92,6 +92,7 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
                     onLoadingError={() => this.setAudioStreamError()}
                     onStreamWaiting={() => this.setAudioStreamLoading()}
                     onStreamPlaying={() => this.setAudioStreamLoading(false)}
+                    onStreamPaused={() => this.props.stop()}
                     onStreamEnded={() => this.setAudioStreamError()}
                 />
             </div>

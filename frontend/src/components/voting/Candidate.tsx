@@ -47,7 +47,7 @@ class Candidate extends Component<CandidateProps, CandidateState> {
             : null;
 
         return (
-            <div className={className} tabIndex={isDisabled ? -1 : 0} role="button" aria-disabled={isDisabled}
+            <div className={className} role="button" tabIndex={isDisabled ? -1 : 0} aria-disabled={isDisabled}
                  onClick={() => this.onClick()}
                  onKeyPress={e => this.onKeyPress(e)}>
                 <VotingInfo voteCount={this.props.candidate.voteCount} voteCountChange={this.state.voteCountChange} />

@@ -36,10 +36,12 @@
     z-index: 2;
 }
 
-.playback-playbutton:not(:disabled):hover,
-.playback-playbutton:not(:disabled):active {
-    background: #2856b3;
-    cursor: pointer;
+@media (hover: hover) {
+    .playback-playbutton:not(:disabled):hover,
+    .playback-playbutton:not(:disabled):active {
+        background: #2856b3;
+        cursor: pointer;
+    }
 }
 
 .playback-playbutton:disabled {

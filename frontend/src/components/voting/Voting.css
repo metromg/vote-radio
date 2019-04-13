@@ -33,14 +33,17 @@
 
 .voting-candidate.disabled {
     opacity: 0.5;
+    pointer-events: none;
 }
 
-.voting-candidate:not(.disabled):hover,
-.voting-candidate:not(.disabled):active {
-    cursor: pointer;
-    background: #2856b3;
-    color: white;
-    transition: all 200ms ease-in;
+@media (hover: hover) {
+    .voting-candidate:not(.disabled):hover,
+    .voting-candidate:not(.disabled):active {
+        cursor: pointer;
+        background: #2856b3;
+        color: white;
+        transition: all 200ms ease-in;
+    }
 }
 
 .voting-candidate.selected,
@@ -171,6 +174,8 @@
         grid-template-columns: auto;
         grid-template-rows: 1fr 1fr 1fr;
         grid-row-gap: 10px;
+
+        margin-bottom: 10px;
     }
 
     .voting-candidate {
@@ -193,7 +198,7 @@
     }
 }
 
-@media(max-width: 767px) { 
+@media(max-width: 767px) {
     .voting-candidate {
         padding: 15px;
 

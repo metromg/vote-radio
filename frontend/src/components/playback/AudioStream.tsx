@@ -12,6 +12,7 @@ interface AudioStreamProps {
     onLoadingError?: () => void;
     onStreamWaiting?: () => void;
     onStreamPlaying?: () => void;
+    onStreamPaused?: () => void;
     onStreamEnded?: () => void;
 }
 
@@ -56,6 +57,7 @@ class AudioStream extends Component<AudioStreamProps> {
                     onError={() => this.props.onLoadingError && this.props.onLoadingError()}
                     onWaiting={() => this.props.onStreamWaiting && this.props.onStreamWaiting()}
                     onPlaying={() => this.props.onStreamPlaying && this.props.onStreamPlaying()}
+                    onPause={() => this.props.onStreamPaused && this.props.onStreamPaused()}
                     onEnded={() => this.props.onStreamEnded && this.props.onStreamEnded()}
                 >
                     Audio is not supported in your browser!
