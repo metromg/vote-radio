@@ -171,8 +171,8 @@
 
 @media(max-width: 1079px) {
     .voting-container {
-        grid-template-columns: auto;
-        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
         grid-row-gap: 10px;
 
         margin-bottom: 10px;

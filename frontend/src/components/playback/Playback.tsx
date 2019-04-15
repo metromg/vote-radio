@@ -92,6 +92,7 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
                     onLoadingError={() => this.setAudioStreamError()}
                     onStreamWaiting={() => this.setAudioStreamLoading()}
                     onStreamPlaying={() => this.setAudioStreamLoading(false)}
+                    onStreamTimeUpdate={() => this.setAudioStreamLoading(false)}
                     onStreamPaused={() => this.props.stop()}
                     onStreamEnded={() => this.setAudioStreamError()}
                 />
@@ -119,7 +120,9 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
     }
 
     private setAudioStreamLoading(loading = true) {
-        this.setState({ loading });
+        if (this.state.loading != loading) {
+            this.setState({ loading });
+        }
     }
 
     private setAudioStreamError() {
