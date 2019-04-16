@@ -1,0 +1,109 @@
+version: "3.4"
+services:
+  frontend:
+    restart: always
+    image: michaelguenter/radio-frontend:latest
+    container_name: frontend
+    ports: 
+      - <<Frontend Port>>:80
+    environment:
+      - 'CLIENT_API_BASE_URL=<<Public Url to external backend>>'
+      - 'CLIENT_STREAM_BASE_URL=<<Public Url to streaming server>>'
+  backend_external:
+    restart: always
+    image: michaelguenter/radio-backend-external:latest
+    container_name: backend_external
+    depends_on:
+      - database
+      - messaging
+    ports:
+      - <<Backend Port>>:80
+    volumes:
+      - backend_external_logs:/var/log/radio
+    environment:
+      - 'Environment:DbConnectionString=User ID=<<Database User>>;Password=<<Database Password>>;Host=database;Port=5432;Database=<<Database Name>>;Pooling=true;'
+      - 'Environment:MessagingHost=messaging'
+    command: ["./wait-for-it.sh", "database:5432", "--", "./wait-for-it.sh", "messaging:5672", "--", "dotnet", "Radio.Startup.Web.External.dll"]
+  backend_internal:
+    restart: always
+    image: michaelguenter/radio-backend-internal:latest
+    container_name: backend_internal
+    depends_on:
+      - database
+      - messaging
+    volumes:
+      - backend_internal_logs:/var/log/radio
+    environment:
+      - 'Environment:DbConnectionString=User ID=<<Database User>>;Password=<<Database Password>>;Host=database;Port=5432;Database=<<Database Name>>;Pooling=true;'
+      - 'Environment:MessagingHost=messaging'
+    command: ["./wait-for-it.sh", "database:5432", "--", "./wait-for-it.sh", "messaging:5672", "--", "dotnet", "Radio.Startup.Web.Internal.dll"]
+  backend_console:
+    restart: always
+    image: michaelguenter/radio-backend-console:latest
+    container_name: backend_console
+    depends_on:
+      - database
+    volumes:
+      - <<Path to data directory>>:/app/data
+      - backend_console_logs:/var/log/radio
+    environment:
+      - 'Environment:DbConnectionString=User ID=<<Database User>>;Password=<<Database Password>>;Host=database;Port=5432;Database=<<Database Name>>;Pooling=true;'
+      - 'Environment:MigrationsDbConnectionString=User ID=<<Database User>>;Password=<<Database Password>>;Host=database;Port=5432;Database=<<Database Name>>;Pooling=true;'
+      - 'Environment:DataDirectoryPath=/app/data'
+    command: ["./wait-for-it.sh", "database:5432", "--", "dotnet", "Radio.Startup.Console.dll"]
+  streaming:
+    restart: always
+    image: michaelguenter/radio-streaming:latest
+    container_name: streaming
+    ports:
+      - <<Streaming Server Port>>:8000
+    volumes:
+      - icecast_logs:/var/log/icecast2
+    environment:
+      - 'ICECAST_LOCATION=<<Icecast Location>>'
+      - 'ICECAST_ADMIN_EMAIL=<<Icecast Admin Email>>'
+      - 'ICECAST_MAX_CLIENTS=<<Icecast Max Clients>>'
+      - 'ICECAST_SOURCE_PASSWORD=<<Icecast Source Password>>'
+      - 'ICECAST_RELAY_PASSWORD=<<Icecast Relay Password>>'
+      - 'ICECAST_ADMIN_USERNAME=<<Icecast Admin Username>>'
+      - 'ICECAST_ADMIN_PASSWORD=<<Icecast Admin Password>>'
+      - 'ICECAST_HOSTNAME=<<Icecast Public Hostname>>'
+      - 'ICECAST_PORT=8000'
+      - 'ICECAST_PUBLIC=<<1 or 0>>'
+      - 'ICECAST_STREAM_NAME=<<Icecast Stream Name>>'
+      - 'ICECAST_STREAM_DESCRIPTION=<<Icecast Stream Description>>'
+  playback:
+    restart: always
+    image: michaelguenter/radio-playback:latest
+    container_name: playback
+    depends_on:
+      - streaming
+    volumes:
+      - <<Path to data directory>>:/home/liquidsoap/music
+      - liquidsoap_logs:/var/log/liquidsoap
+    environment:
+      - 'BACKEND_HOST=backend_internal'
+      - 'BACKEND_PORT=80'
+      - 'ICECAST_HOST=streaming'
+      - 'ICECAST_PORT=8000'
+      - 'ICECAST_SOURCE_PASSWORD=<<Icecast Source Password>>'
+  messaging:
+    restart: always
+    image: rabbitmq:3.7
+    container_name: messaging
+  database:
+    restart: always
+    image: postgres:11.2
+    container_name: database
+    volumes:
+      - database_data:/var/lib/postgresql/data
+    environment:
+      - 'POSTGRES_USER=<<Database User/Name>>'
+      - 'POSTGRES_PASSWORD=<<Database Password>>'
+volumes:
+  backend_external_logs:
+  backend_internal_logs:
+  backend_console_logs:
+  icecast_logs:
+  liquidsoap_logs:
+  database_data:
