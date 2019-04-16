@@ -105,7 +105,7 @@
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
 
     background: white;
-    z-index: 2;
+    z-index: 3;
 }
 
 .playback-progress .bar {
@@ -144,7 +144,7 @@
     margin-left: -5px;
 	border-style: solid;
 	border-width: 8px 8px 0 0;
-	border-color: #3e73dd transparent transparent transparent;
+    border-color: #3e73dd transparent transparent transparent;
 }
 
 .playback-container .cover {
