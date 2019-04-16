@@ -24,7 +24,7 @@ TODO: Describe installation on production
 To run the development environment on your local machine, just `git clone` this repository and follow these steps:
 
 ### Prerequisites
-Install docker and docker-compose on your local machine.
+Install `docker` and `docker-compose` on your local machine.
 To do this follow the official documentation.
 
 ### Setup local development database
@@ -41,11 +41,11 @@ The local database is now up and running as a container on your local machine. T
 `docker exec -it local_db psql -h localhost -U radio`
 
 ### Setup local message queue
-Run the following command to spin up a local development instance of RabbitMQ.
+Run the following command to spin up a local development instance of RabbitMQ:
 
 `docker run --rm -d --name local_messaging -p 5672:5672 rabbitmq:3.7`
 
-The local message queue is now up and running as acontainer on your local machine. To access the rabbitmqctl use the follwing command:
+The local message queue is now up and running as a container on your local machine. To access the rabbitmqctl use the follwing command:
 
 `docker exec -it local_messaging rabbitmqctl <OPTIONS>`
 
@@ -79,39 +79,33 @@ Note: To run the integration tests, it is recommended to spin up a new local dat
 To add a new database migration run the follwing commands:
 
 `cd ./backend/src/Radio.Startup.Console`
-
 `dotnet ef migrations add <NAME> -p ../Radio.Infrastructure.DbAccess`
 
 To update the database to the latest migration run the following commands:
 
 `cd ./backend/src/Radio.Startup.Console`
-
 `dotnet ef database update -p ../Radio.Infrastructure.DbAccess`
 
 ### Frontend
 The frontend is built with react. It follows the guidelines of create-react-app.
-
 **Please** make sure that the configuration values in **`public/config.js`** are set accordingly for the follwing steps.
 
 #### Running the frontend
-To run the frontend dev server run the follwing command:
+To run the frontend dev server run the following command:
 
 `npm start`
 
 #### Running the tests
-To run the frontend tests use the follwing command:
+To run the frontend tests use the following command:
 
 `npm test`
 
 ### Running everything together
-To run everything together you can use the predefined development docker-compose.yml file.
+To run everything together you can use the predefined development `docker-compose.yml` file. Please make sure that you place some music into the ./data/ directory. The docker-compose file is configured to grab the MP3 files from this directory.
 
-Please make sure that you place some music into the ./data/ directory. The docker-compose file is configured to grab the MP3 files from this directory.
-
-To spin up all the services at once run the follwing commands in the base directory of this repository.
+To spin up all the services at once run the follwing commands in the base directory of this repository:
 
 `docker-compose build`
-
 `docker-compose up`
 
 To shutdown all the services run the follwing command:
