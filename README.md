@@ -24,8 +24,12 @@ TODO: Describe installation on production
 To run the development environment on your local machine, just `git clone` this repository and follow these steps:
 
 ### Prerequisites
-Install `docker` and `docker-compose` on your local machine.
-To do this follow the official documentation.
+To install the following prerequisites, consider consulting the official docs.
+
+- Download & Install docker
+- Download & Install docker-compose
+- Download & Install the dotnet-sdk
+- Download & Install node and npm
 
 ### Setup local development database
 Run the following command to spin up a local development instance of PostgreSQL:
@@ -93,11 +97,13 @@ The frontend is built with react. It follows the guidelines of create-react-app.
 #### Running the frontend
 To run the frontend dev server run the following command:
 
+`npm install`  
 `npm start`
 
 #### Running the tests
 To run the frontend tests use the following command:
 
+`npm install`  
 `npm test`
 
 ### Running everything together
