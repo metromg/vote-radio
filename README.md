@@ -78,16 +78,16 @@ Note: To run the integration tests, it is recommended to spin up a new local dat
 #### Database migrations
 To add a new database migration run the follwing commands:
 
-`cd ./backend/src/Radio.Startup.Console`
+`cd ./backend/src/Radio.Startup.Console`  
 `dotnet ef migrations add <NAME> -p ../Radio.Infrastructure.DbAccess`
 
 To update the database to the latest migration run the following commands:
 
-`cd ./backend/src/Radio.Startup.Console`
+`cd ./backend/src/Radio.Startup.Console`  
 `dotnet ef database update -p ../Radio.Infrastructure.DbAccess`
 
 ### Frontend
-The frontend is built with react. It follows the guidelines of create-react-app.
+The frontend is built with react. It follows the guidelines of create-react-app.  
 **Please** make sure that the configuration values in **`public/config.js`** are set accordingly for the follwing steps.
 
 #### Running the frontend
@@ -105,7 +105,7 @@ To run everything together you can use the predefined development `docker-compos
 
 To spin up all the services at once run the follwing commands in the base directory of this repository:
 
-`docker-compose build`
+`docker-compose build`  
 `docker-compose up`
 
 To shutdown all the services run the follwing command:
