@@ -105,7 +105,10 @@ class Playback extends Component<PlaybackProps, PlaybackState> {
             const endsAtTime = new Date(this.props.currentSong.endsAtTime).getTime();
             const currentTime = new Date().getTime();
 
-            const remainingDurationInSeconds = Math.max((endsAtTime - currentTime) / 1000, 0);
+            const remainingDurationInSeconds = Math.min(
+                Math.max((endsAtTime - currentTime) / 1000, 0), 
+                this.props.currentSong.durationInSeconds);
+                
             this.setState({ remainingDurationInSeconds });
         }
     }
