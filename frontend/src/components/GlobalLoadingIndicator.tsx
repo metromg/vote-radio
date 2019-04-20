@@ -8,7 +8,7 @@ interface GlobalLoadingIndicatorProps {
     children: ReactNode;
 }
 
-const GlobalLoadingIndicator = (props: GlobalLoadingIndicatorProps) => {
+export const GlobalLoadingIndicator = (props: GlobalLoadingIndicatorProps) => {
     if (props.loading) {
         return (
             <div className="loading-indicator">
