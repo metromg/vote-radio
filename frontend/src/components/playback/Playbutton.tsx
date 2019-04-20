@@ -9,7 +9,7 @@ interface PlaybuttonProps {
     onClick: (e: MouseEvent) => void;
 }
 
-const Playbutton = (props: PlaybuttonProps) => {
+export const Playbutton = (props: PlaybuttonProps) => {
     return (
         <button type="button" className="playback-playbutton"
                 onClick={e => props.onClick(e)}

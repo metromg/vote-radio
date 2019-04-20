@@ -5,7 +5,7 @@ interface ProgressBarProps {
     remainingDurationInSeconds: number;
 }
 
-const ProgressBar = (props: ProgressBarProps) => {
+export const ProgressBar = (props: ProgressBarProps) => {
     const percentage = (props.remainingDurationInSeconds / props.totalDurationInSeconds) * 100;
 
     return (
