@@ -6,9 +6,9 @@ interface SongDescriptionProps {
     artist?: string;
 }
 
-const SongDescription = (props: SongDescriptionProps) => {
+export const SongDescription = (props: SongDescriptionProps) => {
     const title = props.title;
-    const subtitle = [props.artist, props.artist && props.album ? " - " : null, props.album]
+    const subtitle = [props.artist, props.artist && props.album ? "-" : null, props.album]
         .filter(part => part != null)
         .join(" ");
 

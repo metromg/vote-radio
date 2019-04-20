@@ -13,7 +13,7 @@ interface GlobalErrorProps {
     dismiss: () => void;
 }
 
-const GlobalError = (props: GlobalErrorProps) => {
+export const GlobalError = (props: GlobalErrorProps) => {
     if (props.errorMessageKey == null) {
         return null;
     }

@@ -6,7 +6,7 @@ interface VotingInfoProps {
     voteCountChange?: number;
 }
 
-const VotingInfo = (props: VotingInfoProps) => {
+export const VotingInfo = (props: VotingInfoProps) => {
     return (
         <div className="voting-info">
             <span>
