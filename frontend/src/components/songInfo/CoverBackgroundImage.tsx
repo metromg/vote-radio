@@ -5,7 +5,7 @@ interface CoverBackgroundImageProps {
     children: ReactNode;
 }
 
-const CoverBackgroundImage = (props: CoverBackgroundImageProps) => {
+export const CoverBackgroundImage = (props: CoverBackgroundImageProps) => {
     const hasCoverImage = props.url != null;
 
     const className = "background-cover" + (hasCoverImage ? " has-background" : "");
