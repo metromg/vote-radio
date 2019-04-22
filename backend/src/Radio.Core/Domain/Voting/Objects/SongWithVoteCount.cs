@@ -8,6 +8,8 @@ namespace Radio.Core.Domain.Voting.Objects
 
         public int VoteCount { get; set; }
 
+        public int DisplayOrder { get; set; }
+
         public bool IsActive { get; set; }
     }
 }

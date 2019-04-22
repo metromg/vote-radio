@@ -73,6 +73,7 @@ namespace Radio.Core.Services
             {
                 Song = song,
                 VoteCount = 0,
+                DisplayOrder = 0,
                 IsActive = true
             };
         }
