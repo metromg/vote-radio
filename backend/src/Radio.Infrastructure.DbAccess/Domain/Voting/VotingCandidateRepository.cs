@@ -18,13 +18,16 @@ namespace Radio.Infrastructure.DbAccess.Domain.Voting
 
         public Task<SongWithVoteCount[]> GetWithVoteCountAsync()
         {
-            return GetWithVoteCount().ToArrayAsync();
+            return GetWithVoteCount()
+                .OrderBy(c => c.DisplayOrder)
+                .ToArrayAsync();
         }
 
         public Task<SongWithVoteCount> GetWinnerOfVotingWithVoteCountOrDefaultAsync()
         {
             return GetWithVoteCount()
                 .OrderByDescending(c => c.VoteCount)
+                .ThenBy(_ => Guid.NewGuid())
                 .FirstOrDefaultAsync();
         }
 
@@ -47,11 +50,11 @@ namespace Radio.Infrastructure.DbAccess.Domain.Voting
         private IQueryable<SongWithVoteCount> GetWithVoteCount()
         {
             return GetQuery()
-                .OrderBy(c => c.DisplayOrder)
                 .Select(c => new SongWithVoteCount
                 {
                     Song = c.Song,
                     VoteCount = c.Votes.Count,
+                    DisplayOrder = c.DisplayOrder,
                     IsActive = c.IsActive
                 });
         }
