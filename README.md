@@ -4,7 +4,7 @@
 A web radio with song voting
 
 ## Overview
-Vote Radio is a web radio with song voting. Songs are selected automatically based on user votes.
+Vote radio is a web radio with song voting. Songs are selected automatically based on user votes.
 
 It uses Icecast for streaming the media to clients and LiquidSoap as a streaming source.
 Everything is packaged into docker-images for easy deployment.
@@ -18,7 +18,185 @@ This is the rough data flow for broadcasting:
 Please note, that only MP3 files are supported.
 
 ## Usage & Installation
-TODO: Describe installation on production
+To install vote radio you can follow these steps:
+
+### Prerequisites
+Vote radio is packaed into multiple docker-images. For optimal performance you should run the software on a linux based system (Debian, CoreOS, etc.) where containers can run natively.
+
+To install the following prerequisites, consider consulting the official docs.
+
+- Download & Install docker
+- Download & Install docker-compose
+- Make sure the current date and time on your target system is correct
+
+### Step 1: Adding songs
+First, you should place at least 3 MP3 files into a data directory on your target system.
+
+Use this data structure:
+
+- Create a directory per album
+- Place the MP3 files into the album directory
+- Optionally, place the cover image into the album directory
+- Read + Execute permissions on all album directories and Read permissions on all files
+- Files not contained in an album directory will be ignored
+- Subdirectories of top level album directories will be ignored
+
+The MP3 files have to meet the following requirements:
+
+- MP3 format
+- Title-Tag has to be present
+- Album-Tag has to be present
+- Artist-Tag has to be present
+- The duration must be at least 30 seconds
+
+The cover images have to meet the following requirements:
+
+- JPG or PNG format
+
+### Step 2: Configuration
+To configure vote radio you can use the [docker-compose.template.yml](https://raw.githubusercontent.com/michaelguenter/vote-radio/master/docker-compose.template.yml) file as a template. This docker-compose file contains all necessary services to run vote radio (including the database).
+
+Please replace all \<\<Parameters\>\> in the file with your matching configuration values:
+
+- `Frontend Port`: The public facing port for the frontend
+- `Public url to external backend`: URL to the external backend, accessible from the browser
+- `Public url to streaming server`: URL to the streaming server, accessible from the browser
+- `Backend Port`: The public facing port for the backend
+- `Database User`: Username to access the database
+- `Database Password`: Secure password to access the database
+- `Database Name`: The name of the database (same as username per default)
+- `Path to data directory`: Absolute path to the music data directory
+- `Streaming Server Port`: The public facing port of the streaming server
+- `Icecast Location`: Icecast Location information
+- `Icecast Admin Email`: Email address of the administrator
+- `Icecast Max-Clients`: Maximum number of listeners
+- `Icecast Source Password`: Secure password for LiquidSoap
+- `Icecast Relay Password`: Secure password for optional icecast relays
+- `Icecast Admin Username`: Username for the web interface
+- `Icecast Admin Password`: Password for the web interface
+- `Icecast Hostname`: Public domain name
+- `Icecast Public`: 0 or 1, depending on whether you want your radio listed in the icecast directory
+- `Icecast Stream Name`: Name of the stream
+- `Icecast Stream Description`: Description of the stream
+
+Please make sure, that you replace all occurances of the parameters and that there are no more \<\<\>\> symbols in the file.
+
+### Step 3: Startup
+You can start vote radio by running the following command where your docker-compose.yml file is located.
+
+`docker-compose up -d`
+
+This will download all images from docker hub and start all necessary services.
+Vote radio will create the database and import the metadata from the data directory specified. The frontend should be accessible within just a few seconds.
+
+Congratulations, you now have a running instance of vote radio. You can place new songs into the data directory and vote radio will pick them up and index them within 10 minutes.
+
+### Updating the software
+To update your running containers you can run the following commands:
+
+`docker-compose pull`  
+`docker-compose up -d`
+
+This will download the new version of the docker images and then stop, destroy and recreate the running containers.
+
+### Available Docker Images
+#### Image "[michaelguenter/radio-frontend](https://hub.docker.com/r/michaelguenter/radio-frontend)"
+This image contains an nginx webserver to serve the static files for the frontend. It exposes port 80.
+
+Environment variables:
+
+- `CLIENT_API_BASE_URL`: URL to the external backend, accessible from the browser
+- `CLIENT_STREAM_BASE_URL`: URL to the streaming server, accessible from the browser
+
+This image is suitable for horizontal scale-out.
+
+#### Image "[michaelguenter/radio-backend-external](https://hub.docker.com/r/michaelguenter/radio-backend-external)"
+This image handles backend requests from the frontend. It exposes port 80. The container is depending on a running instance of PostgreSQL and RabbitMQ.
+
+Volumes:
+
+- `/var/log/radio`: Log files
+
+Environment variables:
+
+- `Environment:DbConnectionString`: Connection-String for the PostgreSQL instance. Format: User ID=<<User>>;Password=<<Password>>;Host=<<Host>>;Port=5432;Database=<<Database>>;Pooling=true;
+- `Environment:MessagingHost`: Hostname of the RabbitMQ instance
+
+This image is suitable for horizontal scale-out.
+
+#### Image "[michaelguenter/radio-backend-internal](https://hub.docker.com/r/michaelguenter/radio-backend-internal)"
+This image handles backend requests from LiquidSoap. It exposes port 80. The container is depending on a running instance of PostgreSQL and RabbitMQ.
+
+Volumes:
+
+- `/var/log/radio`: Log files
+
+Environment variables:
+
+- `Environment:DbConnectionString`: Connection-String for the PostgreSQL instance. Format: User ID=<<User>>;Password=<<Password>>;Host=<<Host>>;Port=5432;Database=<<Database>>;Pooling=true;
+- `Environment:MessagingHost`: Hostname of the RabbitMQ instance
+
+This image is NOT suitable for horizontal scale-out. There should only be one running container of this image. If you use docker swarm it has to run on the swarm manager.
+
+#### Image "[michaelguenter/radio-backend-console](https://hub.docker.com/r/michaelguenter/radio-backend-console)"
+This image runs a sync job, that will import the metadata from the filesystem to the database every 10 minutes. It is also responsible for updating the database schema to a new version on startup. The container is depending on a running instance of PostgreSQL.
+
+Volumes:
+
+- `/app/data`: Volume for the music data directory
+- `/var/log/radio`: Log files
+
+Environment variables:
+
+- `Environment:DbConnectionString`: Connection-String for the PostgreSQL instance. Format: User ID=<<User>>;Password=<<Password>>;Host=<<Host>>;Port=5432;Database=<<Database>>;Pooling=true;
+- `Environment:MigrationsDbConnectionString`: Connection-String used to update the database schema
+- `Environment:DataDirectoryPath`: Path to the data directory inside the container (can be mounted via volume)
+
+This image is NOT suitable for horizontal scale-out. There should only be one running container of this image. If you use docker swarm it has to run on the swarm manager.
+
+#### Image "[michaelguenter/radio-streaming](https://hub.docker.com/r/michaelguenter/radio-streaming)"
+This image contains an instance of icecast for streaming the audio to the clients. You can also use your own custom instance of icecast in conjunction with the rest of vote radio without using this image. This image exposes port 8000.
+
+Volumes:
+
+- `/var/log/icecast2`: Logs files
+
+Environment variables:
+
+- `ICECAST_LOCATION`: Icecast Location information
+- `ICECAST_ADMIN_EMAIL`: EMail address of the administrator
+- `ICECAST_MAX_CLIENTS`: Maximum number of listeners
+- `ICECAST_SOURCE_PASSWORD`: Secure password for LiquidSoap
+- `ICECAST_RELAY_PASSWORD`: Secure password for optional icecast relays
+- `ICECAST_ADMIN_USERNAME`: Username for the web interface
+- `ICECAST_ADMIN_PASSWORD`: Password for the web interface
+- `ICECAST_HOSTNAME`: Public domain name
+- `ICECAST_PORT`: The port to expose
+- `ICECAST_PUBLIC`: 0 or 1, depending on whether you want your radio listed in the icecast directory
+- `ICECAST_STREAM_NAME`: Name of the stream
+- `ICECAST_STREAM_DESCRIPTION`: Description of the stream
+
+This image is NOT suitable for horizontal scale-out. There should only be one running container of this image. If you use docker swarm it has to run on the swarm manager.
+
+To scale out icecast you should use seperate servers with relay instances of icecast. You can use the relay password to connect to this master instance.
+
+#### Image "[michaelguenter/radio-playback](https://hub.docker.com/r/michaelguenter/radio-streaming)"
+This image contains an instance of LiquidSoap for playing and encoding the audio. You can also use your own custom instance of LiquidSoap in conjunction with the rest of vote radio without using this image. Just make sure, that your custom instance talks to the internal backend (read the default [configuration file](https://github.com/michaelguenter/vote-radio/blob/master/playback/src/liquidsoap.mo.liq) to find out more). The container is depending on a running instance of icecast and the internal backend.
+
+Volumes:
+
+- `/home/liquidsoap/music`: Volume for the music data directory
+- `/var/log/liquidsoap`: Log files
+
+Environment variables:
+
+- `BACKEND_HOST`: Hostname of the internal backend
+- `BACKEND_PORT`: Port of the internal backend
+- `ICECAST_HOST`: Hostname of the icecast server
+- `ICECAST_PORT`: Port of the icecast server
+- `ICECAST_SOURCE_PASSWORD`: Configured source password of the icecast server
+
+This image is NOT suitable for horizontal scale-out. There should only be one running container of this image. If you use docker swarm it has to run on the swarm manager.
 
 ## Development
 To run the development environment on your local machine, just `git clone` this repository and follow these steps:
